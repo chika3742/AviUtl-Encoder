@@ -1,0 +1,22 @@
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.dll
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.xml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.g.cs
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\App.g.cs
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.baml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\WpfApp2.Properties.Resources.resources
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\WpfApp2.csproj.GenerateResource.cache
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\WpfApp2.csproj.CoreCompileInputs.cache
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\WpfApp2.csproj.CopyComplete
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\WpfApp2.csprojAssemblyReference.cache
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.exe.config
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.exe
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.pdb
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.cache
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.lref
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.g.resources
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.g.cs
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.baml
