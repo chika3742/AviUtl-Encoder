@@ -1,10 +1,14 @@
 ﻿using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -25,6 +29,7 @@ namespace WpfApp2
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
     /// 
+    
 
     public partial class MainWindow : Window
     {
@@ -268,11 +273,12 @@ namespace WpfApp2
             {
                 if (aviutlPathText != "")
                 {
+                    log.Text = log.Text + "\nAviutlを起動中";
                     wndNum = RUN_COMMAND($"auc_exec {aviutlPathText}");
                 }
                 else
                 {
-                    MessageBox.Show("AviUtlのパスを入力してください。");
+                    MessageBox.Show("AviUtlのパスを入力してください。", "AviUtl Batch Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
             }
@@ -283,7 +289,7 @@ namespace WpfApp2
             var filteredFiles = Array.FindAll(files, isExtMatch);
             if (filteredFiles.Length == 0)
             {
-                MessageBox.Show("条件に合うファイルが見つかりません。");
+                MessageBox.Show("条件に合うファイルが見つかりません。", "AviUtl Batch Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             IsRunning = true;
@@ -350,6 +356,74 @@ namespace WpfApp2
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("notepad", @"""readme.txt""");
+        }
+
+        private void fromFolder_Drop(object sender, DragEventArgs e)
+        {
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files.Count() != 1 || files == null)
+            {
+                MessageBox.Show("複数のフォルダーを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            };
+            fromFolder.Text = files[0];
+        }
+
+        private void fromFolder_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                e.Effects = DragDropEffects.Copy;
+            } else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
+        }
+
+        private void toFolder_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
+        }
+
+        private void toFolder_Drop(object sender, DragEventArgs e)
+        {
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files.Count() != 1 || files == null)
+            {
+                MessageBox.Show("複数のフォルダーを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            };
+            toFolder.Text = files[0];
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            var version = File.ReadAllText("../../Resources/version.json");
+            //var text = version.Replace(Environment.NewLine, "");
+            dynamic obj = JObject.Parse(version);
+            var client = new HttpClient();
+            var text = client.GetStringAsync("https://script.google.com/macros/s/AKfycbyOj4z6rWTAUJWLJrOwCbF0g9s3ZoQGPF8xSIMTu3geOmVJ6fA/exec");
+            var latestVersionInfo = JObject.Parse(text.Result);
+            if (latestVersionInfo["num"] > obj["versionCode"])
+            {
+                var result = MessageBox.Show($"現在のバージョン:{obj["version"]}\n\nアップデートがあります。最新バージョン:{latestVersionInfo["version"]}\n\n☆アップデート内容\n{latestVersionInfo["content"]}\n\nダウンロードしますか？", "バージョン情報", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(latestVersionInfo["url"].ToString());
+                }
+            } else
+            {
+                MessageBox.Show($"現在のバージョン:{obj["version"].ToString()}", "バージョン情報", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

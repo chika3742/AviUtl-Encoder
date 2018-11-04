@@ -21,14 +21,16 @@
             </MenuItem>
             <MenuItem Header="ヘルプ(_H)">
                 <MenuItem Header="readmeを開く" Click="MenuItem_Click_1"/>
+                <Separator />
+                <MenuItem Header="バージョン情報＆アップデート確認" Click="MenuItem_Click_2"/>
             </MenuItem>
         </Menu>
         <TextBlock Margin="243,17,242,0" TextWrapping="Wrap" Text="AviUtl 自動エンコーダ" VerticalAlignment="Top" FontSize="36" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
         <Button x:Name="startButton" Content="開始" Margin="260,0,258,30" VerticalAlignment="Bottom" Height="30" FontSize="22" Cursor="Hand" Click="Button_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="45,68,0,0" TextWrapping="Wrap" Text="1.エンコード対象のフォルダー" VerticalAlignment="Top" FontSize="20" Height="27" Width="215"/>
-        <TextBox x:Name="fromFolder" HorizontalAlignment="Right" Margin="0,65,150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Height="27" FontSize="14" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="fromFolder" HorizontalAlignment="Right" Margin="0,65,150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Height="27" FontSize="14" Grid.ColumnSpan="2" Drop="fromFolder_Drop" PreviewDragOver="fromFolder_PreviewDragOver"/>
         <TextBlock HorizontalAlignment="Left" Margin="45,103,0,0" TextWrapping="Wrap" Text="2.エンコードしたファイルの保存場所" VerticalAlignment="Top" FontSize="20" Height="27" Width="269"/>
-        <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" Margin="0,97,150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" Margin="0,97,150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14" Grid.ColumnSpan="2" PreviewDragOver="toFolder_PreviewDragOver" Drop="toFolder_Drop"/>
         <TextBlock HorizontalAlignment="Left" Margin="45,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Width="238"><Run Text="3"/><Run Text=".プロファイル番号(一番上=0)"/></TextBlock>
         <TextBox x:Name="profileNumber" HorizontalAlignment="Right" Height="27" Margin="0,129,150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput" Grid.ColumnSpan="2"/>
         <Button x:Name="openFile1" Content="参照" HorizontalAlignment="Right" Margin="0,65,70,0" VerticalAlignment="Top" Width="75" Height="27" FontSize="16" Click="openFile1_Click" Grid.Column="1"/>

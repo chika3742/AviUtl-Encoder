@@ -20,3 +20,5 @@ C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\MainWindow.baml
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\WpfApp2.csprojAssemblyReference.cache
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\PreferenceWindow.g.cs
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\PreferenceWindow.baml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Debug\Newtonsoft.Json.dll
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Debug\Newtonsoft.Json.xml

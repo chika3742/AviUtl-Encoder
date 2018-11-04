@@ -20,3 +20,5 @@ C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.g.cs
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.baml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Newtonsoft.Json.dll
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Release\Newtonsoft.Json.xml
