@@ -22,3 +22,5 @@ C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\PreferenceWindow.g.cs
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\PreferenceWindow.baml
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Debug\Newtonsoft.Json.dll
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\bin\Debug\Newtonsoft.Json.xml
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\AddLabel.g.cs
+C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Debug\AddLabel.baml

@@ -94,5 +94,27 @@ namespace WpfApp2.Properties {
                 this["Output_Ext"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Generic.List<WpfApp2.Label> Profile_Labels {
+            get {
+                return ((global::System.Collections.Generic.List<WpfApp2.Label>)(this["Profile_Labels"]));
+            }
+            set {
+                this["Profile_Labels"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Generic.List<WpfApp2.Label> Plugin_Labels {
+            get {
+                return ((global::System.Collections.Generic.List<WpfApp2.Label>)(this["Plugin_Labels"]));
+            }
+            set {
+                this["Plugin_Labels"] = value;
+            }
+        }
     }
 }

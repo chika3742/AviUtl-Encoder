@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp2.AddLabel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="ラベル追加" Height="155.677" Width="325.693" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <TextBox x:Name="Name" HorizontalAlignment="Right" Height="23" Margin="0,0,10,38" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="163" FontSize="14"/>
+        <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click"/>
+        <Button Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="Button_Click"/>
+        <TextBox x:Name="Number" HorizontalAlignment="Left" Height="23" Margin="35,0,0,38" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock x:Name="NumberText" HorizontalAlignment="Left" Margin="35,0,0,66" TextWrapping="Wrap" Text="プロファイル番号" VerticalAlignment="Bottom"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,72,66" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="ラベル名"/>
+
+    </Grid>
+</Window>

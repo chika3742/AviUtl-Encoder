@@ -20,5 +20,11 @@
     <Setting Name="Output_Ext" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Profile_Labels" Type="System.Collections.Generic.List&lt;WpfApp2.Label&gt;" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Plugin_Labels" Type="System.Collections.Generic.List&lt;WpfApp2.Label&gt;" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
