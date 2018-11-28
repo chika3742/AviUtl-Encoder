@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfApp2.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AUEncoder.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="AviUtl_Path" Type="System.String" Scope="User">
@@ -20,10 +20,19 @@
     <Setting Name="Output_Ext" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Profile_Labels" Type="System.Collections.Generic.List&lt;WpfApp2.Label&gt;" Scope="User">
+    <Setting Name="Profile_Labels" Type="System.Collections.Generic.List&lt;Label&gt;" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Plugin_Labels" Type="System.Collections.Generic.List&lt;WpfApp2.Label&gt;" Scope="User">
+    <Setting Name="Plugin_Labels" Type="System.Collections.Generic.List&lt;Label&gt;" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Use_Indexer" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Indexer_Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="InputPlugin_Path" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

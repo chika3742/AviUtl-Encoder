@@ -1,4 +1,4 @@
-﻿namespace WpfApp2.Properties {
+﻿namespace AUEncoder.Properties {
     
     
     // このクラスでは設定クラスでの特定のイベントを処理することができます:

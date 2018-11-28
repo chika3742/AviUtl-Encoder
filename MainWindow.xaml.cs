@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -24,60 +25,63 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace AUEncoder
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
     /// 
-    
 
     public partial class MainWindow : Window
     {
-        String AUCPathText;
+        string AUCPathText;
         string WindowNumber;
         string CurrentFile;
         int CurrentNum;
         int AllFiles;
         bool IsRunning;
+        Properties.Settings Settings;
         StringBuilder LogStrBuilder = new StringBuilder();
         
         public MainWindow()
         {
             InitializeComponent();
-            
-            profileNumber.Text = Properties.Settings.Default.Profile_Number;
-            pluginNumber.Text = Properties.Settings.Default.Plugin_Number;
-            extFind.Text = Properties.Settings.Default.Find_Ext;
-            extOutput.Text = Properties.Settings.Default.Output_Ext;
 
-            if (Properties.Settings.Default.Plugin_Labels == null)
+            Settings = Properties.Settings.Default;
+
+
+            profileNumber.Text = Settings.Profile_Number;
+            pluginNumber.Text = Settings.Plugin_Number;
+            extFind.Text = Settings.Find_Ext;
+            extOutput.Text = Settings.Output_Ext;
+
+            if (Settings.Plugin_Labels == null)
             {
-                Properties.Settings.Default.Plugin_Labels = new List<Label>();
+                Settings.Plugin_Labels = new List<Label>();
             }
-            if (Properties.Settings.Default.Profile_Labels == null)
+            if (Settings.Profile_Labels == null)
             {
-                Properties.Settings.Default.Profile_Labels = new List<Label>();
+                Settings.Profile_Labels = new List<Label>();
             }
 
-            Properties.Settings.Default.Profile_Labels.Sort((a, b) => a.Number - b.Number);
-            foreach (Label label in Properties.Settings.Default.Profile_Labels)
+            Settings.Profile_Labels.Sort((a, b) => a.Number - b.Number);
+            foreach (Label label in Settings.Profile_Labels)
             {
                 Profile_ComboBox.Items.Add(label);
             }
-            Properties.Settings.Default.Plugin_Labels.Sort((a, b) => a.Number - b.Number);
-            foreach (Label label in Properties.Settings.Default.Plugin_Labels)
+            Settings.Plugin_Labels.Sort((a, b) => a.Number - b.Number);
+            foreach (Label label in Settings.Plugin_Labels)
             {
                 Plugin_ComboBox.Items.Add(label);
             }
 
-            if (Properties.Settings.Default.Profile_Labels.Exists(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; }))
+            if (Settings.Profile_Labels.Exists(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; }))
             {
-                Profile_ComboBox.SelectedItem = Properties.Settings.Default.Profile_Labels.Find(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; });
+                Profile_ComboBox.SelectedItem = Settings.Profile_Labels.Find(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; });
             }
-            if (Properties.Settings.Default.Plugin_Labels.Exists(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; }))
+            if (Settings.Plugin_Labels.Exists(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; }))
             {
-                Plugin_ComboBox.SelectedItem = Properties.Settings.Default.Plugin_Labels.Find(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; });
+                Plugin_ComboBox.SelectedItem = Settings.Plugin_Labels.Find(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; });
             }
             LogStrBuilder.Append("Log Output");
             log.Text = LogStrBuilder.ToString();
@@ -96,12 +100,12 @@ namespace WpfApp2
                 }
             }
 
-            Properties.Settings.Default.Profile_Number = profileNumber.Text;
-            Properties.Settings.Default.Plugin_Number = pluginNumber.Text;
-            Properties.Settings.Default.Find_Ext = extFind.Text;
-            Properties.Settings.Default.Output_Ext = extOutput.Text;
+            Settings.Profile_Number = profileNumber.Text;
+            Settings.Plugin_Number = pluginNumber.Text;
+            Settings.Find_Ext = extFind.Text;
+            Settings.Output_Ext = extOutput.Text;
 
-            Properties.Settings.Default.Save();
+            Settings.Save();
         }
 
         /// <summary>
@@ -152,7 +156,7 @@ namespace WpfApp2
         /// それぞれの入力欄・ボタンのIsEnabledを一括で変更します。
         /// </summary>
         /// <param name="to">変更する値</param>
-        private void switchState(bool to)
+        private void SwitchState(bool to)
         {
             startButton.IsEnabled = to;
             fromFolder.IsEnabled = to;
@@ -289,7 +293,7 @@ namespace WpfApp2
                 Dispatcher.Invoke(() =>
                 {
                     progress.Text = "完了";
-                    switchState(true);
+                    SwitchState(true);
                     progressBar.Value = 0;
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
                     LogStrBuilder.Append($"\n処理がすべて完了しました。({success}個成功/{failure}個失敗)");
@@ -371,57 +375,74 @@ namespace WpfApp2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
-            //{
-            //    if (p.MainWindowTitle.Length != 0 && p.MainWindowTitle.StartsWith("出力中"))
-            //    {
-            //        MessageBox.Show(p.MainWindowTitle.Substring(4, 3));
-            //    }
-            //}
             
-            AUCPathText = Properties.Settings.Default.AUC_Path;
+            AUCPathText = Settings.AUC_Path;
             if (fromFolder.Text == "" ||
                 toFolder.Text == "" ||
                 profileNumber.Text == "" ||
                 pluginNumber.Text == "" || extFind.Text == "" ||
                 extOutput.Text == "")
             {
-                MessageBox.Show("すべての欄に入力してください。");
+                MessageBox.Show("すべての欄に入力してください。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            string wndNum;
-            wndNum = RUN_COMMAND("auc_findwnd");
-            var aviutlPathText = Properties.Settings.Default.AviUtl_Path;
-            if (wndNum.Trim() == "0")
-            {
-                if (aviutlPathText != "")
-                {
-                    log.Text = log.Text + "\nAviutlを起動中";
-                    wndNum = RUN_COMMAND($"auc_exec {aviutlPathText}");
-                }
-                else
-                {
-                    MessageBox.Show("AviUtlのパスを入力してください。", "AviUtl Batch Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
-            }
-
-            wndNum = wndNum.Trim();
 
             string[] files = System.IO.Directory.GetFiles(fromFolder.Text);
             var filteredFiles = Array.FindAll(files, isExtMatch);
             if (filteredFiles.Length == 0)
             {
-                MessageBox.Show("条件に合うファイルが見つかりません。", "AviUtl Batch Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("条件に合うファイルが見つかりません。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-            IsRunning = true;
-            switchState(false);
-            WindowNumber = wndNum;
-            runEncode(wndNum, filteredFiles);
-            GetPercentage();
+
+            Start_Encoding(filteredFiles);
             
         }
+
+        private async void Start_Encoding(string[] Files)
+        {
+            await Task.Run(() =>
+            {
+                string WndNum = RUN_COMMAND("auc_findwnd").Trim();
+                var Setting = Settings;
+                if (WndNum == "0")
+                {
+                    if (Setting.AviUtl_Path != "")
+                    {
+                        LogStrBuilder.Append("\nAviUtlを起動中です。");
+                        Dispatcher.Invoke(() =>
+                        {
+                            log.Text = LogStrBuilder.ToString();
+                        });
+                        WndNum = RUN_COMMAND($"auc_exec {Setting.AviUtl_Path}").Trim();
+                    }
+                    else
+                    {
+                        MessageBox.Show("AviUtlのパスを入力してください。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                }
+
+                if (Setting.Use_Indexer)
+                {
+
+                }
+
+                IsRunning = true;
+                WindowNumber = WndNum;
+                Dispatcher.Invoke(() =>
+                {
+                    SwitchState(false);
+                    runEncode(WndNum, Files);
+                    GetPercentage();
+                    Activate();
+                });
+            });
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
 
         private void profileNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -483,7 +504,7 @@ namespace WpfApp2
             var PrefWindow = new PreferenceWindow();
             PrefWindow.ShowDialog();
 
-            Properties.Settings.Default.Profile_Labels.Sort((a, b) => a.Number - b.Number);
+            Settings.Profile_Labels.Sort((a, b) => a.Number - b.Number);
             while (Profile_ComboBox.Items.Count > 1)
             {
                 Profile_ComboBox.Items.RemoveAt(1);
@@ -493,26 +514,26 @@ namespace WpfApp2
                 Plugin_ComboBox.Items.RemoveAt(1);
             }
 
-            foreach (Label label in Properties.Settings.Default.Profile_Labels)
+            foreach (Label label in Settings.Profile_Labels)
             {
                 Profile_ComboBox.Items.Add(label);
             }
-            foreach (Label label in Properties.Settings.Default.Plugin_Labels)
+            foreach (Label label in Settings.Plugin_Labels)
             {
                 Plugin_ComboBox.Items.Add(label);
             }
 
-            if (Properties.Settings.Default.Profile_Labels.Exists(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; }))
+            if (Settings.Profile_Labels.Exists(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; }))
             {
-                Profile_ComboBox.SelectedItem = Properties.Settings.Default.Profile_Labels.Find(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; });
+                Profile_ComboBox.SelectedItem = Settings.Profile_Labels.Find(delegate (Label l) { return l.Number.ToString() == profileNumber.Text; });
             }
             else
             {
                 Profile_ComboBox.SelectedIndex = 0;
             }
-            if (Properties.Settings.Default.Plugin_Labels.Exists(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; }))
+            if (Settings.Plugin_Labels.Exists(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; }))
             {
-                Plugin_ComboBox.SelectedItem = Properties.Settings.Default.Plugin_Labels.Find(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; });
+                Plugin_ComboBox.SelectedItem = Settings.Plugin_Labels.Find(delegate (Label l) { return l.Number.ToString() == pluginNumber.Text; });
             }
             else
             {

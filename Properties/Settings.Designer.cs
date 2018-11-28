@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfApp2.Properties {
+namespace AUEncoder.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -97,9 +97,9 @@ namespace WpfApp2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Generic.List<WpfApp2.Label> Profile_Labels {
+        public global::System.Collections.Generic.List<Label> Profile_Labels {
             get {
-                return ((global::System.Collections.Generic.List<WpfApp2.Label>)(this["Profile_Labels"]));
+                return ((global::System.Collections.Generic.List<Label>)(this["Profile_Labels"]));
             }
             set {
                 this["Profile_Labels"] = value;
@@ -108,12 +108,48 @@ namespace WpfApp2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Generic.List<WpfApp2.Label> Plugin_Labels {
+        public global::System.Collections.Generic.List<Label> Plugin_Labels {
             get {
-                return ((global::System.Collections.Generic.List<WpfApp2.Label>)(this["Plugin_Labels"]));
+                return ((global::System.Collections.Generic.List<Label>)(this["Plugin_Labels"]));
             }
             set {
                 this["Plugin_Labels"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Use_Indexer {
+            get {
+                return ((bool)(this["Use_Indexer"]));
+            }
+            set {
+                this["Use_Indexer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Indexer_Path {
+            get {
+                return ((string)(this["Indexer_Path"]));
+            }
+            set {
+                this["Indexer_Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InputPlugin_Path {
+            get {
+                return ((string)(this["InputPlugin_Path"]));
+            }
+            set {
+                this["InputPlugin_Path"] = value;
             }
         }
     }

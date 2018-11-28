@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7CCF50F7-CEE1-489F-891A-B915E026DA39}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfApp2</RootNamespace>
+    <RootNamespace>AUEncoder</RootNamespace>
     <AssemblyName>AviUtl Encoder</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

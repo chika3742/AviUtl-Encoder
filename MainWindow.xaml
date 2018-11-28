@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
-        xmlns:local="clr-namespace:WpfApp2"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="WpfApp2.MainWindow"
+        xmlns:local="clr-namespace:AUEncoder"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="AUEncoder.MainWindow"
         mc:Ignorable="d"
-        Title="AviUtl Encoder" Height="480" Width="784" MinWidth="800" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480">
+        Title="AviUtl Encoder" Height="480" Width="784" MinWidth="800" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize">
 
     <Grid Margin="0">
         <Grid.ColumnDefinitions>

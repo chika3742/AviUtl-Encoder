@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace AUEncoder
 {
     /// <summary>
     /// PreferenceWindow.xaml の相互作用ロジック
@@ -27,13 +28,17 @@ namespace WpfApp2
         {
             InitializeComponent();
 
-            aucPath.Text = Properties.Settings.Default.AUC_Path;
-            aviutlPath.Text = Properties.Settings.Default.AviUtl_Path;
-            foreach (Label label in Properties.Settings.Default.Profile_Labels)
+            var Settings = Properties.Settings.Default;
+
+            aucPath.Text = Settings.AUC_Path;
+            aviutlPath.Text = Settings.AviUtl_Path;
+            Indexer_Path.Text = Settings.Indexer_Path;
+            Lw_Path.Text = Settings.InputPlugin_Path;
+            foreach (Label label in Settings.Profile_Labels)
             {
                 Prof_ComboBox.Items.Add(label);
             }
-            foreach (Label label in Properties.Settings.Default.Plugin_Labels)
+            foreach (Label label in Settings.Plugin_Labels)
             {
                 Plug_ComboBox.Items.Add(label);
             }
@@ -65,8 +70,18 @@ namespace WpfApp2
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Topmost = true;
-            Properties.Settings.Default.AUC_Path = aucPath.Text;
-            Properties.Settings.Default.AviUtl_Path = aviutlPath.Text;
+            var Setting = Properties.Settings.Default;
+            Setting.AUC_Path = aucPath.Text;
+            Setting.AviUtl_Path = aviutlPath.Text;
+            Setting.Use_Indexer = (bool)Use_Indexer.IsChecked;
+            Setting.Indexer_Path = Indexer_Path.Text;
+            Setting.InputPlugin_Path = Lw_Path.Text;
+
+            if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || Lw_Path.Text == ""))
+            {
+                MessageBox.Show("aui_indexerのパスとlwinput.auiのパスを指定してください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Cancel = true;
+            }
         }
 
         private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,7 +174,7 @@ namespace WpfApp2
             AddLabelWindow.ShowDialog();
         }
 
-        private void AviutlPath_PreviewDragOver(object sender, DragEventArgs e)
+        private void ChangeDragOverCursor(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
@@ -193,22 +208,109 @@ namespace WpfApp2
             (sender as TextBox).Text = files[0];
         }
 
-        private void AucPath_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
-            {
-                e.Effects = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effects = DragDropEffects.None;
-            }
-            e.Handled = true;
-        }
-
         private void AucPath_Drop(object sender, DragEventArgs e)
         {
             MainWindow.OnDropped(sender as TextBox, e);
+        }
+
+        private void Indexer_Path_Open_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "aui_indexer|aui_indexer.exe";
+
+
+            if (dialog.ShowDialog() == true)
+            {
+                Indexer_Path.Text = dialog.FileName;
+            }
+        }
+
+        private void Lwinput_Path_Open_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "L-SMASH Works 入力プラグイン|lwinput.aui";
+
+
+            if (dialog.ShowDialog() == true)
+            {
+                Lw_Path.Text = dialog.FileName;
+            }
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var IsChecked = (sender as CheckBox).IsChecked;
+
+            if (IsChecked == true)
+            {
+                Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+                Lw_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+                Indexer_Path.IsEnabled = true;
+                Lw_Path.IsEnabled = true;
+                Indexer_Path_Open.IsEnabled = true;
+                Lwinput_Path_Open.IsEnabled = true;
+                Droppable_Text_1.Visibility = Visibility.Visible;
+                Droppable_Text_2.Visibility = Visibility.Visible;
+            } else
+            {
+                Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(130, 0, 0, 0));
+                Lw_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(130, 0, 0, 0));
+                Indexer_Path.IsEnabled = false;
+                Lw_Path.IsEnabled = false;
+                Indexer_Path_Open.IsEnabled = false;
+                Lwinput_Path_Open.IsEnabled = false;
+                Droppable_Text_1.Visibility = Visibility.Hidden;
+                Droppable_Text_2.Visibility = Visibility.Hidden;
+            }
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Use_Indexer.IsChecked = Properties.Settings.Default.Use_Indexer;
+            CheckBox_Click(Use_Indexer, null);
+        }
+
+        private void Indexer_Path_Drop(object sender, DragEventArgs e)
+        {
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files.Count() != 1 || files == null)
+            {
+                MessageBox.Show("複数のファイルまたはディレクトリを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            };
+            if (System.IO.Directory.Exists(files[0]))
+            {
+                MessageBox.Show("ディレクトリを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!files[0].EndsWith("aui_indexer.exe"))
+            {
+                MessageBox.Show("指定されたファイルは「aui_indexer.exe」ではありません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            (sender as TextBox).Text = files[0];
+        }
+
+        private void Lw_Path_Drop(object sender, DragEventArgs e)
+        {
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files.Count() != 1 || files == null)
+            {
+                MessageBox.Show("複数のファイルまたはディレクトリを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            };
+            if (System.IO.Directory.Exists(files[0]))
+            {
+                MessageBox.Show("ディレクトリを指定することはできません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!files[0].EndsWith("lwinput.aui"))
+            {
+                MessageBox.Show("指定されたファイルは「lwinput.aui」ではありません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            (sender as TextBox).Text = files[0];
         }
     }
 

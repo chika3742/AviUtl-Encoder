@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace AUEncoder
 {
     /// <summary>
     /// AddLabel.xaml の相互作用ロジック
