@@ -29,11 +29,9 @@ namespace AUEncoder
             InitializeComponent();
 
             var Settings = Properties.Settings.Default;
-
-            aucPath.Text = Settings.AUC_Path;
-            aviutlPath.Text = Settings.AviUtl_Path;
-            Indexer_Path.Text = Settings.Indexer_Path;
-            Lw_Path.Text = Settings.InputPlugin_Path;
+            
+            AviutlPath.Text = Settings.AviUtl_Path;
+            Follow_Settings_Checkbox.IsChecked = Settings.Follow_Behavior_Setting;
             foreach (Label label in Settings.Profile_Labels)
             {
                 Prof_ComboBox.Items.Add(label);
@@ -41,6 +39,27 @@ namespace AUEncoder
             foreach (Label label in Settings.Plugin_Labels)
             {
                 Plug_ComboBox.Items.Add(label);
+            }
+            switch (Settings.Getting_Progress_Interval)
+            {
+                case 0:
+                    Progress_Interval.SelectedIndex = 0;
+                    break;
+                case 700:
+                    Progress_Interval.SelectedIndex = 1;
+                    break;
+                case 1000:
+                    Progress_Interval.SelectedIndex = 2;
+                    break;
+                case 2000:
+                    Progress_Interval.SelectedIndex = 3;
+                    break;
+                case 5000:
+                    Progress_Interval.SelectedIndex = 4;
+                    break;
+                case 10000:
+                    Progress_Interval.SelectedIndex = 5;
+                    break;
             }
         }
 
@@ -52,36 +71,58 @@ namespace AUEncoder
 
             if (dialog.ShowDialog() == true)
             {
-                aviutlPath.Text = dialog.FileName;
+                AviutlPath.Text = dialog.FileName;
             }
         }
 
-        private void aucPathOpen_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
+        //private void aucPathOpen_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var dialog = new CommonOpenFileDialog();
+        //    dialog.IsFolderPicker = true;
 
-            if (dialog.ShowDialog(this) == CommonFileDialogResult.Ok)
-            {
-                aucPath.Text = dialog.FileName;
-            }
-        }
+        //    if (dialog.ShowDialog(this) == CommonFileDialogResult.Ok)
+        //    {
+        //        aucPath.Text = dialog.FileName;
+        //    }
+        //}
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Topmost = true;
             var Setting = Properties.Settings.Default;
-            Setting.AUC_Path = aucPath.Text;
-            Setting.AviUtl_Path = aviutlPath.Text;
-            Setting.Use_Indexer = (bool)Use_Indexer.IsChecked;
-            Setting.Indexer_Path = Indexer_Path.Text;
-            Setting.InputPlugin_Path = Lw_Path.Text;
-
-            if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || Lw_Path.Text == ""))
+            //Setting.AUC_Path = aucPath.Text;
+            Setting.AviUtl_Path = AviutlPath.Text;
+            //Setting.Use_Indexer = (bool)Use_Indexer.IsChecked;
+            Setting.Follow_Behavior_Setting = (bool)Follow_Settings_Checkbox.IsChecked;
+            //Setting.Indexer_Path = Indexer_Path.Text;
+            switch (Progress_Interval.SelectedIndex)
             {
-                MessageBox.Show("aui_indexerのパスとlwinput.auiのパスを指定してください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
-                e.Cancel = true;
+                case 0:
+                    Setting.Getting_Progress_Interval = 0;
+                    break;
+                case 1:
+                    Setting.Getting_Progress_Interval = 700;
+                    break;
+                case 2:
+                    Setting.Getting_Progress_Interval = 1000;
+                    break;
+                case 3:
+                    Setting.Getting_Progress_Interval = 2000;
+                    break;
+                case 4:
+                    Setting.Getting_Progress_Interval = 5000;
+                    break;
+                case 5:
+                    Setting.Getting_Progress_Interval = 10000;
+                    break;
             }
+
+            //if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || AviutlPath.Text == ""))
+            //{
+            //    MessageBox.Show("aui_indexerのパスとaviutl.exeのパスを指定してください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    e.Cancel = true;
+            //}
+            Setting.Save();
         }
 
         private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -213,63 +254,43 @@ namespace AUEncoder
             MainWindow.OnDropped(sender as TextBox, e);
         }
 
-        private void Indexer_Path_Open_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Filter = "aui_indexer|aui_indexer.exe";
+        //private void Indexer_Path_Open_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var dialog = new OpenFileDialog();
+        //    dialog.Filter = "aui_indexer|aui_indexer.exe";
 
 
-            if (dialog.ShowDialog() == true)
-            {
-                Indexer_Path.Text = dialog.FileName;
-            }
-        }
+        //    if (dialog.ShowDialog() == true)
+        //    {
+        //        Indexer_Path.Text = dialog.FileName;
+        //    }
+        //}
 
-        private void Lwinput_Path_Open_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Filter = "L-SMASH Works 入力プラグイン|lwinput.aui";
+        //private void CheckBox_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var IsChecked = (sender as CheckBox).IsChecked;
 
-
-            if (dialog.ShowDialog() == true)
-            {
-                Lw_Path.Text = dialog.FileName;
-            }
-        }
-
-        private void CheckBox_Click(object sender, RoutedEventArgs e)
-        {
-            var IsChecked = (sender as CheckBox).IsChecked;
-
-            if (IsChecked == true)
-            {
-                Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
-                Lw_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
-                Indexer_Path.IsEnabled = true;
-                Lw_Path.IsEnabled = true;
-                Indexer_Path_Open.IsEnabled = true;
-                Lwinput_Path_Open.IsEnabled = true;
-                Droppable_Text_1.Visibility = Visibility.Visible;
-                Droppable_Text_2.Visibility = Visibility.Visible;
-            } else
-            {
-                Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(130, 0, 0, 0));
-                Lw_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(130, 0, 0, 0));
-                Indexer_Path.IsEnabled = false;
-                Lw_Path.IsEnabled = false;
-                Indexer_Path_Open.IsEnabled = false;
-                Lwinput_Path_Open.IsEnabled = false;
-                Droppable_Text_1.Visibility = Visibility.Hidden;
-                Droppable_Text_2.Visibility = Visibility.Hidden;
-            }
+        //    if (IsChecked == true)
+        //    {
+        //        Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+        //        Indexer_Path.IsEnabled = true;
+        //        Indexer_Path_Open.IsEnabled = true;
+        //        Droppable_Text_1.Visibility = Visibility.Visible;
+        //    } else
+        //    {
+        //        Indexer_Text.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(130, 0, 0, 0));
+        //        Indexer_Path.IsEnabled = false;
+        //        Indexer_Path_Open.IsEnabled = false;
+        //        Droppable_Text_1.Visibility = Visibility.Hidden;
+        //    }
             
-        }
+        //}
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Use_Indexer.IsChecked = Properties.Settings.Default.Use_Indexer;
-            CheckBox_Click(Use_Indexer, null);
-        }
+        //private void Window_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    Use_Indexer.IsChecked = Properties.Settings.Default.Use_Indexer;
+        //    CheckBox_Click(Use_Indexer, null);
+        //}
 
         private void Indexer_Path_Drop(object sender, DragEventArgs e)
         {

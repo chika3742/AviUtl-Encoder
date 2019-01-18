@@ -38,18 +38,6 @@ namespace AUEncoder.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AUC_Path {
-            get {
-                return ((string)(this["AUC_Path"]));
-            }
-            set {
-                this["AUC_Path"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Profile_Number {
             get {
                 return ((string)(this["Profile_Number"]));
@@ -131,25 +119,109 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Indexer_Path {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Behavior_After_Encoding {
             get {
-                return ((string)(this["Indexer_Path"]));
+                return ((int)(this["Behavior_After_Encoding"]));
             }
             set {
-                this["Indexer_Path"] = value;
+                this["Behavior_After_Encoding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Behavior_Quit_Software {
+            get {
+                return ((bool)(this["Behavior_Quit_Software"]));
+            }
+            set {
+                this["Behavior_Quit_Software"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Behavior_Quit_AviUtl {
+            get {
+                return ((bool)(this["Behavior_Quit_AviUtl"]));
+            }
+            set {
+                this["Behavior_Quit_AviUtl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int Getting_Progress_Interval {
+            get {
+                return ((int)(this["Getting_Progress_Interval"]));
+            }
+            set {
+                this["Getting_Progress_Interval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool View_Log {
+            get {
+                return ((bool)(this["View_Log"]));
+            }
+            set {
+                this["View_Log"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string InputPlugin_Path {
+        public string Input_Folder_Path {
             get {
-                return ((string)(this["InputPlugin_Path"]));
+                return ((string)(this["Input_Folder_Path"]));
             }
             set {
-                this["InputPlugin_Path"] = value;
+                this["Input_Folder_Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Output_Folder_Path {
+            get {
+                return ((string)(this["Output_Folder_Path"]));
+            }
+            set {
+                this["Output_Folder_Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Follow_Behavior_Setting {
+            get {
+                return ((bool)(this["Follow_Behavior_Setting"]));
+            }
+            set {
+                this["Follow_Behavior_Setting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Mode {
+            get {
+                return ((int)(this["Mode"]));
+            }
+            set {
+                this["Mode"] = value;
             }
         }
     }

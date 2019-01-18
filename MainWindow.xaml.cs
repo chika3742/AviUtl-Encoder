@@ -1,29 +1,21 @@
-﻿using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Taskbar;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 //using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AUEncoder
 {
@@ -34,14 +26,17 @@ namespace AUEncoder
 
     public partial class MainWindow : Window
     {
-        string AUCPathText;
+        string aucPath = "./bin/auc";
+        string indexerPath = "./bin/aui_indexer/aui_indexer.exe";
         string WindowNumber;
         string CurrentFile;
+        string extFindFirst = "";
         int CurrentNum;
         int AllFiles;
         bool IsRunning;
         Properties.Settings Settings;
         StringBuilder LogStrBuilder = new StringBuilder();
+        private List<string> filesList = new List<string>();
         
         public MainWindow()
         {
@@ -49,7 +44,8 @@ namespace AUEncoder
 
             Settings = Properties.Settings.Default;
 
-
+            fromFolder.Text = Settings.Input_Folder_Path;
+            toFolder.Text = Settings.Output_Folder_Path;
             profileNumber.Text = Settings.Profile_Number;
             pluginNumber.Text = Settings.Plugin_Number;
             extFind.Text = Settings.Find_Ext;
@@ -86,6 +82,11 @@ namespace AUEncoder
             LogStrBuilder.Append("Log Output");
             log.Text = LogStrBuilder.ToString();
 
+            ModeSelector.SelectedIndex = Settings.Mode;
+            Behavior_After_Encoding.SelectedIndex = Settings.Behavior_After_Encoding;
+            QuitAviUtlCheckbox.IsChecked = Settings.Behavior_Quit_AviUtl;
+            QuitThisSoftwareCheckbox.IsChecked = Settings.Behavior_Quit_Software;
+
             //progressBar.Style = ProgressBarStyle.Blocks;
         }
         
@@ -100,10 +101,16 @@ namespace AUEncoder
                 }
             }
 
+            Settings.Input_Folder_Path = fromFolder.Text;
+            Settings.Output_Folder_Path = toFolder.Text;
             Settings.Profile_Number = profileNumber.Text;
             Settings.Plugin_Number = pluginNumber.Text;
             Settings.Find_Ext = extFind.Text;
             Settings.Output_Ext = extOutput.Text;
+            Settings.Mode = ModeSelector.SelectedIndex;
+            Settings.Behavior_After_Encoding = Behavior_After_Encoding.SelectedIndex;
+            Settings.Behavior_Quit_AviUtl = (bool)QuitAviUtlCheckbox.IsChecked;
+            Settings.Behavior_Quit_Software = (bool)QuitThisSoftwareCheckbox.IsChecked;
 
             Settings.Save();
         }
@@ -126,7 +133,7 @@ namespace AUEncoder
 
             //for (int a = 0; a < cmd.Length; a++)
             //{
-                p.StartInfo.Arguments = $"/c cd /d {AUCPathText} & {cmd}";
+                p.StartInfo.Arguments = $"/c cd /d {aucPath} & {cmd}";
                 p.Start();
             //}
 
@@ -168,6 +175,8 @@ namespace AUEncoder
             extOutput.IsEnabled = to;
             Plugin_ComboBox.IsEnabled = to;
             Profile_ComboBox.IsEnabled = to;
+            MenuItem_Preference.IsEnabled = to;
+            ModeSelector.IsEnabled = to;
 
             openFile1.IsEnabled = to;
             openFile2.IsEnabled = to;
@@ -183,6 +192,7 @@ namespace AUEncoder
                 DDText1.Visibility = Visibility.Visible;
                 DDText2.Visibility = Visibility.Visible;
             }
+            ModeSelector_SelectionChanged(ModeSelector, null);
         }
 
         /// <summary>
@@ -198,6 +208,7 @@ namespace AUEncoder
             {
                 int success = 0;
                 int failure = 0;
+                bool exit = false;
                 for (int i = 0; i < inputFiles.Length; i++)
                 {
                     var inputFilePath = inputFiles[i];
@@ -271,12 +282,24 @@ namespace AUEncoder
                             } 
                             else
                             {
-                                LogStrBuilder.Append($"\n{inputFilePath}:ファイルの出力に失敗");
-                                log.Text = LogStrBuilder.ToString();
-                                LogScroller.ScrollToBottom();
+                                if (res2.Trim().Contains("AviUtl"))
+                                {
+                                    LogStrBuilder.Append($"\n{inputFilePath}:ファイルの出力に失敗\n" +
+                                        "＜info＞AviUtlが終了された可能性があるため、出力処理を中断しました。");
+                                    log.Text = LogStrBuilder.ToString();
+                                    LogScroller.ScrollToBottom();
+                                    exit = true;
+                                }
+                                else
+                                {
+                                    LogStrBuilder.Append($"\n{inputFilePath}:ファイルの出力に失敗");
+                                    log.Text = LogStrBuilder.ToString();
+                                    LogScroller.ScrollToBottom();
+                                }
                             }
                             
                         });
+                        if (exit) break;
                         failure++;
                         continue;
                     } else
@@ -289,6 +312,21 @@ namespace AUEncoder
                         });
                         success++;
                     }
+                }
+                if (exit)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        progress.Text = "中断";
+                        SwitchState(true);
+                        progressBar.Value = 0;
+                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                        pb1.Value = 0;
+                        progressPercent.Text = "出力の進捗";
+                        AllProgressText.Text = "全体の進捗";
+                        IsRunning = false;
+                    });
+                    return;
                 }
                 Dispatcher.Invoke(() =>
                 {
@@ -304,12 +342,48 @@ namespace AUEncoder
                     progressPercent.Text = "出力の進捗";
                     AllProgressText.Text = "全体の進捗";
                     IsRunning = false;
+
+                    if ((!Settings.Follow_Behavior_Setting && failure == 0) || Settings.Follow_Behavior_Setting)
+                    {
+                        if (QuitAviUtlCheckbox.IsChecked == true)
+                        {
+                            if (RUN_COMMAND("auc_exit").Contains("操作可能なプログラムまたはバッチ ファイルとして認識されていません。"))
+                            {
+                                LogStrBuilder.Append("\n<Error>AUCコマンドが見つかりません。正しくパスが設定されているか確認してください。");
+                                log.Text = LogStrBuilder.ToString();
+                            }
+
+                        }
+
+                        switch ((Behavior_After_Encoding.SelectedItem as ComboBoxItem).Content)
+                        {
+                            case "シャットダウン":
+                                var startInfo = new ProcessStartInfo();
+                                startInfo.FileName = "shutdown";
+                                startInfo.Arguments = "/s /hybrid /t 0";
+                                startInfo.UseShellExecute = false;
+                                startInfo.CreateNoWindow = true;
+                                Process.Start(startInfo);
+                                break;
+                            case "休止状態(ハイバネート)":
+                                System.Windows.Forms.Application.SetSuspendState(System.Windows.Forms.PowerState.Hibernate, false, false);
+                                break;
+                            case "スリープ(サスペンド)":
+                                System.Windows.Forms.Application.SetSuspendState(System.Windows.Forms.PowerState.Suspend, false, false);
+                                break;
+                        }
+                        if (QuitThisSoftwareCheckbox.IsChecked == true)
+                        {
+                            Close();
+                        }
+                    }
                 });
                 
             });
             
             
         }
+        
 
         /// <summary>
         /// AviUtlのエンコードの進捗を取得します。
@@ -318,6 +392,7 @@ namespace AUEncoder
         {
             await Task.Run(() =>
             {
+                if (Settings.Getting_Progress_Interval == 0) return;
                 while (IsRunning)
                 {
                     var processes = System.Diagnostics.Process.GetProcessesByName("aviutl");
@@ -348,73 +423,69 @@ namespace AUEncoder
                             progressBar.Value = ((CurrentNum - 1) * 100); ;
                         });
                     }
-                    //foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
-                    //{
-                    //    if (p.MainWindowTitle.Length != 0 && p.MainWindowTitle.StartsWith("出力中"))
-                    //    {
-                    //        string percent;
-                    //        if (p.MainWindowTitle.Substring(4, 2).EndsWith("%"))
-                    //        {
-                    //            percent = p.MainWindowTitle.Substring(4, 1);
-                    //        }
-                    //        else
-                    //        {
-                    //            percent = p.MainWindowTitle.Substring(4, 2);
-                    //        }
-                    //        Dispatcher.Invoke(() =>
-                    //        {
-                    //            progressPercent.Text = percent + "%";
-                    //            pb1.Value = double.Parse(percent);
-                    //        });
-                    //    }
-                    //}
-                    Thread.Sleep(1000);
+                    Thread.Sleep(Settings.Getting_Progress_Interval);
                 }
             });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            var errorStrBuilder = new StringBuilder();
             
-            AUCPathText = Settings.AUC_Path;
-            if (fromFolder.Text == "" ||
-                toFolder.Text == "" ||
-                profileNumber.Text == "" ||
-                pluginNumber.Text == "" || extFind.Text == "" ||
-                extOutput.Text == "")
+            if (fromFolder.Text == "" || (ModeSelector.SelectedIndex == 1 && filesList.Count == 0)) errorStrBuilder.Append("「エンコード対象のフォルダー」が入力されていません。\n");
+            else if (!Directory.Exists(fromFolder.Text) && ModeSelector.SelectedIndex != 1) errorStrBuilder.Append("「エンコード対象のフォルダー」は存在しません。\n");
+            if (toFolder.Text == "") errorStrBuilder.Append("「エンコードしたファイルの保存場所」が入力されていません。\n");
+            else if (!Directory.Exists(toFolder.Text)) errorStrBuilder.Append("「エンコードしたファイルの保存場所」は存在しません。\n");
+            if (profileNumber.Text == "") errorStrBuilder.Append("プロファイルが指定されていません。\n");
+            if (pluginNumber.Text == "")errorStrBuilder.Append("出力プラグインが指定されていません。\n");
+            if (extFind.Text == "" && ModeSelector.SelectedIndex != 1) errorStrBuilder.Append("「検索対象のファイル拡張子」が指定されていません。\n");
+            if (extOutput.Text == "") errorStrBuilder.Append("「出力ファイル拡張子」が指定されていません。\n");
+            if (!File.Exists(Settings.AviUtl_Path)) errorStrBuilder.Append("設定画面の「AviUtlのパス」が指定されていないか、存在しません。\n");
+
+            if (errorStrBuilder.ToString() != "")
             {
-                MessageBox.Show("すべての欄に入力してください。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(errorStrBuilder.ToString(), "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            string[] files = System.IO.Directory.GetFiles(fromFolder.Text);
-            var filteredFiles = Array.FindAll(files, isExtMatch);
-            if (filteredFiles.Length == 0)
+            if (ModeSelector.SelectedIndex == 1)
             {
-                MessageBox.Show("条件に合うファイルが見つかりません。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
+                Start_Encoding(filesList.ToArray());
             }
+            else
+            {
+                string[] files = System.IO.Directory.GetFiles(fromFolder.Text);
+                var filteredFiles = Array.FindAll(files, isExtMatch);
+                if (filteredFiles.Length == 0)
+                {
+                    MessageBox.Show("条件に合うファイルが見つかりません。", "AviUtl Encoder", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
 
-            Start_Encoding(filteredFiles);
-            
+                Start_Encoding(filteredFiles);
+            }
         }
 
+        /// <summary>
+        /// エンコードの開始処理を非同期で実行します。
+        /// </summary>
+        /// <param name="Files">エンコード対象ファイル一覧</param>
         private async void Start_Encoding(string[] Files)
         {
             await Task.Run(() =>
             {
                 string WndNum = RUN_COMMAND("auc_findwnd").Trim();
-                var Setting = Settings;
                 if (WndNum == "0")
                 {
-                    if (Setting.AviUtl_Path != "")
+                    if (Settings.AviUtl_Path != "")
                     {
                         LogStrBuilder.Append("\nAviUtlを起動中です。");
                         Dispatcher.Invoke(() =>
                         {
                             log.Text = LogStrBuilder.ToString();
                         });
-                        WndNum = RUN_COMMAND($"auc_exec {Setting.AviUtl_Path}").Trim();
+                        WndNum = RUN_COMMAND($"auc_exec {Settings.AviUtl_Path}").Trim();
                     }
                     else
                     {
@@ -423,26 +494,86 @@ namespace AUEncoder
                     }
                 }
 
-                if (Setting.Use_Indexer)
-                {
-
-                }
-
                 IsRunning = true;
+                Dispatcher.Invoke(() =>
+                {
+                    Activate();
+                    SwitchState(false);
+                });
+                
+                    if (!File.Exists(indexerPath))
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            SwitchState(true);
+                            MessageBox.Show("aui_indexerが見つかりません。再インストールしてください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                        });
+                        return;
+                    }
+
+                    var proc = new System.Diagnostics.Process();
+                    proc.StartInfo.FileName = indexerPath;
+                    proc.StartInfo.WorkingDirectory = Settings.AviUtl_Path.Remove(Settings.AviUtl_Path.LastIndexOf('\\'));
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.RedirectStandardInput = true;
+
+                    var arg = new StringBuilder();
+                    for (int i = 0; i < Files.Length; i++)
+                    {
+                        arg.Append($@"""{Files[i]}"" ");
+                    }
+
+                    proc.StartInfo.Arguments = arg.ToString();
+
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    //proc.StartInfo.RedirectStandardError = true;
+
+                    proc.OutputDataReceived += proc_OutputDataReceived;
+
+                    LogStrBuilder.Append($"\nインデックスファイルを事前生成します。");
+                    Dispatcher.Invoke(() =>
+                    {
+                        log.Text = LogStrBuilder.ToString();
+                    });
+
+                    proc.Start();
+                    proc.BeginOutputReadLine();
+                    proc.WaitForExit();
+                    proc.Close();
+                
                 WindowNumber = WndNum;
                 Dispatcher.Invoke(() =>
                 {
-                    SwitchState(false);
                     runEncode(WndNum, Files);
                     GetPercentage();
-                    Activate();
                 });
             });
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
+        private async void proc_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                if (e.Data == null) return;
+                if (e.Data.StartsWith("could not find aui file."))
+                {
+                    LogStrBuilder.Append("\n＜エラー＞auiの検索に失敗しました。L-SMASH Works File Readerがインストールされていない可能性があります。");
+                    Dispatcher.Invoke(() =>
+                    {
+                        log.Text = LogStrBuilder.ToString();
+                    });
+                    return;
+                }
+
+                var data = e.Data.Substring(11).Remove(e.Data.Substring(11).LastIndexOf(" ..."));
+                LogStrBuilder.Append($"\n{data} のインデックスファイルを生成しています...");
+                Dispatcher.Invoke(() =>
+                {
+                    log.Text = LogStrBuilder.ToString();
+                });
+            });
+        }
 
         private void profileNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -461,13 +592,25 @@ namespace AUEncoder
 
         private void openFile1_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            if ((string)(sender as Button).Content == "参照")
             {
-                fromFolder.Text = dialog.FileName;
+                var dialog = new CommonOpenFileDialog();
+                dialog.IsFolderPicker = true;
+
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    fromFolder.Text = dialog.FileName;
+                }
+            } else
+            {
+                var dialog = new SelectFilesWindow(filesList);
+                dialog.ShowDialog();
+                if (dialog.changeList)
+                {
+                    filesList = dialog.items;
+                }
             }
+            
         }
 
         private void openFile2_Click(object sender, RoutedEventArgs e)
@@ -551,7 +694,7 @@ namespace AUEncoder
             OnDropped(sender as TextBox, e);
         }
 
-        private void fromFolder_PreviewDragOver(object sender, DragEventArgs e)
+        public void fromFolder_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
@@ -631,7 +774,7 @@ namespace AUEncoder
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            Close();
         }
 
         private void Profile_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -663,6 +806,108 @@ namespace AUEncoder
         private void MenuItem_Open_Update_Info_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://sites.google.com/site/chikachuploader/aviutl-encoder");
+        }
+
+        private void MenuItem_Show_Settings_File_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(ConfigurationManager.OpenExeConfiguration(
+      ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath.Remove(ConfigurationManager.OpenExeConfiguration(
+      ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath.LastIndexOf("\\")));
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void MenuItem_Show_Log(object sender, RoutedEventArgs e)
+        {
+            var cBox = (MenuItem)sender;
+            if (cBox.IsChecked)
+            {
+                cBox.IsChecked = false;
+                LogScroller.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                cBox.IsChecked = true;
+                LogScroller.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ModeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cBox = (ComboBox)sender;
+            switch(cBox.SelectedIndex) {
+                case 0:
+                    extFind.Text = extFindFirst;
+                    extFind.IsEnabled = true;
+                    fromFolder.IsEnabled = true;
+                    openFile1.Content = "参照";
+                    break;
+                case 1:
+                    extFind.Text = extFindFirst;
+                    extFind.IsEnabled = false;
+                    fromFolder.IsEnabled = false;
+                    openFile1.Content = "選択";
+                    break;
+                case 2:
+                    extFindFirst = extFind.Text;
+                    extFind.Text = "aup";
+                    extFind.IsEnabled = false;
+                    fromFolder.IsEnabled = true;
+                    openFile1.Content = "参照";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ExtFind_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ModeSelector.SelectedIndex != 2)
+            {
+                extFindFirst = extFind.Text;
+            }
+        }
+
+        private void AfterProcess_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cBox = (ComboBox)sender;
+            if (cBox.SelectedIndex == 1)
+            {
+                QuitThisSoftwareCheckbox.IsEnabled = false;
+                QuitAviUtlCheckbox.IsEnabled = false;
+            }
+            else if (QuitThisSoftwareCheckbox != null)
+            {
+                QuitThisSoftwareCheckbox.IsEnabled = true;
+                QuitAviUtlCheckbox.IsEnabled = true;
+            }
+        }
+
+        private void pluginNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            var text = profileNumber.Text + e.Text;
+            if (regex.IsMatch(text))
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+                Plugin_ComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Settings.AviUtl_Path == "")
+            {
+                MessageBox.Show("最初にAviUtlのパスを設定してください。", "AviUtlエンコーダーへようこそ", MessageBoxButton.OK, MessageBoxImage.Information);
+                new PreferenceWindow().ShowDialog();
+            }
         }
     }
 }

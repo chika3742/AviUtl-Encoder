@@ -7,20 +7,24 @@
         xmlns:local="clr-namespace:AUEncoder"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="AUEncoder.MainWindow"
         mc:Ignorable="d"
-        Title="AviUtl Encoder" Height="480" Width="784" MinWidth="800" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize">
+        Title="AviUtl Encoder" Height="480" Width="784" MinWidth="800" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize" Loaded="Window_Loaded">
 
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
         <Menu Margin="0,0,2,0" VerticalAlignment="Top" FontSize="13" Grid.ColumnSpan="2" Background="White" Height="19">
             <MenuItem Header="ファイル(_F)">
-                <MenuItem Header="設定" Click="MenuItem_Open_Preference_Click">
+                <MenuItem x:Name="MenuItem_Preference" Header="設定" Click="MenuItem_Open_Preference_Click">
                     <MenuItem.Icon>
                         <Image Source="Resources/preference.png" Width="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="設定ファイル保存先の表示" Click="MenuItem_Show_Settings_File_Click"/>
                 <Separator/>
                 <MenuItem Header="終了" Click="MenuItem_Click_3"/>
+            </MenuItem>
+            <MenuItem Header="表示(_V)">
+                <MenuItem Header="ログの表示" IsChecked="True" Click="MenuItem_Show_Log"/>
             </MenuItem>
             <MenuItem Header="ヘルプ(_H)">
                 <MenuItem Header="readmeを開く" Click="MenuItem_Open_Readme_Click"/>
@@ -30,22 +34,21 @@
                 <MenuItem Header="バージョン情報＆アップデート確認" Click="MenuItem_GetVersion_Click"/>
             </MenuItem>
         </Menu>
-        <TextBlock Margin="0,17,0,0" TextWrapping="Wrap" Text="AviUtl 自動エンコーダ" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center"/>
         <Button x:Name="startButton" Content="開始" Margin="260,0,257,30" VerticalAlignment="Bottom" Height="30" FontSize="22" Cursor="Hand" Click="Button_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,68,0,0" TextWrapping="Wrap" Text="エンコード対象のフォルダー" VerticalAlignment="Top" FontSize="20" Height="27" Width="215"/>
-        <TextBox x:Name="fromFolder" HorizontalAlignment="Right" Margin="0,65,149,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" Height="27" FontSize="14" Drop="fromFolder_Drop" PreviewDragOver="fromFolder_PreviewDragOver"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,103,0,0" TextWrapping="Wrap" Text="エンコードしたファイルの保存場所" VerticalAlignment="Top" FontSize="20" Height="27" Width="269"/>
-        <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" Margin="0,97,149,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14" PreviewDragOver="toFolder_PreviewDragOver" Drop="toFolder_Drop"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Width="238" Text="プロファイル番号"/>
-        <TextBox x:Name="profileNumber" HorizontalAlignment="Right" Height="27" Margin="0,129,336,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput"/>
+        <TextBlock HorizontalAlignment="Left" Margin="45,68,0,0" TextWrapping="Wrap" Text="エンコード対象のフォルダー" VerticalAlignment="Top" FontSize="18"/>
+        <TextBox x:Name="fromFolder" HorizontalAlignment="Right" Margin="0,65,149,0" VerticalAlignment="Top" Width="238" Height="27" FontSize="14" Drop="fromFolder_Drop" PreviewDragOver="fromFolder_PreviewDragOver"/>
+        <TextBlock HorizontalAlignment="Left" Margin="45,103,0,0" TextWrapping="Wrap" Text="エンコードしたファイルの保存場所" VerticalAlignment="Top" FontSize="18"/>
+        <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" Margin="0,97,149,0" VerticalAlignment="Top" Width="238" FontSize="14" PreviewDragOver="toFolder_PreviewDragOver" Drop="toFolder_Drop"/>
+        <TextBlock HorizontalAlignment="Left" Margin="45,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="プロファイル"/>
+        <TextBox x:Name="profileNumber" HorizontalAlignment="Right" Height="27" Margin="0,129,336,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput" GotFocus="TextBox_GotFocus"/>
         <Button x:Name="openFile1" Content="参照" HorizontalAlignment="Right" Margin="0,65,69,0" VerticalAlignment="Top" Width="75" Height="27" FontSize="16" Click="openFile1_Click"/>
         <Button x:Name="openFile2" Content="参照" HorizontalAlignment="Right" Margin="0,97,69,0" VerticalAlignment="Top" Width="75" Height="27" FontSize="16" Click="openFile2_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Width="266" Text="出力プラグイン番号"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Width="218"><Run Text="検索"/><Run Text="対象ファイル拡張子"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="45,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Width="172" Text="出力ファイル拡張子"/>
-        <TextBox x:Name="pluginNumber" HorizontalAlignment="Right" Height="27" Margin="0,161,336,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput"/>
-        <TextBox x:Name="extFind" HorizontalAlignment="Right" Height="27" Margin="0,193,149,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" FontSize="16"/>
-        <TextBox x:Name="extOutput" HorizontalAlignment="Right" Height="27" Margin="0,225,149,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" FontSize="16"/>
+        <TextBlock HorizontalAlignment="Left" Margin="45,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"><Run Text="出力プラグイン"/><LineBreak/><Run/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="45,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"><Run Text="検索"/><Run Text="対象ファイル拡張子"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="45,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="出力ファイル拡張子"/>
+        <TextBox x:Name="pluginNumber" HorizontalAlignment="Right" Height="27" Margin="0,161,336,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="pluginNumber_PreviewTextInput" GotFocus="TextBox_GotFocus"/>
+        <TextBox x:Name="extFind" HorizontalAlignment="Right" Height="27" Margin="0,193,295,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontSize="16" GotFocus="TextBox_GotFocus" TextChanged="ExtFind_TextChanged"/>
+        <TextBox x:Name="extOutput" HorizontalAlignment="Right" Height="27" Margin="0,225,295,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontSize="16" GotFocus="TextBox_GotFocus"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,225,379,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="20" Height="27" Width="4"/>
         <TextBlock HorizontalAlignment="Left" Margin="50,0,0,165" TextWrapping="Wrap" Text="現在の状況：" VerticalAlignment="Bottom" FontSize="16" Foreground="#CC0064C8"/>
         <TextBlock x:Name="progress" HorizontalAlignment="Left" Margin="69,0,0,144" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Bottom" FontSize="16" Width="344" TextAlignment="Center" Foreground="White">
@@ -91,6 +94,21 @@
         <TextBlock x:Name="AllProgressText" HorizontalAlignment="Left" Margin="50,0,0,78" TextWrapping="Wrap" Text="全体の進捗" VerticalAlignment="Bottom" TextAlignment="Center" Width="59" Height="16"/>
         <TextBlock x:Name="DDText1" HorizontalAlignment="Left" Margin="324,68,0,0" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Top" Foreground="#CC000000" Height="16" Width="64"/>
         <TextBlock x:Name="DDText2" HorizontalAlignment="Left" Margin="324,103,0,0" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Top" Foreground="#CC000000" Height="16" Width="64"/>
+        <ComboBox x:Name="ModeSelector" HorizontalAlignment="Left" Margin="132,35,0,0" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="ModeSelector_SelectionChanged" Width="205" Height="25" VerticalContentAlignment="Center">
+            <ComboBoxItem Content="フォルダーエンコードモード"/>
+            <ComboBoxItem Content="ファイル単位エンコードモード" Foreground="Black"/>
+            <ComboBoxItem Content="プロジェクトエンコードモード(フォルダー単位)" Foreground="Black"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="45,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Foreground="Red"><Run Text="MODE"/><LineBreak/><Run/></TextBlock>
+        <ComboBox x:Name="Behavior_After_Encoding" HorizontalAlignment="Left" Margin="500,35,0,0" VerticalAlignment="Top" FontSize="14" SelectedIndex="0" SelectionChanged="AfterProcess_SelectionChanged" Width="155">
+            <ComboBoxItem Content="何もしない"/>
+            <ComboBoxItem Content="シャットダウン"/>
+            <ComboBoxItem Content="休止状態(ハイバネート)"/>
+            <ComboBoxItem Content="スリープ(サスペンド)"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="342,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="#FF0046FF"><Run Text="処理"/><Run Text="完了後の動作"/></TextBlock>
+        <CheckBox x:Name="QuitThisSoftwareCheckbox" Content="このソフトを終了" HorizontalAlignment="Left" Margin="660,33,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="QuitAviUtlCheckbox" Content="AviUtlを終了" HorizontalAlignment="Left" Margin="660,48,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

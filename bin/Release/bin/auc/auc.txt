@@ -1,0 +1,123 @@
+■ AviUtl Control コマンド
+
+AviUtlをコマンドラインから操作するコマンド群
+AviUtlを起動した状態で使用する
+
+AviUtl ver0.99g対応
+
+■ 各コマンド説明
+
+[#window] はコマンドを実行するAviUtlのウィンドウ番号。(省略可能)
+
+・auc_aviout.exe
+  usage: auc_aviout [#window] <filename>
+  <filename> にAVI出力する
+
+・auc_close.exe
+  usage: auc_close [#window]
+  ファイルを閉じる
+
+・auc_exec.exe
+  usage: auc_exec "<command line>"
+  AviUtlを起動し、ウィンドウ番号を表示する。また、その値を返り値とする。
+
+・auc_exit.exe
+  usage: auc_exit [#window]
+  AviUtlを終了する
+
+・auc_findwnd.exe
+  usage: auc_findwnd
+  AviUtlのウィンドウ番号を表示する。また、その値を返り値とする。
+
+・auc_open.exe
+  usage: auc_open [#window] <filename>
+  <filename> を開く
+
+・auc_openadd.exe
+  usage: auc_openadd [#window] <filename>
+  <filename> を「追加読み込み」する
+
+・auc_audioadd.exe
+  usage: auc_audioadd [#window] <filename>
+  <filename> を「音声読み込み」する
+
+・auc_openprj.exe
+  usage: auc_openprj [#window] <filename>
+  <filename> のプロジェクトファイルを開く
+
+・auc_plugbatch.exe
+  usage: auc_plugout [#window] #num <filename>
+  #numで出力プラグインを指定して、<filename>にバッチ登録する
+  メニューで一番上の出力プラグインの番号が0で、以下1、2...
+
+・auc_plugout.exe
+  usage: auc_plugout [#window] #num <filename>
+  #numで出力プラグインを指定して、<filename>に出力する
+  メニューで一番上の出力プラグインの番号が0で、以下1、2...
+
+・auc_saveprj.exe
+  usage: auc_saveprj [#window] <filename>
+  <filename> にプロジェクトを保存する
+
+・auc_setprof.exe
+  usage: auc_setprof [#window] #num
+  #numで指定したプロファイルに変更
+  メニューで一番上のプロファイルの番号が0で、以下1、2...
+
+・auc_verclose.exe
+  usage: auc_verclose [#window]
+  バージョン情報ダイアログを閉じる(出力を再開する)
+
+・auc_veropen.exe
+  usage: auc_veropen [#window]
+  バージョン情報ダイアログを表示する(出力を中断する)
+
+・auc_wait.exe
+  usage: auc_wait [#window]
+  AviUtlの出力が終了するまで待つ
+
+・auc_wavout.exe
+  usage: auc_wavout [#window] <filename>
+  <filename> にWAV出力する
+
+■ 使い方のヒント
+
+このコマンドではファイル名以外のオプションを指定できません。
+コマンド使用前に、出力プラグインの設定などが保存されているプロファイルを
+用意しておくと便利です。
+
+■ サンプルスクリプトについて
+
+使用する前にスクリプトに書かれているコメントを読み、設定を自分の
+環境にあわせて書き換えてください。
+
+■ 更新履歴
+
+2012/10/24 ver1.5
+・Windows7対応
+2009/ 6/17 ver1.4
+・auc_exec、auc_plugbatchを追加
+・サンプルスクリプトを追加、修正
+2008/12/12 ver1.3a
+・auc_aviout、auc_plugoutをAviUtl 0.99gに対応
+2008/12/ 7 ver1.3
+・AviUtl 0.99gのダイアログボックス仕様変更に対応
+2007/ 8/ 4 ver1.2a
+・ダイアログボックス待ち時間を延長
+2007/ 6/20 ver1.2
+・auc_audioaddを追加
+2005/ 2/21 ver1.1a
+・auc_openaddを追加
+2005/ 2/18 ver1.1
+・ウィンドウ名を指定できるようにした
+・auc_findwnd、auc_closeを追加
+・サンプルスクリプトを追加
+2005/ 2/14 ver1.0a
+・auc_veropen、auc_vercloseを追加
+2005/ 2/13 ver1.0
+・初版
+
+■ 注意事項
+
+このソフトウェアは無保証です。
+ソフトウェアを使用した結果について、作者は一切責任を負いません。

@@ -6,16 +6,13 @@
         xmlns:local="clr-namespace:AUEncoder"
         xmlns:WpfApp2="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="設定" Height="247" Width="550" MinWidth="550" MinHeight="218" Closing="Window_Closing" Loaded="Window_Loaded" ResizeMode="NoResize">
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="25,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Height="22" Text="AviUtlのパス"/>
-        <TextBox x:Name="aviutlPath" HorizontalAlignment="Right" Height="22" Margin="0,11,89,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" IsReadOnly="True"/>
-        <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,11,10,0" VerticalAlignment="Top" Width="74" Height="22" FontSize="14" Click="aviutlPathOpen_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Height="22" Text="AviUtl Controlのパス"/>
-        <TextBox x:Name="aucPath" HorizontalAlignment="Right" Height="22" Margin="0,37,89,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14" PreviewDragOver="ChangeDragOverCursor" Drop="AucPath_Drop" IsReadOnly="True"/>
-        <Button x:Name="aucPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,37,10,0" VerticalAlignment="Top" Width="74" Height="22" FontSize="14" Click="aucPathOpen_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="プロファイルラベルの編集" Height="22" TextAlignment="Center"/>
-        <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Left" Margin="209,64,0,0" VerticalAlignment="Top" Width="180" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" >
+        Title="設定" Height="180" Width="548" Closing="Window_Closing" ResizeMode="NoResize">
+    <Grid Height="157">
+        <TextBlock HorizontalAlignment="Left" Margin="25,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="AviUtlのパス" FontSize="14" RenderTransformOrigin="0.464,0.167"/>
+        <TextBox x:Name="AviutlPath" HorizontalAlignment="Right" Margin="0,11,89,0" VerticalAlignment="Top" Width="238" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" IsReadOnly="True"/>
+        <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,11,10,0" VerticalAlignment="Top" Width="74" Click="aviutlPathOpen_Click" Cursor="Hand" Height="18"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プロファイルラベルの編集" TextAlignment="Center" FontSize="14"/>
+        <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" Margin="0,36,155,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" FontSize="11" >
             <ComboBoxItem Content="＜選択してください＞"/>
             <ComboBoxItem Content="新規追加"/>
             <ComboBox.ItemTemplate>
@@ -28,10 +25,10 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,64,80,0" VerticalAlignment="Top" Width="64" Height="22" FontSize="14" IsEnabled="False" Click="Prof_Edit_Click"/>
-        <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,64,10,0" VerticalAlignment="Top" Width="64" Height="22" FontSize="14" IsEnabled="False" Click="Prof_Delete_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="プラグインラベルの編集" Height="22" TextAlignment="Center"/>
-        <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Left" Margin="209,91,0,0" VerticalAlignment="Top" Width="180" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" >
+        <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,37,80,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Edit_Click"/>
+        <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,37,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Delete_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プラグインラベルの編集" TextAlignment="Center" FontSize="14"/>
+        <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Right" Margin="0,64,155,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" FontSize="11" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -44,20 +41,20 @@
             <ComboBoxItem Content="＜選択してください＞"/>
             <ComboBoxItem Content="新規追加"/>
         </ComboBox>
-        <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,91,80,0" VerticalAlignment="Top" Width="64" Height="22" FontSize="14" IsEnabled="False" Click="Plug_Edit_Click"/>
-        <Button x:Name="Plug_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,91,10,0" VerticalAlignment="Top" Width="64" Height="22" FontSize="14" IsEnabled="False" Click="Plug_Delete_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="167,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF9B9A9A"/>
-        <TextBlock HorizontalAlignment="Left" Margin="167,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF9B9A9A"/>
+        <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,64,80,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Edit_Click"/>
+        <Button x:Name="Plug_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,64,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Delete_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="167,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF7A7A7A"/>
         <TextBlock HorizontalAlignment="Left" Margin="9,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Height="22" TextAlignment="Center"/>
-        <CheckBox x:Name="Use_Indexer" Content="aui__indexerで先にインデックスファイルを生成する" HorizontalAlignment="Left" Margin="14,118,0,0" VerticalAlignment="Top" FontSize="14" Foreground="Black" VerticalContentAlignment="Center" Click="CheckBox_Click"/>
-        <TextBlock x:Name="Indexer_Text" HorizontalAlignment="Left" Margin="46,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Text="aui_indexerのパス" Foreground="Black"/>
-        <TextBox x:Name="Indexer_Path" HorizontalAlignment="Right" Height="22" Margin="0,143,106,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" FontSize="14" PreviewDragOver="ChangeDragOverCursor" Drop="Indexer_Path_Drop" RenderTransformOrigin="0.5,0.5" IsReadOnly="True"/>
-        <Button x:Name="Indexer_Path_Open" Content="参照" HorizontalAlignment="Right" Margin="0,143,27,0" VerticalAlignment="Top" Width="74" Height="22" FontSize="14" RenderTransformOrigin="0.527,0.455" Click="Indexer_Path_Open_Click"/>
-        <TextBlock x:Name="Droppable_Text_1" HorizontalAlignment="Left" Margin="154,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF9B9A9A"/>
-        <TextBlock x:Name="Lw_Text" HorizontalAlignment="Left" Margin="46,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Text="lwinput.auiのパス" Foreground="Black"/>
-        <TextBlock x:Name="Droppable_Text_2" HorizontalAlignment="Left" Margin="154,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF9B9A9A"/>
-        <TextBox x:Name="Lw_Path" HorizontalAlignment="Right" Height="22" Margin="0,167,106,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" FontSize="14" PreviewDragOver="ChangeDragOverCursor" Drop="Lw_Path_Drop" RenderTransformOrigin="0.5,0.5" IsReadOnly="True"/>
-        <Button x:Name="Lwinput_Path_Open" Content="参照" HorizontalAlignment="Right" Margin="0,167,27,0" VerticalAlignment="Top" Width="74" Height="22" FontSize="14" RenderTransformOrigin="0.527,0.455" Click="Lwinput_Path_Open_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="出力進捗の取得間隔" TextAlignment="Center" FontSize="14"/>
+        <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Right" Margin="0,90,155,0" VerticalAlignment="Top" Width="172" SelectedIndex="2" FontSize="11">
+            <ComboBoxItem Content="取得しない"/>
+            <ComboBoxItem Content="0.7秒"/>
+            <ComboBoxItem Content="1秒"/>
+            <ComboBoxItem Content="2秒"/>
+            <ComboBoxItem Content="5秒"/>
+            <ComboBoxItem Content="10秒"/>
+        </ComboBox>
+        <CheckBox x:Name="Follow_Settings_Checkbox" Content="出力の成功・失敗にかかわらず完了後の動作設定に従う" HorizontalAlignment="Left" Margin="25,116,0,0" VerticalAlignment="Top" Foreground="Black" VerticalContentAlignment="Center" Cursor="Hand"/>
 
     </Grid>
 </Window>

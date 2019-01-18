@@ -44,8 +44,13 @@ namespace AUEncoder
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Number.Text != "" && Number.Text != "")
+            if (Number.Text != "" && Name.Text != "")
             {
+                if (!int.TryParse(Number.Text, out int numText))
+                {
+                    MessageBox.Show("入力された番号の形式が間違っています。(半角数字で入力してください。)", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 if (IsPluginSelection)
                 {
                     if (Id == -1)
@@ -128,7 +133,15 @@ namespace AUEncoder
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (Owner as PreferenceWindow).Prof_ComboBox.SelectedIndex = 0;
+            if (IsPluginSelection)
+            {
+                (Owner as PreferenceWindow).Plug_ComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                (Owner as PreferenceWindow).Prof_ComboBox.SelectedIndex = 0;
+            }
+            
             Close();
         }
 
