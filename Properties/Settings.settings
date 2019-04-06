@@ -17,10 +17,10 @@
     <Setting Name="Output_Ext" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Profile_Labels" Type="System.Collections.Generic.List&lt;Label&gt;" Scope="User">
+    <Setting Name="Profile_Labels" Type="System.Collections.Generic.List&lt;ProfileLabel&gt;" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Plugin_Labels" Type="System.Collections.Generic.List&lt;Label&gt;" Scope="User">
+    <Setting Name="Plugin_Labels" Type="System.Collections.Generic.List&lt;PluginLabel&gt;" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Use_Indexer" Type="System.Boolean" Scope="User">
@@ -52,6 +52,12 @@
     </Setting>
     <Setting Name="Mode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Restore_After_Process" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Do_File_Analize" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

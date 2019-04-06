@@ -24,6 +24,22 @@ C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.CopyCompl
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
 C:\Users\NEC\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csprojAssemblyReference.cache
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.baml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AddLabel.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\SelectFilesWindow.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\UpdateDownloadWindow.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\App.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_Content.g.cs
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.cache
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.lref
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AddLabel.baml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.baml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\SelectFilesWindow.baml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\UpdateDownloadWindow.baml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.g.resources
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.exe.config
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.exe
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\AviUtl Encoder.pdb
@@ -33,22 +49,8 @@ C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Newtonsoft.Json.dll
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.xml
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.Shell.xml
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Newtonsoft.Json.xml
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AddLabel.g.cs
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.g.cs
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.g.cs
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\App.g.cs
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.cache
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder_MarkupCompile.lref
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AddLabel.baml
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\MainWindow.baml
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\PreferenceWindow.baml
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.g.resources
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.Properties.Resources.resources
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.GenerateResource.cache
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.CoreCompileInputs.cache
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.CopyComplete
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\SelectFilesWindow.g.cs
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\SelectFilesWindow.baml
-C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csprojAssemblyReference.cache

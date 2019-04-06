@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AviUtl Encoder")]
-[assembly: AssemblyCopyright("Copyright ©  2018 chikach")]
+[assembly: AssemblyCopyright("Copyright ©  2019 chikach")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -52,6 +52,6 @@ using System.Windows;
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.4.4.0")]
+[assembly: AssemblyFileVersion("1.6.0.0")]
 [assembly: NeutralResourcesLanguage("ja-JP")]
 

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AUEncoder</RootNamespace>
     <AssemblyName>AviUtl Encoder</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -68,7 +69,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>aviutl-encoder.pfx</AssemblyOriginatorKeyFile>
@@ -127,6 +128,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UpdateDownloadWindow.xaml.cs">
+      <DependentUpon>UpdateDownloadWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -145,9 +149,52 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="AUEncoder_TemporaryKey.pfx" />
     <None Include="aviutl-encoder.pfx" />
+    <None Include="bin\Debug\AviUtl Encoder.exe.config" />
+    <None Include="bin\Debug\bin\auc\lsmash.ini" />
+    <None Include="bin\Debug\bin\aui_indexer\aui_indexer_src.url" />
+    <None Include="bin\Debug\bin\mediainfo\LICENSE" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\en.Example.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\en.Example_HTML.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Example.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Example_HTML.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\fr.Example.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\it.Esempio.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\it.Esempio_HTML.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by fields, compact %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by fields, short %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by fields, standard %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by fields, verbose %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by streams, compact %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by streams, short %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by streams, standard %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\Table by streams, verbose %28HTML%29.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\XML.csv" />
+    <None Include="bin\Debug\bin\mediainfo\Plugin\Custom\zzz_Contrib - Dusil %28HTML%29.csv" />
+    <None Include="bin\Release\AviUtl Encoder.exe.config" />
+    <None Include="bin\Release\bin\auc\lsmash.ini" />
+    <None Include="bin\Release\bin\aui_indexer\aui_indexer_src.url" />
+    <None Include="bin\Release\bin\mediainfo\LICENSE" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\en.Example.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\en.Example_HTML.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Example.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Example_HTML.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\fr.Example.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\it.Esempio.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\it.Esempio_HTML.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by fields, compact %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by fields, short %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by fields, standard %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by fields, verbose %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by streams, compact %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by streams, short %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by streams, standard %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\Table by streams, verbose %28HTML%29.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\XML.csv" />
+    <None Include="bin\Release\bin\mediainfo\Plugin\Custom\zzz_Contrib - Dusil %28HTML%29.csv" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -193,12 +240,127 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UpdateDownloadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\preference.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\AviUtl Encoder.exe" />
+    <Content Include="bin\Debug\AviUtl Encoder.pdb" />
+    <Content Include="bin\Release\bin\auc\sample1.vbs" />
+    <Content Include="bin\Release\bin\auc\sample2.vbs" />
+    <Resource Include="bin\Release\bin\mediainfo\History.txt" />
+    <Content Include="bin\Release\bin\mediainfo\LIBCURL.DLL" />
+    <Content Include="bin\Release\bin\mediainfo\License.html" />
+    <Content Include="bin\Release\bin\mediainfo\MediaInfo.exe" />
+    <Resource Include="bin\Release\bin\mediainfo\ReadMe.txt" />
+    <Resource Include="bin\Debug\bin\auc\auc.txt" />
+    <Content Include="bin\Debug\bin\auc\auc_audioadd.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_aviout.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_close.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_exec.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_exit.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_findwnd.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_open.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_openadd.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_openprj.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_plugbatch.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_plugout.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_saveprj.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_setprof.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_verclose.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_veropen.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_wait.exe" />
+    <Content Include="bin\Debug\bin\auc\auc_wavout.exe" />
+    <Content Include="bin\Debug\bin\auc\sample1.vbs" />
+    <Content Include="bin\Debug\bin\auc\sample2.vbs" />
+    <Content Include="bin\Debug\bin\auc\src\auc.h" />
+    <Content Include="bin\Debug\bin\auc\src\auc_audioadd.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_aviout.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_close.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_exec.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_exit.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_findwnd.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_open.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_openadd.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_openprj.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_plugbatch.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_plugout.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_saveprj.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_setprof.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_verclose.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_veropen.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_wait.c" />
+    <Content Include="bin\Debug\bin\auc\src\auc_wavout.c" />
+    <Content Include="bin\Debug\bin\aui_indexer\aui_indexer.exe" />
+    <Resource Include="bin\Debug\bin\aui_indexer\aui_indexer_readme.txt" />
+    <Resource Include="bin\Debug\bin\aui_indexer\license.txt" />
+    <Resource Include="bin\Debug\bin\mediainfo\History.txt" />
+    <Content Include="bin\Debug\bin\mediainfo\LIBCURL.DLL" />
+    <Content Include="bin\Debug\bin\mediainfo\License.html" />
+    <Content Include="bin\Debug\bin\mediainfo\MediaInfo.exe" />
+    <Resource Include="bin\Debug\bin\mediainfo\ReadMe.txt" />
+    <Content Include="bin\Debug\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Resource Include="bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml" />
+    <Resource Include="bin\Debug\Microsoft.WindowsAPICodePack.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Release\AviUtl Encoder.exe" />
+    <Content Include="bin\Release\AviUtl Encoder.pdb" />
+    <Resource Include="bin\Release\bin\auc\auc.txt" />
+    <Content Include="bin\Release\bin\auc\auc_audioadd.exe" />
+    <Content Include="bin\Release\bin\auc\auc_aviout.exe" />
+    <Content Include="bin\Release\bin\auc\auc_close.exe" />
+    <Content Include="bin\Release\bin\auc\auc_exec.exe" />
+    <Content Include="bin\Release\bin\auc\auc_exit.exe" />
+    <Content Include="bin\Release\bin\auc\auc_findwnd.exe" />
+    <Content Include="bin\Release\bin\auc\auc_open.exe" />
+    <Content Include="bin\Release\bin\auc\auc_openadd.exe" />
+    <Content Include="bin\Release\bin\auc\auc_openprj.exe" />
+    <Content Include="bin\Release\bin\auc\auc_plugbatch.exe" />
+    <Content Include="bin\Release\bin\auc\auc_plugout.exe" />
+    <Content Include="bin\Release\bin\auc\auc_saveprj.exe" />
+    <Content Include="bin\Release\bin\auc\auc_setprof.exe" />
+    <Content Include="bin\Release\bin\auc\auc_verclose.exe" />
+    <Content Include="bin\Release\bin\auc\auc_veropen.exe" />
+    <Content Include="bin\Release\bin\auc\auc_wait.exe" />
+    <Content Include="bin\Release\bin\auc\auc_wavout.exe" />
+    <Content Include="bin\Release\bin\auc\src\auc.h" />
+    <Content Include="bin\Release\bin\auc\src\auc_audioadd.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_aviout.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_close.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_exec.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_exit.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_findwnd.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_open.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_openadd.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_openprj.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_plugbatch.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_plugout.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_saveprj.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_setprof.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_verclose.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_veropen.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_wait.c" />
+    <Content Include="bin\Release\bin\auc\src\auc_wavout.c" />
+    <Content Include="bin\Release\bin\aui_indexer\aui_indexer.exe" />
+    <Resource Include="bin\Release\bin\aui_indexer\aui_indexer_readme.txt" />
+    <Resource Include="bin\Release\bin\aui_indexer\license.txt" />
+    <Resource Include="bin\Release\license.txt" />
+    <Content Include="bin\Release\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="bin\Release\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Resource Include="bin\Release\Microsoft.WindowsAPICodePack.Shell.xml" />
+    <Resource Include="bin\Release\Microsoft.WindowsAPICodePack.xml" />
+    <Content Include="bin\Release\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Release\Newtonsoft.Json.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

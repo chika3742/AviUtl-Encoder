@@ -32,11 +32,11 @@ namespace AUEncoder
             
             AviutlPath.Text = Settings.AviUtl_Path;
             Follow_Settings_Checkbox.IsChecked = Settings.Follow_Behavior_Setting;
-            foreach (Label label in Settings.Profile_Labels)
+            foreach (ProfileLabel label in Settings.Profile_Labels)
             {
                 Prof_ComboBox.Items.Add(label);
             }
-            foreach (Label label in Settings.Plugin_Labels)
+            foreach (PluginLabel label in Settings.Plugin_Labels)
             {
                 Plug_ComboBox.Items.Add(label);
             }
@@ -61,6 +61,8 @@ namespace AUEncoder
                     Progress_Interval.SelectedIndex = 5;
                     break;
             }
+            restore_after_process.IsChecked = Settings.Restore_After_Process;
+            do_analize_checkbox.IsChecked = Settings.Do_File_Analize;
         }
 
         private void aviutlPathOpen_Click(object sender, RoutedEventArgs e)
@@ -116,6 +118,8 @@ namespace AUEncoder
                     Setting.Getting_Progress_Interval = 10000;
                     break;
             }
+            Setting.Restore_After_Process = (bool)restore_after_process.IsChecked;
+            Setting.Do_File_Analize = (bool)do_analize_checkbox.IsChecked;
 
             //if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || AviutlPath.Text == ""))
             //{
@@ -155,7 +159,7 @@ namespace AUEncoder
             var result = MessageBox.Show("ラベルを削除しますか？", "確認", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                Properties.Settings.Default.Profile_Labels.Remove(Prof_ComboBox.SelectedItem as Label);
+                Properties.Settings.Default.Profile_Labels.Remove(Prof_ComboBox.SelectedItem as ProfileLabel);
                 Prof_ComboBox.Items.Remove(Prof_ComboBox.SelectedItem);
                 Prof_ComboBox.SelectedIndex = 0;
             }
@@ -170,6 +174,7 @@ namespace AUEncoder
                     case 0:
                         Plug_Edit.IsEnabled = false;
                         Plug_Delete.IsEnabled = false;
+                        ext.Text = "-";
                         break;
                     case 1:
                         var addLabelWindow = new AddLabel();
@@ -178,11 +183,29 @@ namespace AUEncoder
                         addLabelWindow.ShowDialog();
                         Plug_Edit.IsEnabled = false;
                         Plug_Delete.IsEnabled = false;
+                        ext.Text = "-";
                         break;
                     default:
                         Plug_Edit.IsEnabled = true;
                         Plug_Delete.IsEnabled = true;
-                        break;
+                        try
+                        {
+                            var extension = Properties.Settings.Default.Plugin_Labels[(sender as ComboBox).SelectedIndex - 2].Extension;
+                            if (extension != "")
+                            {
+                                ext.Text = extension;
+                            }
+                            else
+                            {
+                                ext.Text = "-";
+                            }
+                            
+                        } catch (ArgumentOutOfRangeException)
+                        {
+                            ext.Text = "-";
+                        }
+
+                break;
                 }
             }
         }
@@ -192,7 +215,7 @@ namespace AUEncoder
             var result = MessageBox.Show("ラベルを削除しますか？", "確認", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                Properties.Settings.Default.Plugin_Labels.Remove(Plug_ComboBox.SelectedItem as Label);
+                Properties.Settings.Default.Plugin_Labels.Remove(Plug_ComboBox.SelectedItem as PluginLabel);
                 Plug_ComboBox.Items.Remove(Plug_ComboBox.SelectedItem);
                 Plug_ComboBox.SelectedIndex = 0;
             }

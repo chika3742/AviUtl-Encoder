@@ -12,7 +12,7 @@ namespace AUEncoder.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -85,9 +85,9 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Generic.List<Label> Profile_Labels {
+        public global::System.Collections.Generic.List<ProfileLabel> Profile_Labels {
             get {
-                return ((global::System.Collections.Generic.List<Label>)(this["Profile_Labels"]));
+                return ((global::System.Collections.Generic.List<ProfileLabel>)(this["Profile_Labels"]));
             }
             set {
                 this["Profile_Labels"] = value;
@@ -96,9 +96,9 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Generic.List<Label> Plugin_Labels {
+        public global::System.Collections.Generic.List<PluginLabel> Plugin_Labels {
             get {
-                return ((global::System.Collections.Generic.List<Label>)(this["Plugin_Labels"]));
+                return ((global::System.Collections.Generic.List<PluginLabel>)(this["Plugin_Labels"]));
             }
             set {
                 this["Plugin_Labels"] = value;
@@ -222,6 +222,30 @@ namespace AUEncoder.Properties {
             }
             set {
                 this["Mode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Restore_After_Process {
+            get {
+                return ((bool)(this["Restore_After_Process"]));
+            }
+            set {
+                this["Restore_After_Process"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Do_File_Analize {
+            get {
+                return ((bool)(this["Do_File_Analize"]));
+            }
+            set {
+                this["Do_File_Analize"] = value;
             }
         }
     }
