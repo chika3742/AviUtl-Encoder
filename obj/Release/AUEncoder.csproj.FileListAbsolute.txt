@@ -54,3 +54,4 @@ C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.Generat
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.CoreCompileInputs.cache
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csproj.CopyComplete
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csprojAssemblyReference.cache

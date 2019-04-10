@@ -168,12 +168,12 @@ namespace AUEncoder.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool View_Log {
+        public bool Show_Log {
             get {
-                return ((bool)(this["View_Log"]));
+                return ((bool)(this["Show_Log"]));
             }
             set {
-                this["View_Log"] = value;
+                this["Show_Log"] = value;
             }
         }
         

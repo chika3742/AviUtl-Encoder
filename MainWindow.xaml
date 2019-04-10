@@ -9,7 +9,7 @@
     <Grid Margin="0,0,3.2,0.4" Width="762">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        <Menu Margin="0,0,2,0" VerticalAlignment="Top" FontSize="13" Grid.ColumnSpan="2" Background="White" Height="19">
+        <Menu x:Name="Bar_Menu" Margin="0,0,2,0" VerticalAlignment="Top" FontSize="13" Grid.ColumnSpan="2" Background="White" Height="19">
             <MenuItem Header="ファイル(_F)">
                 <MenuItem x:Name="MenuItem_Preference" Header="設定" Click="MenuItem_Open_Preference_Click">
                     <MenuItem.Icon>
@@ -21,7 +21,7 @@
                 <MenuItem Header="終了" Click="MenuItem_Click_3"/>
             </MenuItem>
             <MenuItem Header="表示(_V)">
-                <MenuItem Header="ログの表示" IsChecked="True" Click="MenuItem_Show_Log"/>
+                <MenuItem x:Name="Show_Log" Header="ログの表示" IsChecked="True" Click="MenuItem_Show_Log"/>
             </MenuItem>
             <MenuItem Header="ヘルプ(_H)">
                 <MenuItem Header="readmeを開く" Click="MenuItem_Open_Readme_Click"/>
@@ -51,9 +51,6 @@
         <TextBlock x:Name="status" HorizontalAlignment="Left" Margin="69,0,0,144" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Bottom" FontSize="16" Width="344" TextAlignment="Center" Foreground="Red" TextDecorations="{x:Null}" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,193,196.8,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="20" Height="27" Width="4"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="114,0,0,76" VerticalAlignment="Bottom" Width="200" Cursor="Arrow" Foreground="#FF06B025" ValueChanged="ProgressBar_ValueChanged" IsHitTestVisible="False" SmallChange="0"/>
-        <ScrollViewer x:Name="LogScroller" HorizontalAlignment="Right" Height="101" Margin="0,0,26.8,76" VerticalAlignment="Bottom" Width="320">
-            <TextBlock x:Name="log" TextWrapping="Wrap" FontSize="14"/>
-        </ScrollViewer>
         <Button x:Name="pauseButton" Content="一時停止" HorizontalAlignment="Left" Margin="110,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="pauseButton_Click" IsEnabled="False"/>
         <ProgressBar x:Name="pb1" HorizontalAlignment="Left" Height="15" Margin="114,0,0,110" VerticalAlignment="Bottom" Width="200"/>
         <TextBlock x:Name="progressPercent" HorizontalAlignment="Left" Margin="50,0,0,110" TextWrapping="Wrap" Text="出力の進捗" VerticalAlignment="Bottom" TextAlignment="Center" Width="59" Height="15"/>
@@ -100,6 +97,7 @@
         <CheckBox x:Name="QuitThisSoftwareCheckbox" Content="このソフトを終了" HorizontalAlignment="Left" Margin="660,33,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="QuitAviUtlCheckbox" Content="AviUtlを終了" HorizontalAlignment="Left" Margin="660,48,0,0" VerticalAlignment="Top"/>
         <Button x:Name="interrupt_button" Content="中断" HorizontalAlignment="Left" Margin="615,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="Interrupt_button_Click" IsEnabled="False"/>
+        <ListBox x:Name="log" HorizontalAlignment="Right" Height="133" Margin="0,240,31,0" VerticalAlignment="Top" Width="322" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
 
     </Grid>
 </Window>

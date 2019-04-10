@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -83,7 +84,10 @@ namespace AUEncoder
                 Plugin_ComboBox.SelectedItem = Settings.Plugin_Labels.Find(delegate (PluginLabel l) { return l.Number.ToString() == pluginNumber.Text; });
             }
             LogStrBuilder.Append("Log Output");
-            log.Text = LogStrBuilder.ToString();
+            var item = new ListBoxItem();
+            item.Content = "Log Output";
+            item.Selected += Item_Selected;
+            log.Items.Add(item);
 
             ModeSelector.SelectedIndex = Settings.Mode;
             if (Settings.Restore_After_Process)
@@ -93,9 +97,20 @@ namespace AUEncoder
                 QuitThisSoftwareCheckbox.IsChecked = Settings.Behavior_Quit_Software;
             }
 
+            if (!Settings.Show_Log)
+            {
+                log.Visibility = Visibility.Collapsed;
+                ((MenuItem)Bar_Menu.FindName("Show_Log")).IsChecked = false;
+            }
+
             //progressBar.Style = ProgressBarStyle.Blocks;
         }
-        
+
+        private void Item_Selected(object sender, RoutedEventArgs e)
+        {
+            ((ListBoxItem)sender).IsSelected = false;
+        }
+
         private void Window_Closing(Object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (IsRunning)
@@ -117,6 +132,7 @@ namespace AUEncoder
             Settings.Behavior_After_Encoding = Behavior_After_Encoding.SelectedIndex;
             Settings.Behavior_Quit_AviUtl = (bool)QuitAviUtlCheckbox.IsChecked;
             Settings.Behavior_Quit_Software = (bool)QuitThisSoftwareCheckbox.IsChecked;
+            Settings.Show_Log = log.Visibility == Visibility.Visible;
 
             Settings.Save();
         }
@@ -497,6 +513,7 @@ namespace AUEncoder
         {
             await Task.Run(() =>
             {
+                IsRunning = true;
                 string WndNum = RUN_COMMAND("auc_findwnd").Trim();
                 if (WndNum == "0")
                 {
@@ -505,6 +522,7 @@ namespace AUEncoder
                         Dispatcher.Invoke(() =>
                         {
                             outputLog("AviUtlを起動中です。");
+                            status.Text = "AviUtlの起動中";
                         });
                         WndNum = RUN_COMMAND($"auc_exec {Settings.AviUtl_Path}").Trim();
                     }
@@ -515,7 +533,6 @@ namespace AUEncoder
                     }
                 }
 
-                IsRunning = true;
                 Dispatcher.Invoke(() =>
                 {
                     Activate();
@@ -533,9 +550,21 @@ namespace AUEncoder
                 }
                 if (Settings.Do_File_Analize)
                 {
+                    Dispatcher.Invoke(() =>
+                    {
+                        status.Text = "動画の確認中";
+                    });
                     var hasError = false;
                     for (int i = 0; i < Files.Length; i++)
                     {
+                        if (!IsRunning)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                cancelEncoding();
+                            });
+                            return;
+                        }
                         try
                         {
                             var proc = new Process();
@@ -614,27 +643,53 @@ namespace AUEncoder
                 Dispatcher.Invoke(() =>
                 {
                     outputLog("インデックスファイルを事前生成します。");
+                    status.Text = "インデックスファイルを生成中";
                 });
                 
                 for (int i = 0; i < Files.Length; i++)
                 {
-                    var proc = new Process();
-                    proc.StartInfo.FileName = indexerPath;
-                    proc.StartInfo.WorkingDirectory = Settings.AviUtl_Path.Remove(Settings.AviUtl_Path.LastIndexOf('\\'));
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.RedirectStandardInput = true;
-                    proc.StartInfo.Arguments = Files[i];
+                    if (!IsRunning)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            cancelEncoding();
+                        });
+                        return;
+                    }
+                    try
+                    {
+                        var proc = new Process();
+                        proc.StartInfo.FileName = indexerPath;
+                        proc.StartInfo.WorkingDirectory = Settings.AviUtl_Path.Remove(Settings.AviUtl_Path.LastIndexOf('\\'));
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.RedirectStandardInput = true;
+                        proc.StartInfo.Arguments = Files[i];
 
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    //proc.StartInfo.RedirectStandardError = true;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        //proc.StartInfo.RedirectStandardError = true;
 
-                    proc.OutputDataReceived += proc_OutputDataReceived;
+                        proc.OutputDataReceived += proc_OutputDataReceived;
 
-                    proc.Start();
-                    proc.BeginOutputReadLine();
-                    proc.WaitForExit();
-                    proc.Close();
+                        proc.Start();
+                        proc.BeginOutputReadLine();
+                        proc.WaitForExit();
+                        proc.Close();
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            outputLog($"aui indexerが正しく配置されていない可能性があります。このソフトを再インストールしてください。");
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            outputLog($"不明なエラーです。再度お試しください。治らない場合はPCを再起動するか、このソフトを再インストールしてください。");
+                        });
+                    }
                 }
 
                 
@@ -648,7 +703,7 @@ namespace AUEncoder
             });
         }
 
-        private async void proc_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        private async void proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             await Task.Run(() =>
             {
@@ -932,12 +987,12 @@ namespace AUEncoder
             if (cBox.IsChecked)
             {
                 cBox.IsChecked = false;
-                LogScroller.Visibility = Visibility.Hidden;
+                log.Visibility = Visibility.Hidden;
             }
             else
             {
                 cBox.IsChecked = true;
-                LogScroller.Visibility = Visibility.Visible;
+                log.Visibility = Visibility.Visible;
             }
         }
 
@@ -1038,8 +1093,15 @@ namespace AUEncoder
         {
             LogStrBuilder.AppendLine();
             LogStrBuilder.Append(logString);
-            log.Text = LogStrBuilder.ToString();
-            LogScroller.ScrollToBottom();
+            var item = new ListBoxItem();
+            var textBlock = new TextBlock();
+            textBlock.Text = logString;
+            textBlock.TextWrapping = TextWrapping.Wrap;
+            item.Content = textBlock;
+            item.Selected += Item_Selected;
+            log.Items.Add(item);
+            log.ScrollIntoView(item);
+            //log.ScrollToBottom();
         }
 
         [DllImport("kernel32.dll")]
@@ -1057,5 +1119,6 @@ namespace AUEncoder
             GetPrivateProfileString(section, key, string.Empty, sb, sb.Capacity, path);
             return sb.ToString();
         }
+
     }
 }
