@@ -10,7 +10,7 @@
     <Grid Margin="0,0,3.6,0" VerticalAlignment="Top" Height="186">
         <TextBlock HorizontalAlignment="Left" Margin="25,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="AviUtlのパス" FontSize="14" RenderTransformOrigin="0.464,0.167"/>
         <TextBox x:Name="AviutlPath" HorizontalAlignment="Right" Margin="0,11,177,0" VerticalAlignment="Top" Width="238" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" IsReadOnly="True"/>
-        <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,11,98,0" VerticalAlignment="Top" Width="74" Click="aviutlPathOpen_Click" Cursor="Hand" Height="18"/>
+        <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,11,98.4,0" VerticalAlignment="Top" Width="74" Click="aviutlPathOpen_Click" Cursor="Hand" Height="21" Padding="16,0"/>
         <TextBlock HorizontalAlignment="Left" Margin="25,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プロファイルラベルの編集" TextAlignment="Center" FontSize="14"/>
         <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" Margin="0,36,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" >
             <ComboBoxItem Content="＜選択してください＞"/>
@@ -25,8 +25,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,37,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Edit_Click" Height="21"/>
-        <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,36,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Delete_Click" Height="22"/>
+        <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,37,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Edit_Click" Height="21" Padding="16,0"/>
+        <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,36,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Delete_Click" Height="22" Padding="16,0"/>
         <TextBlock HorizontalAlignment="Left" Margin="25,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プラグインラベルの編集" TextAlignment="Center" FontSize="14"/>
         <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Right" Margin="0,64,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" >
             <ComboBox.ItemTemplate>
@@ -44,9 +44,9 @@
             </ComboBox.Items>
 
         </ComboBox>
-        <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,63,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Edit_Click" Height="23"/>
+        <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,63,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Edit_Click" Height="23" Padding="16,0"/>
         <Button x:Name="Plug_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,63,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Delete_Click" Height="23"/>
-        <TextBlock HorizontalAlignment="Left" Margin="167,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF7A7A7A"/>
+        <TextBlock HorizontalAlignment="Left" Margin="149,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF7A7A7A"/>
         <TextBlock HorizontalAlignment="Left" Margin="9,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Height="22" TextAlignment="Center"/>
         <TextBlock HorizontalAlignment="Left" Margin="25,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="出力進捗の取得間隔" TextAlignment="Center" FontSize="14"/>
         <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Right" Margin="0,90,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="2" FontSize="11">

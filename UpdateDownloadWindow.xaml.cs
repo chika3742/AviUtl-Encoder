@@ -17,8 +17,8 @@ namespace AUEncoder
             InitializeComponent();
 
             this.version = version;
-            string fileName = $"{Environment.GetEnvironmentVariable("temp")}\\AUEncoderSetup.msi";
-            Uri uri = new Uri($"https://cchsubw.firebaseapp.com/distribution/ae/AUEncoderSetup.msi");
+            string fileName = $"{Environment.GetEnvironmentVariable("temp")}\\AUEncoderSetup.exe";
+            Uri uri = new Uri($"https://cchsubw.firebaseapp.com/distribution/ae/AviUtlEncoderSetup.exe");
 
             if (downloadClient == null)
             {
@@ -41,7 +41,7 @@ namespace AUEncoder
             {
                 cancel_button.IsEnabled = false;
                 downloading_progress_text.Text = "インストーラーの起動中";
-                Process.Start($"msiexec", $"/a {Environment.GetEnvironmentVariable("temp")}\\AUEncoderSetup.msi");
+                Process.Start($"{Environment.GetEnvironmentVariable("temp")}\\AUEncoderSetup.exe");
                 Environment.Exit(0);
             }
             else
@@ -56,7 +56,7 @@ namespace AUEncoder
         {
             download_progressbar.Maximum = e.TotalBytesToReceive;
             download_progressbar.Value = e.BytesReceived;
-            downloading_progress_text.Text = $"{e.ProgressPercentage}%  {e.TotalBytesToReceive / 1024}KiB/{e.BytesReceived / 1024}KiB Downloaded";
+            downloading_progress_text.Text = $"{e.ProgressPercentage}%  {e.TotalBytesToReceive / 1024}KiB/{e.BytesReceived / 1024}KiB DL済み";
         }
 
         private void Cancel_button_Click(object sender, RoutedEventArgs e)

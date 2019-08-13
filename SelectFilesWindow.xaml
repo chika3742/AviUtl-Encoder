@@ -8,11 +8,11 @@
         Title="ファイル選択" Height="450" Width="400" ResizeMode="NoResize">
     <Grid>
         <ListBox x:Name="item_list" HorizontalAlignment="Center" Height="272" Margin="0,10,0,0" VerticalAlignment="Top" Width="374" SelectionMode="Multiple" FontSize="14" SelectionChanged="ListBox_SelectionChanged" PreviewDragOver="Item_list_PreviewDragOver" Drop="Item_list_Drop" AllowDrop="True"/>
-        <Button x:Name="add_button" Content="まとめて追加" HorizontalAlignment="Left" Margin="10,303,0,0" VerticalAlignment="Top" Width="92" FontSize="16" Click="Add_button_Click"/>
-        <Button x:Name="delete_button" Content="リストから削除" HorizontalAlignment="Left" Margin="129,303,0,0" VerticalAlignment="Top" Width="94" FontSize="16" IsEnabled="False" Click="Delete_button_Click"/>
+        <Button x:Name="add_button" Content="まとめて追加" HorizontalAlignment="Left" Margin="10,303,0,0" VerticalAlignment="Top" Width="92" FontSize="16" Click="Add_button_Click" Padding="0,4"/>
+        <Button x:Name="delete_button" Content="リストから削除" HorizontalAlignment="Left" Margin="129,303,0,0" VerticalAlignment="Top" Width="94" FontSize="16" IsEnabled="False" Click="Delete_button_Click" Padding="0,4"/>
         <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Right" Margin="0,0,125,10" VerticalAlignment="Bottom" Width="92" FontSize="16" Click="OK_Button_Click"/>
-        <Button x:Name="Cancel_Button" Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" FontSize="16" Click="Cancel_Button_Click"/>
-        <Button x:Name="Delete_All_Button" Content="リストを空にする" HorizontalAlignment="Left" Margin="247,303,0,0" VerticalAlignment="Top" Width="119" FontSize="16" Click="Delete_All_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="92" FontSize="16" Click="Cancel_Button_Click" Padding="0,4"/>
+        <Button x:Name="Delete_All_Button" Content="リストを空にする" HorizontalAlignment="Left" Margin="247,303,0,0" VerticalAlignment="Top" Width="119" FontSize="16" Click="Delete_All_Button_Click" Padding="0,4"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,282,0,0" TextWrapping="Wrap" Text="D&amp;Dすることもできます" VerticalAlignment="Top" Foreground="#B2000000"/>
     </Grid>
 </Window>

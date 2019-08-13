@@ -183,7 +183,6 @@ namespace AUEncoder
         /// <param name="to">変更する値</param>
         private void SwitchState(bool to)
         {
-            ModeSelector_SelectionChanged(ModeSelector, null);
             startButton.IsEnabled = to;
             fromFolder.IsEnabled = to;
             toFolder.IsEnabled = to;
@@ -209,6 +208,7 @@ namespace AUEncoder
             }
             else
             {
+                ModeSelector_SelectionChanged(ModeSelector, null);
                 DDText1.Visibility = Visibility.Visible;
                 DDText2.Visibility = Visibility.Visible;
             }
@@ -573,7 +573,7 @@ namespace AUEncoder
                             proc.StartInfo.UseShellExecute = false;
                             proc.StartInfo.RedirectStandardInput = true;
                             proc.StartInfo.RedirectStandardOutput = true;
-                            proc.StartInfo.Arguments = $"{Files[i]} --OUTPUT=JSON";
+                            proc.StartInfo.Arguments = $"\"{Files[i]}\" --OUTPUT=JSON";
 
                             proc.Start();
                             var result = proc.StandardOutput.ReadToEnd();
@@ -664,7 +664,7 @@ namespace AUEncoder
                         proc.StartInfo.CreateNoWindow = true;
                         proc.StartInfo.UseShellExecute = false;
                         proc.StartInfo.RedirectStandardInput = true;
-                        proc.StartInfo.Arguments = Files[i];
+                        proc.StartInfo.Arguments = "\"" + Files[i] + "\"";
 
                         proc.StartInfo.RedirectStandardOutput = true;
                         //proc.StartInfo.RedirectStandardError = true;
@@ -717,7 +717,9 @@ namespace AUEncoder
                     return;
                 }
 
-                var data = e.Data.Substring(11).Remove(e.Data.Substring(11).LastIndexOf(" ..."));
+                var test = e.Data;
+
+                var data = e.Data.Substring(11).Remove(e.Data.Substring(11).LastIndexOf("..."));
                
                 Dispatcher.Invoke(() =>
                 {
@@ -745,11 +747,13 @@ namespace AUEncoder
         {
             if ((string)(sender as Button).Content == "参照")
             {
-                var dialog = new CommonOpenFileDialog();
+                var dialog = new CommonOpenFileDialog("入力フォルダー選択");
+                dialog.InitialDirectory = Settings.Input_Folder_Last_Selected;
                 dialog.IsFolderPicker = true;
 
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
                 {
+                    Settings.Input_Folder_Last_Selected = dialog.FileName;
                     fromFolder.Text = dialog.FileName;
                 }
             } else
@@ -767,10 +771,12 @@ namespace AUEncoder
         private void openFile2_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = Settings.Output_Folder_Last_Selected;
             dialog.IsFolderPicker = true;
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                Settings.Output_Folder_Last_Selected = dialog.FileName;
                 toFolder.Text = dialog.FileName;
             }
         }

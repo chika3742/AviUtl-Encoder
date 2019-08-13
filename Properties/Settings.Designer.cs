@@ -12,7 +12,7 @@ namespace AUEncoder.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.1.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -246,6 +246,42 @@ namespace AUEncoder.Properties {
             }
             set {
                 this["Do_File_Analize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Input_Folder_Last_Selected {
+            get {
+                return ((string)(this["Input_Folder_Last_Selected"]));
+            }
+            set {
+                this["Input_Folder_Last_Selected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Output_Folder_Last_Selected {
+            get {
+                return ((string)(this["Output_Folder_Last_Selected"]));
+            }
+            set {
+                this["Output_Folder_Last_Selected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Input_File_Last_Opened {
+            get {
+                return ((string)(this["Input_File_Last_Opened"]));
+            }
+            set {
+                this["Input_File_Last_Opened"] = value;
             }
         }
     }

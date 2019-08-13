@@ -61,10 +61,12 @@ namespace AUEncoder
         private void Add_button_Click(object sender, RoutedEventArgs e)
         {
             var picker = new OpenFileDialog();
+            picker.InitialDirectory = Properties.Settings.Default.Input_File_Last_Opened;
             picker.Multiselect = true;
             picker.Filter = "動画ファイル|*.mp4;*.avi;*.wmv;*.mov;*.m4v;*.mts|AviUtlプロジェクトファイル|*.aup|すべてのファイル|*.*";
             if (picker.ShowDialog() == true)
             {
+                Properties.Settings.Default.Input_File_Last_Opened = picker.InitialDirectory;
                 for (var i = 0; i < picker.FileNames.Count(); i++)
                 {
                     var inst = new ListBoxItem();
