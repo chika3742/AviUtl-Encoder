@@ -56,8 +56,6 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/bin/mediainfo/libcurl.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/bin/mediainfo/license.html")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/bin/mediainfo/mediainfo.exe")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/microsoft.windowsapicodepack.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/microsoft.windowsapicodepack.shell.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/newtonsoft.json.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/aviutl%20encoder.exe")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/aviutl%20encoder.pdb")]
@@ -97,8 +95,5 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/bin/auc/src/auc_wait.c")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/bin/auc/src/auc_wavout.c")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/bin/aui_indexer/aui_indexer.exe")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/microsoft.windowsapicodepack.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/microsoft.windowsapicodepack.shell.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/newtonsoft.json.dll")]
 
 

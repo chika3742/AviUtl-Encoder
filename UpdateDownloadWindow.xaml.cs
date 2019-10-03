@@ -18,7 +18,7 @@ namespace AUEncoder
 
             this.version = version;
             string fileName = $"{Environment.GetEnvironmentVariable("temp")}\\AUEncoderSetup.exe";
-            Uri uri = new Uri($"https://cchsubw.firebaseapp.com/distribution/ae/AviUtlEncoderSetup.exe");
+            Uri uri = new Uri($"https://chikach.net/auenc-latest");
 
             if (downloadClient == null)
             {

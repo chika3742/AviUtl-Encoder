@@ -712,55 +712,6 @@
             such as a UPS device.
             </summary>
         </member>
-        <member name="T:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton">
-            <summary>
-            Identifies the default button that can be set via TaskDialog.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.None">
-            <summary>
-            No default button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.Ok">
-            <summary>
-            An "OK" button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.Yes">
-            <summary>
-            A "Yes" button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.No">
-            <summary>
-            A "No" button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.Cancel">
-            <summary>
-            A "Cancel" button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.Retry">
-            <summary>
-            A "Retry" button.
-            </summary>
-        </member>
-        <member name="F:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogDefaultButton.Close">
-            <summary>
-            A "Close" button.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WindowsAPICodePack.Dialogs.EnableThemingInScope">
-            http://support.microsoft.com/kb/830033
-            <devdoc>
-                This class is intended to use with the C# 'using' statement in
-                to activate an activation context for turning on visual theming at
-                the beginning of a scope, and have it automatically deactivated
-                when the scope is exited.
-            </devdoc>
-        </member>
         <member name="T:Microsoft.WindowsAPICodePack.Dialogs.DialogControl">
             <summary>
             Abstract base class for all dialog controls
@@ -1074,11 +1025,6 @@
             Gets or sets a value that contains the standard buttons.
             </summary>
         </member>
-        <member name="P:Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.DefaultButton">
-            <summary>
-            Gets or sets a value that contains the default button.
-            </summary>
-        </member>
         <member name="P:Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.Controls">
             <summary>
             Gets a value that contains the TaskDialog controls.
@@ -1299,7 +1245,7 @@
         </member>
         <member name="T:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogCommandLink">
             <summary>
-            Represents a command-link.
+            Represents a command-link. 
             </summary>
         </member>
         <member name="M:Microsoft.WindowsAPICodePack.Dialogs.TaskDialogCommandLink.#ctor">
@@ -2163,11 +2109,6 @@
         <member name="P:Microsoft.WindowsAPICodePack.Resources.LocalizedMessages.CoreHelpersRunningOnXp">
             <summary>
               Looks up a localized string similar to Only supported on Windows XP or newer..
-            </summary>
-        </member>
-        <member name="P:Microsoft.WindowsAPICodePack.Resources.LocalizedMessages.DefaultButtonCannotBeChanged">
-            <summary>
-              Looks up a localized string similar to Default Button cannot be changed while dialog is showing..
             </summary>
         </member>
         <member name="P:Microsoft.WindowsAPICodePack.Resources.LocalizedMessages.DialogCollectionCannotHaveDuplicateNames">

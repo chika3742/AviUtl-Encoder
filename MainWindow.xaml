@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="AUEncoder.MainWindow"
         mc:Ignorable="d"
-        Title="AviUtl Encoder" Height="480" Width="776" MinWidth="762" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignBackground}"
+        Title="AviUtl Encoder" Height="634" Width="776" MinWidth="762" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo />
+    </Window.TaskbarItemInfo>
     <Grid Margin="0,0,3.2,0.4" Width="762">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
@@ -25,7 +30,6 @@
             </MenuItem>
             <MenuItem Header="ヘルプ(_H)" Height="19">
                 <MenuItem Header="readmeを開く" Click="MenuItem_Open_Readme_Click"/>
-                <MenuItem Header="licenceの表示" Click="MenuItem_Show_License_Click"/>
                 <Separator />
                 <MenuItem Header="アップデート内容" Click="MenuItem_Open_Update_Info_Click"/>
                 <MenuItem Header="バージョン情報＆アップデート確認" Click="MenuItem_GetVersion_Click"/>
@@ -47,8 +51,8 @@
         <TextBox x:Name="extFind" HorizontalAlignment="Right" Height="27" Margin="0,193,114.8,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontSize="16" GotFocus="TextBox_GotFocus" TextChanged="ExtFind_TextChanged"/>
         <TextBox x:Name="extOutput" HorizontalAlignment="Center" Height="31" Margin="231,221,478,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" FontSize="14" GotFocus="TextBox_GotFocus"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,230,314,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="16" Height="19" Width="4"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,0,0,165" TextWrapping="Wrap" Text="現在の状況：" VerticalAlignment="Bottom" FontSize="16" Foreground="#CC0064C8"/>
-        <TextBlock x:Name="status" HorizontalAlignment="Left" Margin="69,0,0,144" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Bottom" FontSize="16" Width="344" TextAlignment="Center" Foreground="Red" TextDecorations="{x:Null}" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,0,0,143.6" TextWrapping="Wrap" Text="現在の状況：" VerticalAlignment="Bottom" FontSize="16" Foreground="#CC0064C8"/>
+        <TextBlock x:Name="status" HorizontalAlignment="Left" Margin="153,0,0,143.6" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Bottom" FontSize="16" Width="578" TextAlignment="Center" Foreground="Red" TextDecorations="{x:Null}" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,193,196.8,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="20" Height="27" Width="4"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="114,0,0,76" VerticalAlignment="Bottom" Width="200" Cursor="Arrow" Foreground="#FF06B025" ValueChanged="ProgressBar_ValueChanged" IsHitTestVisible="False" SmallChange="0"/>
         <Button x:Name="pauseButton" Content="一時停止" HorizontalAlignment="Left" Margin="110,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="pauseButton_Click" IsEnabled="False"/>
@@ -85,6 +89,7 @@
             <ComboBoxItem Content="フォルダーエンコードモード"/>
             <ComboBoxItem Content="ファイル単位エンコードモード" Foreground="Black"/>
             <ComboBoxItem Content="プロジェクトエンコードモード(フォルダー単位)" Foreground="Black"/>
+            <ComboBoxItem Content="ffmpegファイル単位エンコードモード" />
         </ComboBox>
         <TextBlock HorizontalAlignment="Left" Margin="45,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Foreground="Red"><Run Text="MODE"/><LineBreak/><Run/></TextBlock>
         <ComboBox x:Name="Behavior_After_Encoding" HorizontalAlignment="Left" Margin="500,35,0,0" VerticalAlignment="Top" FontSize="14" SelectedIndex="0" SelectionChanged="AfterProcess_SelectionChanged" Width="155">
@@ -97,7 +102,47 @@
         <CheckBox x:Name="QuitThisSoftwareCheckbox" Content="このソフトを終了" HorizontalAlignment="Left" Margin="660,33,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="QuitAviUtlCheckbox" Content="AviUtlを終了" HorizontalAlignment="Left" Margin="660,48,0,0" VerticalAlignment="Top"/>
         <Button x:Name="interrupt_button" Content="中断" HorizontalAlignment="Left" Margin="615,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="Interrupt_button_Click" IsEnabled="False"/>
-        <ListBox x:Name="log" HorizontalAlignment="Right" Height="133" Margin="0,240,31,0" VerticalAlignment="Top" Width="322" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <ListBox x:Name="log" HorizontalAlignment="Right" Height="187" Margin="0,240,31,0" VerticalAlignment="Top" Width="322" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <TextBlock HorizontalAlignment="Left" Margin="45,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="映像"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
+        <ComboBox x:Name="VCodecComboBox" HorizontalAlignment="Left" Margin="153,265,0,0" VerticalAlignment="Top" Width="235" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0" SelectionChanged="VCodecComboBox_SelectionChanged">
+            <ComboBoxItem Content="UT Video Codec (utvideo)" x:Name="utvideo"/>
+            <ComboBoxItem Content="AVC/H.264 (avc)" x:Name="avc"/>
+            <ComboBoxItem Content="HEVC/H.265 (hevc)" x:Name="hevc"/>
+            <ComboBoxItem Content="Xvid (libxvid) ※わざわざ選ぶメリットはない" x:Name="libxvid"/>
+            <ComboBoxItem Content="AOMedia Video Codec 1(av1) ※超非推奨" x:Name="av1"/>
+            <ComboBoxItem Content="VP9 (vp9) ※わざわざ選ぶメリットはない" x:Name="vp9"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="45,289,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="音声"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
+        <ComboBox x:Name="ACodecComboBox" HorizontalAlignment="Left" Margin="153,289,0,0" VerticalAlignment="Top" Width="235" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0" SelectionChanged="ACodecComboBox_SelectionChanged">
+            <ComboBoxItem x:Name="ACodec_PCM" Content="PCM(非圧縮) signed 16-bit little-endian (pcm_s16le)" Margin="0,0,-1,0"/>
+            <ComboBoxItem x:Name="ACodec_MP3" Content="MPEG audio layer 3 (mp3)" Margin="0,0,-1,0"/>
+            <ComboBoxItem x:Name="ACodec_AAC" Content="Advanced Audio Coding (aac)" Margin="0,0,-1,0"/>
+            <ComboBoxItem x:Name="ACodec_FLAC" Content="Free Lossless Audio Codec (flac)" Margin="0,0,-1,0"/>
+            <ComboBoxItem x:Name="ACodec_Vorbis" Content="Vorbis (vorbis)" Margin="0,0,-1,0"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="45,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="映像ビットレート"/><Run Text=" (0="/><Run Text="指定しない"/><Run Text=")"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="45,337,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="音声"/><Run Text="ビットレート"/><Run Text=" ("/><Run Text="推奨:192)"/></TextBlock>
+        <TextBox x:Name="VBitrateTextBox" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="textBoxPrice_PreviewTextInput" CommandManager.PreviewExecuted="textBoxPrice_PreviewExecuted" HorizontalAlignment="Left" Height="19" Margin="222,313,0,0" TextWrapping="Wrap" Text="2000" VerticalAlignment="Top" Width="115" Padding="0,-2,0,0" TextAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" Margin="342,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Width="51" Text="kbps"/>
+        <ComboBox x:Name="ABitrateComboBox" HorizontalAlignment="Left" Margin="222,337,0,0" VerticalAlignment="Top" Width="166" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0">
+            <ComboBoxItem Content="64 kbps" />
+            <ComboBoxItem Content="96 kbps" />
+            <ComboBoxItem Content="128 kbps" />
+            <ComboBoxItem Content="160 kbps" />
+            <ComboBoxItem Content="192 kbps" />
+            <ComboBoxItem Content="224 kbps" />
+            <ComboBoxItem Content="256 kbps" />
+            <ComboBoxItem Content="288 kbps" />
+            <ComboBoxItem Content="320 kbps" />
+        </ComboBox>
+        <CheckBox x:Name="ForceOverwriteCheckBox" Content="確認なく上書きする(ffmpegモードのみ)" HorizontalAlignment="Left" Margin="50,372,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock HorizontalAlignment="Left" Margin="69,400,0,0" TextWrapping="Wrap" Text="※AviUtlモードでは、常に無確認で上書きされます。" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="368,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力済みフレーム数"/><Run Text="："/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="427,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力速度"/><Run Text="："/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="365,508,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力"/><Run Text="済み"/><Run Text="動画"/><Run Text="時間"/><Run Text="："/></TextBlock>
+        <TextBlock x:Name="OutputFrames" HorizontalAlignment="Left" Margin="512,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock x:Name="OutputSpeed" HorizontalAlignment="Left" Margin="512,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock x:Name="OutputTime" HorizontalAlignment="Left" Margin="512,507,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
 
     </Grid>
 </Window>
