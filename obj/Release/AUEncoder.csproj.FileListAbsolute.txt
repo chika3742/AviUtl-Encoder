@@ -60,3 +60,4 @@ C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.exe
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AviUtl Encoder.pdb
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.dll
 C:\Users\chika\source\repos\WpfApp2\WpfApp2\bin\Release\Microsoft.WindowsAPICodePack.xml
+C:\Users\chika\source\repos\WpfApp2\WpfApp2\obj\Release\AUEncoder.csprojAssemblyReference.cache

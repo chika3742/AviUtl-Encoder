@@ -344,5 +344,17 @@ namespace AUEncoder.Properties {
                 this["Force_Overwrite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-encoded")]
+        public string Suffix {
+            get {
+                return ((string)(this["Suffix"]));
+            }
+            set {
+                this["Suffix"] = value;
+            }
+        }
     }
 }

@@ -62,17 +62,22 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A7BA3845725994E7F8B456C8E298A88D28B7D308</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4BA26DDD4D45C9CCE9102F5BF1C55A9310245993</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AUEncoder_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>aviutl-encoder.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
@@ -158,8 +163,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="AUEncoder_TemporaryKey.pfx" />
-    <None Include="aviutl-encoder.pfx" />
     <None Include="bin\Debug\AviUtl Encoder.exe.config" />
     <None Include="bin\Debug\bin\auc\lsmash.ini" />
     <None Include="bin\Debug\bin\aui_indexer\aui_indexer_src.url" />
@@ -208,7 +211,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="WpfApp2_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -523,9 +523,14 @@ namespace AUEncoder
         {
             var errorStrBuilder = new StringBuilder();
             var mode = ModeSelector.SelectedIndex;
-
-            if (((mode != 1 && mode != 3) && fromFolder.Text == "") || ((mode == 1 || mode == 3) && filesList.Count == 0)) errorStrBuilder.AppendLine("「エンコード対象のフォルダー」が入力されていません。");
-            else if (!Directory.Exists(fromFolder.Text) && ModeSelector.SelectedIndex != 1) errorStrBuilder.AppendLine("「エンコード対象のフォルダー」は存在しません。");
+            if (mode == 1 || mode == 3)
+            {
+                if (filesList.Count == 0) errorStrBuilder.AppendLine("エンコード対象のファイルが選択されていません。");
+            }
+            else
+            {
+                if (!Directory.Exists(fromFolder.Text)) errorStrBuilder.AppendLine("「エンコード対象のフォルダー」は存在しません。");
+            }
             if (toFolder.Text == "") errorStrBuilder.AppendLine("「エンコードしたファイルの保存場所」が入力されていません。");
             else if (!Directory.Exists(toFolder.Text)) errorStrBuilder.AppendLine("「エンコードしたファイルの保存場所」は存在しません。");
             if (mode != 3 && profileNumber.Text == "") errorStrBuilder.AppendLine("プロファイルが指定されていません。");
@@ -815,7 +820,7 @@ namespace AUEncoder
                     
                     errorOccured = false;
                     if (IsRunning == false) break;
-                    var fileName = $"{Path.GetFileNameWithoutExtension(item)}-encoded.{toSaveExtension}";
+                    var fileName = $"{Path.GetFileNameWithoutExtension(item)}{Settings.Suffix}.{toSaveExtension}";
 
                     if (!File.Exists(item))
                     {
@@ -925,8 +930,8 @@ namespace AUEncoder
                 }
             });
 
-            frameCount = GetFrameCount(targetPath);
-
+            videoDuration = GetVideoInfo<double>(targetPath, "Duration");
+            frameCount = GetVideoInfo<int>(targetPath, "FrameCount");
 
             proc.StartInfo.Arguments = $"-i {targetPath} -loglevel error -progress - -vcodec {vCodecName} -acodec {aCodecName} {vBitrate} -b:a {aBitrate} {toSavePath} -y";
 
@@ -959,8 +964,11 @@ namespace AUEncoder
             errorOccured = true;
         }
 
+        double videoDuration = 0;
         int frameCount = 0;
         int fileCount = 0;
+
+        int frame = 0;
 
         private void FFMPEG_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
@@ -972,28 +980,40 @@ namespace AUEncoder
                     try
                     {
                         var outputFrames = e.Data.Substring(e.Data.IndexOf("frame=") + 6);
-                        var percentage = Math.Round((float.Parse(outputFrames) / frameCount) * 100);
-                        Dispatcher.Invoke(() =>
-                        {
-                            pb1.Value = percentage;
-                            progressPercent.Text = percentage.ToString() + "%";
-                            progressBar.Value = percentage / fileCount + 100 / fileCount * (currentNumber - 1);
-                            AllProgressText.Text = Math.Round(percentage / fileCount + (100 / fileCount) * (currentNumber - 1)).ToString() + "%";
-                            OutputFrames.Text = $"{outputFrames}/{frameCount}";
-                            TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
-                            TaskbarItemInfo.ProgressValue = percentage / 100;
-                        });
+                        frame = int.Parse(outputFrames);
                     }
                     catch (Exception) { }
 
+                }
+                if (e.Data.Contains("drop_frames="))
+                {
+                    try
+                    {
+                        var dropFrames = e.Data.Substring(e.Data.IndexOf("drop_frames=") + 12);
+                        Dispatcher.Invoke(() =>
+                        {
+                            OutputFrames.Text = $"{frame + int.Parse(dropFrames)}/{frameCount}";
+                        });
+                    }
+                    catch (Exception) { }
                 }
                 if (e.Data.Contains("out_time="))
                 {
                     try
                     {
                         var outTime = e.Data.Substring(e.Data.IndexOf("out_time=") + 9);
+                        var outputTimeSpan = TimeSpan.Parse(outTime);
+                        var duration = TimeSpan.FromSeconds(videoDuration);
+                        var percentage = Math.Round((outputTimeSpan.TotalMilliseconds / duration.TotalMilliseconds) * 100);
                         Dispatcher.Invoke(() =>
                         {
+                            pb1.Value = percentage;
+                            progressPercent.Text = percentage.ToString() + "%";
+                            var allPercentage = Math.Round(percentage / fileCount + (100 / fileCount) * (currentNumber - 1));
+                            progressBar.Value = percentage / fileCount + 100 / fileCount * (currentNumber - 1);
+                            AllProgressText.Text = allPercentage.ToString() + "%";
+                            TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+                            TaskbarItemInfo.ProgressValue = allPercentage / 100;
                             OutputTime.Text = $"{outTime}";
                         });
                     }
@@ -1014,7 +1034,7 @@ namespace AUEncoder
             }
         }
 
-        private int GetFrameCount(string filePath)
+        private T GetVideoInfo<T>(string filePath, string dataParam)
         {
             var proc = new Process();
             proc.StartInfo.FileName = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\bin\\mediainfo\\mediainfo.exe";
@@ -1033,7 +1053,18 @@ namespace AUEncoder
             var t = (JArray)json["media"]["track"];
             var data = t.FirstOrDefault((item) => { return item["@type"].ToString() == "Video"; });
 
-            return int.Parse(data["FrameCount"].ToString());
+            if (typeof(T) == typeof(int))
+            {
+                return (T)(object)int.Parse(data[dataParam].ToString());
+            }
+            else if(typeof(T) == typeof(double))
+            {
+                return (T)(object)double.Parse(data[dataParam].ToString());
+            }
+            else
+            {
+                return (T)(object)data[dataParam].ToString();
+            }
         }
 
         private void textBoxPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)

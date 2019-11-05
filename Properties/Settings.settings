@@ -83,5 +83,8 @@
     <Setting Name="Force_Overwrite" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Suffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-encoded</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,21 +1,8 @@
-﻿using Microsoft.VisualBasic;
-using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AUEncoder
 {
@@ -63,6 +50,7 @@ namespace AUEncoder
             }
             restore_after_process.IsChecked = Settings.Restore_After_Process;
             do_analize_checkbox.IsChecked = Settings.Do_File_Analize;
+            SuffixTextBox.Text = Settings.Suffix;
         }
 
         private void aviutlPathOpen_Click(object sender, RoutedEventArgs e)
@@ -120,6 +108,7 @@ namespace AUEncoder
             }
             Setting.Restore_After_Process = (bool)restore_after_process.IsChecked;
             Setting.Do_File_Analize = (bool)do_analize_checkbox.IsChecked;
+            Setting.Suffix = SuffixTextBox.Text;
 
             //if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || AviutlPath.Text == ""))
             //{
