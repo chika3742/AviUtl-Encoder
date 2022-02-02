@@ -170,6 +170,8 @@ namespace AUEncoder
             }
             else
             {
+                ExtText.Visibility = Visibility.Hidden;
+                Extension.Visibility = Visibility.Hidden;
                 if (Id != -1)
                 {
                     Number.Text = Properties.Settings.Default.Profile_Labels[Id].Number.ToString();

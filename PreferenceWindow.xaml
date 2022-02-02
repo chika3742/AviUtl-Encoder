@@ -38,7 +38,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="プロファイルラベルの編集" TextAlignment="Center" FontSize="16" HorizontalAlignment="Left"/>
-            <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" Grid.Row="1" Grid.Column="1" FontSize="16" Margin="0,0,16,0" >
+            <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" Grid.Row="1" Grid.Column="1" FontSize="14" Margin="0,0,16,0" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -64,7 +64,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="プラグインラベルの編集" TextAlignment="Center" FontSize="16" HorizontalAlignment="Left"/>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" Grid.Column="1" FontSize="16" >
+                <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" Grid.Column="1" FontSize="14" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -93,7 +93,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Text="出力進捗の取得間隔" TextAlignment="Center" FontSize="16"/>
-            <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="2" FontSize="16" Grid.Column="1">
+            <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="2" FontSize="14" Grid.Column="1">
                 <ComboBoxItem Content="取得しない"/>
                 <ComboBoxItem Content="0.7秒"/>
                 <ComboBoxItem Content="1秒"/>

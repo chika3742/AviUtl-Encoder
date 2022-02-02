@@ -7,13 +7,10 @@
         mc:Ignorable="d"
         Title="ラベル追加" Height="192" Width="371" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="Extension" HorizontalAlignment="Left" Height="26" Margin="65,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" FontSize="14" Visibility="Hidden" TabIndex="3" Cursor="IBeam"/>
-        <TextBlock x:Name="ExtText" HorizontalAlignment="Left" Margin="24,0,0,14" TextWrapping="Wrap" Text="拡張子" VerticalAlignment="Bottom" Visibility="Hidden"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。" VerticalAlignment="Top" FontSize="14" Foreground="#FF333333"/>
+        
         <Grid Margin="0,36,0,14">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -22,12 +19,18 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="NumberText" HorizontalAlignment="Center" TextWrapping="Wrap" Text="プロファイル番号" VerticalAlignment="Bottom" Grid.ColumnSpan="2" FontSize="14"/>
-            <TextBox x:Name="Number" HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput" FontSize="14" TabIndex="1" Grid.Row="1" Grid.ColumnSpan="2"/>
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="ラベル名" Grid.Column="2" Grid.ColumnSpan="2" FontSize="14"/>
-            <TextBox x:Name="Name" HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="163" FontSize="14" TabIndex="2" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Cursor="IBeam"/>
-            <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click" TabIndex="5" Height="26" Padding="0" Grid.Row="2" Grid.Column="3" FontSize="16"/>
-            <Button Content="キャンセル" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="78" Click="Button_Click" TabIndex="4" Height="26" Padding="0" Grid.Row="2" Grid.Column="2" FontSize="16" Background="#FFF7F7F7" BorderBrush="#FFEFEFEF" Foreground="#FF353535"/>
+            <TextBlock x:Name="NumberText" HorizontalAlignment="Right" TextWrapping="Wrap" Text="プロファイル番号" VerticalAlignment="Center" FontSize="16" Foreground="#FF333333" Margin="0,0,16,0"/>
+            <TextBox x:Name="Number" HorizontalAlignment="Left" Height="28" VerticalAlignment="Center" Width="76" PreviewTextInput="TextBox_PreviewTextInput" FontSize="14" TabIndex="1" Grid.Row="0" Grid.Column="1"/>
+            <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Text="ラベル名" Grid.Column="0" Grid.ColumnSpan="1" FontSize="16" Foreground="#FF333333" Grid.Row="1" Margin="0,0,16,0"/>
+            <TextBox x:Name="Name" HorizontalAlignment="Left" Height="28" TextWrapping="Wrap" VerticalAlignment="Center" Width="163" FontSize="14" TabIndex="2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Cursor="IBeam"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBlock x:Name="ExtText" HorizontalAlignment="Left" TextWrapping="Wrap" Text="拡張子" VerticalAlignment="Center" Margin="16,0,0,0" FontSize="16" />
+                <TextBox x:Name="Extension" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Center" Width="76" TextAlignment="Center" FontSize="14" Margin="16,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+                <Button Content="キャンセル" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="78" Click="Button_Click" TabIndex="4" Height="26" Padding="0" FontSize="16" Background="#FFF7F7F7" BorderBrush="#FFEFEFEF" Foreground="#FF353535" Margin="0,0,16,0"/>
+                <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click" TabIndex="5" Height="26" Padding="0" FontSize="16" Margin="0,0,8,0"/>
+            </StackPanel>
 
         </Grid>
 

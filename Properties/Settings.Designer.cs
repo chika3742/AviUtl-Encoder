@@ -311,7 +311,7 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public string Video_Bitrate {
             get {
                 return ((string)(this["Video_Bitrate"]));
@@ -323,6 +323,7 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
         public int Audio_Bitrate {
             get {
                 return ((int)(this["Audio_Bitrate"]));
