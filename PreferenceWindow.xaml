@@ -6,65 +6,130 @@
         xmlns:local="clr-namespace:AUEncoder"
         xmlns:WpfApp2="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="設定" Height="299.333" Width="636" Closing="Window_Closing" ResizeMode="NoResize">
-    <Grid Margin="0,0,4,4">
-        <TextBlock HorizontalAlignment="Left" Margin="25,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="AviUtlのパス" FontSize="14" RenderTransformOrigin="0.464,0.167"/>
-        <TextBox x:Name="AviutlPath" HorizontalAlignment="Right" Margin="0,11,177,0" VerticalAlignment="Top" Width="238" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" IsReadOnly="True"/>
-        <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Right" Margin="0,11,98.4,0" VerticalAlignment="Top" Width="74" Click="aviutlPathOpen_Click" Cursor="Hand" Height="21" Padding="16,0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プロファイルラベルの編集" TextAlignment="Center" FontSize="14"/>
-        <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" Margin="0,36,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" >
-            <ComboBoxItem Content="＜選択してください＞"/>
-            <ComboBoxItem Content="新規追加"/>
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Number}"/>
-                        <TextBlock Text=" : "/>
-                        <TextBlock Text="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,37,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Edit_Click" Height="21" Padding="16,0"/>
-        <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,36,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Prof_Delete_Click" Height="22" Padding="16,0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="24,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="プラグインラベルの編集" TextAlignment="Center" FontSize="14"/>
-        <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Right" Margin="0,64,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" >
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Number}"/>
-                        <TextBlock Text=" : "/>
-                        <TextBlock Text="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-            <ComboBox.Items>
+        Title="設定" Height="358" Width="657" Closing="Window_Closing" ResizeMode="NoResize">
+    <Grid Margin="16,0,16,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.2*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Text="AviUtlのパス" FontSize="16" RenderTransformOrigin="0.464,0.167"/>
+            <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Text="D&amp;D可" Foreground="#FF7A7A7A" FontSize="14"/>
+            <TextBox x:Name="AviutlPath" HorizontalAlignment="Right" VerticalAlignment="Center" Width="238" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" IsReadOnly="True" Margin="0,0,16,0" Grid.Column="1"/>
+            <Button x:Name="aviutlPathOpen" Content="参照" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Click="aviutlPathOpen_Click" Cursor="Hand" Height="26" Padding="16,0" FontSize="16" Grid.Column="2"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.2*"/>
+                <ColumnDefinition Width="3.5*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="プロファイルラベルの編集" TextAlignment="Center" FontSize="16" HorizontalAlignment="Left"/>
+            <ComboBox x:Name="Prof_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="ProfileComboBox_SelectionChanged" Grid.Row="1" Grid.Column="1" FontSize="16" Margin="0,0,16,0" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Number}"/>
+                            <TextBlock Text=" : "/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
                 <ComboBoxItem Content="＜選択してください＞"/>
                 <ComboBoxItem Content="新規追加"/>
-            </ComboBox.Items>
+            </ComboBox>
+            <Button x:Name="Prof_Edit" Content="編集" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" IsEnabled="False" Click="Prof_Edit_Click" Height="26" Padding="16,0" FontSize="16" Grid.Row="1" Grid.Column="2"/>
+            <Button x:Name="Prof_Delete" Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" IsEnabled="False" Click="Prof_Delete_Click" Height="26" Padding="16,0" Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center"/>
+        </Grid>
 
-        </ComboBox>
-        <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Right" Margin="0,63,79,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Edit_Click" Height="23" Padding="16,0"/>
-        <Button x:Name="Plug_Delete" Content="削除" HorizontalAlignment="Right" Margin="0,63,10,0" VerticalAlignment="Top" Width="64" IsEnabled="False" Click="Plug_Delete_Click" Height="23"/>
-        <TextBlock HorizontalAlignment="Left" Margin="149,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="D&amp;D可" Foreground="#FF7A7A7A"/>
-        <TextBlock HorizontalAlignment="Left" Margin="9,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Height="22" TextAlignment="Center"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="出力進捗の取得間隔" TextAlignment="Center" FontSize="14"/>
-        <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Right" Margin="0,90,243,0" VerticalAlignment="Top" Width="172" SelectedIndex="2" FontSize="11">
-            <ComboBoxItem Content="取得しない"/>
-            <ComboBoxItem Content="0.7秒"/>
-            <ComboBoxItem Content="1秒"/>
-            <ComboBoxItem Content="2秒"/>
-            <ComboBoxItem Content="5秒"/>
-            <ComboBoxItem Content="10秒"/>
-        </ComboBox>
-        <CheckBox x:Name="Follow_Settings_Checkbox" Content="出力の成功・失敗にかかわらず完了後の動作設定に従う" HorizontalAlignment="Left" Margin="25,138,0,0" VerticalAlignment="Top" Foreground="Black" VerticalContentAlignment="Center" Cursor="Hand"/>
-        <TextBlock Margin="0,67,186,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="拡張子：" HorizontalAlignment="Right" Foreground="#CC000000"/>
-        <TextBlock x:Name="ext" HorizontalAlignment="Right" Margin="0,64,153,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="-" Foreground="Black" FontSize="14" Width="29"/>
-        <CheckBox x:Name="restore_after_process" Content="起動時に「処理完了後の動作」の状態を復元する" HorizontalAlignment="Left" Margin="25,158,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.85,0.533"/>
-        <CheckBox x:Name="do_analize_checkbox" Content="開始時にファイルがAviUtlの設定に合っているか確認する" HorizontalAlignment="Left" Margin="25,178,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.85,0.533"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="エンコード済みファイルの接尾辞" TextAlignment="Center" FontSize="14"/>
-        <TextBox x:Name="SuffixTextBox" HorizontalAlignment="Right" Margin="0,201,288,0" VerticalAlignment="Top" Width="127" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop"/>
-        <TextBlock HorizontalAlignment="Left" Margin="25,220,0,0" TextWrapping="Wrap" Text="※ffmpegエンコードモードでのみ動作" VerticalAlignment="Top" FontSize="11" Foreground="#FF5D5D5D"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.2*"/>
+                <ColumnDefinition Width="3.5*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="プラグインラベルの編集" TextAlignment="Center" FontSize="16" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <ComboBox x:Name="Plug_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" Grid.Column="1" FontSize="16" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Number}"/>
+                                <TextBlock Text=" : "/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="＜選択してください＞"/>
+                        <ComboBoxItem Content="新規追加"/>
+                    </ComboBox.Items>
+
+                </ComboBox>
+                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="拡張子：" HorizontalAlignment="Left" Foreground="#CC000000" FontSize="14" Margin="8,0,0,0"/>
+                <TextBlock x:Name="ext" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Text="-" Foreground="Black" FontSize="14"/>
+            </StackPanel>
+            <Button x:Name="Plug_Edit" Content="編集" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" IsEnabled="False" Click="Plug_Edit_Click" Height="26" Padding="16,0" Grid.Row="2" Grid.Column="2" FontSize="16"/>
+            <Button x:Name="Plug_Delete" Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" IsEnabled="False" Click="Plug_Delete_Click" Height="26" Grid.Row="2" Grid.Column="3" FontSize="16" Padding="16,0,16,0"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Text="出力進捗の取得間隔" TextAlignment="Center" FontSize="16"/>
+            <ComboBox x:Name="Progress_Interval" HorizontalAlignment="Left" VerticalAlignment="Center" Width="172" SelectedIndex="2" FontSize="16" Grid.Column="1">
+                <ComboBoxItem Content="取得しない"/>
+                <ComboBoxItem Content="0.7秒"/>
+                <ComboBoxItem Content="1秒"/>
+                <ComboBoxItem Content="2秒"/>
+                <ComboBoxItem Content="5秒"/>
+                <ComboBoxItem Content="10秒"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Text="エンコード済みファイルの接尾辞" TextAlignment="Center" FontSize="16" Foreground="#FF232323"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="※ffmpegエンコードモードでのみ動作" VerticalAlignment="Bottom" FontSize="11" Foreground="#FF5D5D5D"/>
+            </StackPanel>
+            <TextBox x:Name="SuffixTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="127" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" Grid.Column="1" FontSize="16"/>
+        </Grid>
+
+        <CheckBox x:Name="Follow_Operation_Settings_CheckBox" Content="出力の成功・失敗にかかわらず完了後の動作設定に従う" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF232323" Cursor="Hand" FontSize="16" Grid.Row="4" VerticalContentAlignment="Bottom"/>
+        <CheckBox x:Name="Restore_Complete_Operation_CheckBox" Content="起動時に「処理完了後の動作」の状態を復元する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="5" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+        <CheckBox x:Name="Analyze_Input_File_CheckBox" Content="開始時にファイルがAviUtlの設定に合っているか確認する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="6" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+        <CheckBox x:Name="Pregenerate_Index_File_CheckBox" Content="インデックスファイルを事前生成する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="7" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+
+
         <TextBlock HorizontalAlignment="Left" Margin="29,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="11" Foreground="#FF5D5D5D"><Run Text="※"/><Run Text="AviUtl"/><Run Text="モードでのみ"/><Run Text="機能"/></TextBlock>
+        <Grid Margin="24,129,113,79">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+        </Grid>
     </Grid>
 </Window>

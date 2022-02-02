@@ -7,15 +7,13 @@
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignBackground}"
-        Title="AviUtl Encoder" Height="634" Width="776" MinWidth="762" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+        Title="AviUtl Encoder" Height="662" Width="776" MinWidth="762" Closing="Window_Closing" Icon="Resources/favicon.ico" MinHeight="480" ResizeMode="CanMinimize" Loaded="Window_Loaded">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
-    <Grid Margin="0,0,3.2,0.4" Width="762">
-        <Grid.ColumnDefinitions>
-        </Grid.ColumnDefinitions>
-        <Menu x:Name="Bar_Menu" Margin="0,0,2,0" VerticalAlignment="Top" FontSize="13" Grid.ColumnSpan="2" Background="White" Height="19">
-            <MenuItem Header="ファイル(_F)" Height="19">
+    <Grid>
+        <Menu x:Name="Bar_Menu" VerticalAlignment="Top" FontSize="14" Background="White">
+            <MenuItem Header="ファイル(_F)" Height="22">
                 <MenuItem x:Name="MenuItem_Preference" Header="設定" Click="MenuItem_Open_Preference_Click">
                     <MenuItem.Icon>
                         <Image Source="Resources/preference.png" Width="16"/>
@@ -25,124 +23,267 @@
                 <Separator/>
                 <MenuItem Header="終了" Click="MenuItem_Click_3"/>
             </MenuItem>
-            <MenuItem Header="表示(_V)" Height="19">
+            <MenuItem Header="表示(_V)" Height="20">
                 <MenuItem x:Name="Show_Log" Header="ログの表示" IsChecked="True" Click="MenuItem_Show_Log"/>
             </MenuItem>
-            <MenuItem Header="ヘルプ(_H)" Height="19">
+            <MenuItem Header="ヘルプ(_H)" Height="20">
                 <MenuItem Header="readmeを開く" Click="MenuItem_Open_Readme_Click"/>
                 <Separator />
                 <MenuItem Header="アップデート内容" Click="MenuItem_Open_Update_Info_Click"/>
                 <MenuItem Header="バージョン情報＆アップデート確認" Click="MenuItem_GetVersion_Click"/>
             </MenuItem>
         </Menu>
-        <Button x:Name="startButton" Content="開始" Margin="260,0,257,30" VerticalAlignment="Bottom" Height="30" FontSize="22" Cursor="Hand" Click="Button_Click" Padding="16,0,16,4"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,68,0,0" TextWrapping="Wrap" Text="エンコード対象のフォルダー" VerticalAlignment="Top" FontSize="18"/>
-        <TextBox x:Name="fromFolder" HorizontalAlignment="Right" Margin="0,65,114.8,0" VerticalAlignment="Top" Width="238" Height="27" FontSize="14" Drop="fromFolder_Drop" PreviewDragOver="fromFolder_PreviewDragOver"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,103,0,0" TextWrapping="Wrap" Text="エンコードしたファイルの保存場所" VerticalAlignment="Top" FontSize="18"/>
-        <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" Margin="0,97,114.8,0" VerticalAlignment="Top" Width="238" FontSize="14" PreviewDragOver="toFolder_PreviewDragOver" Drop="toFolder_Drop"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="プロファイル"/>
-        <TextBox x:Name="profileNumber" HorizontalAlignment="Right" Height="27" Margin="0,129,287.8,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput" GotFocus="TextBox_GotFocus"/>
-        <Button x:Name="openFile1" Content="参照" HorizontalAlignment="Right" Margin="0,65,56.8,0" VerticalAlignment="Top" Width="53" Height="27" FontSize="16" Click="openFile1_Click" Padding="0"/>
-        <Button x:Name="openFile2" Content="参照" HorizontalAlignment="Right" Margin="0,97,56.8,0" VerticalAlignment="Top" Width="53" Height="27" FontSize="16" Click="openFile2_Click" Padding="0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"><Run Text="出力プラグイン"/><LineBreak/><Run/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="45,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"><Run Text="検索"/><Run Text="対象ファイル拡張子"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="45,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Text="出力ファイル拡張子"/>
-        <TextBox x:Name="pluginNumber" HorizontalAlignment="Right" Height="27" Margin="0,161,287.8,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" FontSize="16" PreviewTextInput="pluginNumber_PreviewTextInput" GotFocus="TextBox_GotFocus" RenderTransformOrigin="1.533,0.481"/>
-        <TextBox x:Name="extFind" HorizontalAlignment="Right" Height="27" Margin="0,193,114.8,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontSize="16" GotFocus="TextBox_GotFocus" TextChanged="ExtFind_TextChanged"/>
-        <TextBox x:Name="extOutput" HorizontalAlignment="Center" Height="31" Margin="231,221,478,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" FontSize="14" GotFocus="TextBox_GotFocus"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,230,314,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="16" Height="19" Width="4"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,0,0,143.6" TextWrapping="Wrap" Text="現在の状況：" VerticalAlignment="Bottom" FontSize="16" Foreground="#CC0064C8"/>
-        <TextBlock x:Name="status" HorizontalAlignment="Left" Margin="153,0,0,143.6" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Bottom" FontSize="16" Width="578" TextAlignment="Center" Foreground="Red" TextDecorations="{x:Null}" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Right" Margin="0,193,196.8,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="20" Height="27" Width="4"/>
-        <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="114,0,0,76" VerticalAlignment="Bottom" Width="200" Cursor="Arrow" Foreground="#FF06B025" ValueChanged="ProgressBar_ValueChanged" IsHitTestVisible="False" SmallChange="0"/>
-        <Button x:Name="pauseButton" Content="一時停止" HorizontalAlignment="Left" Margin="110,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="pauseButton_Click" IsEnabled="False"/>
-        <ProgressBar x:Name="pb1" HorizontalAlignment="Left" Height="15" Margin="114,0,0,110" VerticalAlignment="Bottom" Width="200"/>
-        <TextBlock x:Name="progressPercent" HorizontalAlignment="Left" Margin="50,0,0,110" TextWrapping="Wrap" Text="出力の進捗" VerticalAlignment="Bottom" TextAlignment="Center" Width="59" Height="15"/>
-        <ComboBox x:Name="Plugin_ComboBox" HorizontalAlignment="Right" Margin="0,161,115,0" VerticalAlignment="Top" Width="168" Height="27" FontSize="14" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" Padding="0,5,0,0">
-            <ComboBoxItem>＜ラベルから選択＞</ComboBoxItem>
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Number}"/>
-                        <TextBlock Text=" : "/>
-                        <TextBlock Text="{Binding Name}"/>
+        <StackPanel Margin="32,20,16,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.4*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" Foreground="Red" Text="MODE" />
+                    <ComboBox x:Name="ModeSelector" SelectedIndex="0" SelectionChanged="ModeSelector_SelectionChanged" Width="205" Height="25" VerticalContentAlignment="Center" Padding="0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16,0,0,0">
+                        <ComboBoxItem Content="フォルダーエンコードモード"/>
+                        <ComboBoxItem Content="ファイル単位エンコードモード" Foreground="Black"/>
+                        <ComboBoxItem Content="プロジェクトエンコードモード(フォルダー単位)" Foreground="Black"/>
+                        <ComboBoxItem Content="ffmpegファイル単位エンコードモード" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18" Foreground="#FF0046FF" Text="処理完了後の動作"/>
+                    <ComboBox x:Name="Behavior_After_Encoding" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" SelectedIndex="0" SelectionChanged="AfterProcess_SelectionChanged" Width="155" Margin="16,0,0,0">
+                        <ComboBoxItem Content="何もしない"/>
+                        <ComboBoxItem Content="シャットダウン"/>
+                        <ComboBoxItem Content="休止状態(ハイバネート)"/>
+                        <ComboBoxItem Content="スリープ(サスペンド)"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                    <CheckBox x:Name="QuitThisSoftwareCheckbox" Content="このソフトを終了" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14"/>
+                    <CheckBox x:Name="QuitAviUtlCheckbox" Content="AviUtlを終了" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14"/>
+                </StackPanel>
+
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="エンコード対象のフォルダー" VerticalAlignment="Center" FontSize="18" Grid.Row="1" Foreground="#FF333333"/>
+                <TextBlock x:Name="DDText1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Center" Foreground="#CC000000" Height="16" Width="64" Grid.Row="1"/>
+                <TextBox x:Name="fromFolder" HorizontalAlignment="Right" VerticalAlignment="Center" Width="238" Height="27" FontSize="14" Drop="fromFolder_Drop" PreviewDragOver="fromFolder_PreviewDragOver" Grid.Row="1" Grid.Column="1"/>
+                <Button x:Name="openFile1" Content="参照" HorizontalAlignment="Left" VerticalAlignment="Center" Width="60" Height="30" FontSize="16" Click="openFile1_Click" Padding="0" Grid.Row="1" Grid.Column="2" Margin="8,0,0,0"/>
+
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="エンコードしたファイルの保存場所" VerticalAlignment="Center" FontSize="18" Grid.Row="2" Foreground="#FF333333"/>
+                <TextBlock x:Name="DDText2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Center" Foreground="#CC000000" Height="16" Width="64" Grid.Row="2"/>
+                <TextBox x:Name="toFolder" HorizontalAlignment="Right" Height="27" VerticalAlignment="Center" Width="238" FontSize="14" PreviewDragOver="toFolder_PreviewDragOver" Drop="toFolder_Drop" Background="{x:Null}" Grid.Row="2" Grid.Column="1"/>
+                <Button x:Name="openFile2" Content="参照" HorizontalAlignment="Left" VerticalAlignment="Center" Width="60" Height="30" FontSize="16" Click="openFile2_Click" Padding="0" Grid.Row="2" Grid.Column="2" Margin="8,0,0,0"/>
+
+                <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18" Text="プロファイル" Grid.Row="3" Foreground="#FF333333"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="32,0,0,0" HorizontalAlignment="Right">
+                    <TextBox x:Name="profileNumber" HorizontalAlignment="Right" Height="27" TextWrapping="Wrap" VerticalAlignment="Center" Width="51" FontSize="16" PreviewTextInput="profileNumber_PreviewTextInput" GotFocus="TextBox_GotFocus"/>
+                    <ComboBox x:Name="Profile_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="168" Height="27" FontSize="14" SelectedIndex="0" SelectionChanged="Profile_ComboBox_SelectionChanged" Padding="0,5,0,0" Margin="8,0,0,0">
+                        <ComboBoxItem Content="＜ラベルから選択＞"/>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Number}"/>
+                                    <TextBlock Text=" : "/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+                <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18" Text="出力プラグイン" Grid.Row="4" Foreground="#FF333333"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBox x:Name="pluginNumber" HorizontalAlignment="Right" Height="27" TextWrapping="Wrap" VerticalAlignment="Center" Width="51" FontSize="16" PreviewTextInput="pluginNumber_PreviewTextInput" GotFocus="TextBox_GotFocus" RenderTransformOrigin="1.533,0.481"/>
+                    <ComboBox x:Name="Plugin_ComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="168" Height="27" FontSize="14" SelectedIndex="0" SelectionChanged="Plugin_ComboBox_SelectionChanged" Padding="0,5,0,0" Margin="8,0,0,0">
+                        <ComboBoxItem>＜ラベルから選択＞</ComboBoxItem>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Number}"/>
+                                    <TextBlock Text=" : "/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+                <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18" Foreground="#FF333333" Grid.Row="5"><Run Text="検索"/><Run Text="対象ファイル拡張子"/></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="." VerticalAlignment="Top" FontSize="20" Height="27" Width="4"/>
+                    <TextBox x:Name="extFind" HorizontalAlignment="Right" Height="27" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontSize="16" GotFocus="TextBox_GotFocus" TextChanged="ExtFind_TextChanged"/>
+                </StackPanel>
+                
+            </Grid>
+
+            <Grid Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Text="出力ファイル拡張子" Foreground="#FF333333" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap" Text="." VerticalAlignment="Bottom" FontSize="16" Height="19" Width="4"/>
+                        <TextBox x:Name="extOutput" Height="31" TextWrapping="Wrap" VerticalAlignment="Center" Width="53" FontSize="14" GotFocus="TextBox_GotFocus" Margin="4,0,0,0"/>
                     </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <ComboBox x:Name="Profile_ComboBox" HorizontalAlignment="Right" Margin="0,129,115,0" VerticalAlignment="Top" Width="168" Height="27" FontSize="14" SelectedIndex="0" SelectionChanged="Profile_ComboBox_SelectionChanged" Padding="0,5,0,0">
-            <ComboBoxItem Content="＜ラベルから選択＞"/>
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Number}"/>
-                        <TextBlock Text=" : "/>
-                        <TextBlock Text="{Binding Name}"/>
+
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.Row="1" Foreground="#FF333333"><Run Text="映像"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
+                    <ComboBox x:Name="VCodecComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="19" Padding="0,0,0,0" FontSize="14" SelectedIndex="0" SelectionChanged="VCodecComboBox_SelectionChanged" Grid.Row="1" Grid.Column="1">
+                        <ComboBoxItem Content="UT Video Codec (utvideo)" x:Name="utvideo"/>
+                        <ComboBoxItem Content="AVC/H.264 (h264)" x:Name="h264"/>
+                        <ComboBoxItem Content="HEVC/H.265 (hevc)" x:Name="hevc"/>
+                        <ComboBoxItem Content="AVC/H.264 with QSV (h264_qsv)" x:Name="h264_qsv"/>
+                        <ComboBoxItem Content="HEVC/H.265 with QSV (hevc_qsv)" x:Name="hevc_qsv"/>
+                        <ComboBoxItem Content="AVC/H.264 with NVEnc (h264_nvenc)" x:Name="h264_nvenc"/>
+                        <ComboBoxItem Content="HEVC/H.265 with NVEnc (hevc_nvenc)" x:Name="hevc_nvenc"/>
+                        <ComboBoxItem Content="AOMedia Video Codec 1(av1) ※非推奨" x:Name="av1"/>
+                        <ComboBoxItem Content="VP9 (vp9)" x:Name="vp9"/>
+                    </ComboBox>
+
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.Row="2" Foreground="#FF333333"><Run Text="音声"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
+                    <ComboBox x:Name="ACodecComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250" Height="19" Padding="0,0,0,0" FontSize="14" SelectedIndex="0" SelectionChanged="ACodecComboBox_SelectionChanged" Grid.Row="2" Grid.Column="1">
+                        <ComboBoxItem x:Name="ACodec_PCM" Content="PCM(非圧縮) signed 16-bit little-endian (pcm_s16le)" Margin="0,0,-1,0"/>
+                        <ComboBoxItem x:Name="ACodec_MP3" Content="MPEG audio layer 3 (mp3)" Margin="0,0,-1,0"/>
+                        <ComboBoxItem x:Name="ACodec_AAC" Content="Advanced Audio Coding (aac)" Margin="0,0,-1,0"/>
+                        <ComboBoxItem x:Name="ACodec_FLAC" Content="Free Lossless Audio Codec (flac)" Margin="0,0,-1,0"/>
+                        <ComboBoxItem x:Name="ACodec_Vorbis" Content="Vorbis (vorbis)" Margin="0,0,-1,0"/>
+                    </ComboBox>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.Row="3" Foreground="#FF333333"><Run Text="映像ビットレート"/><Run Text=" (0="/><Run Text="指定しない"/><Run Text=")"/></TextBlock>
+                        <TextBox x:Name="VBitrateTextBox" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="textBoxPrice_PreviewTextInput" CommandManager.PreviewExecuted="textBoxPrice_PreviewExecuted" HorizontalAlignment="Left" TextWrapping="Wrap" Text="2000" VerticalAlignment="Center" Width="100" FontSize="16" Margin="16,0,0,0" />
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" Width="51" Text="kbps" Margin="8,0,0,0"/>
                     </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBlock x:Name="AllProgressText" HorizontalAlignment="Left" Margin="50,0,0,78" TextWrapping="Wrap" Text="全体の進捗" VerticalAlignment="Bottom" TextAlignment="Center" Width="59" Height="16"/>
-        <TextBlock x:Name="DDText1" HorizontalAlignment="Left" Margin="324,68,0,0" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Top" Foreground="#CC000000" Height="16" Width="64"/>
-        <TextBlock x:Name="DDText2" HorizontalAlignment="Left" Margin="324,103,0,0" TextWrapping="Wrap" Text="D&amp;Dできます" VerticalAlignment="Top" Foreground="#CC000000" Height="16" Width="64"/>
-        <ComboBox x:Name="ModeSelector" HorizontalAlignment="Left" Margin="132,35,0,0" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="ModeSelector_SelectionChanged" Width="205" Height="25" VerticalContentAlignment="Center" Padding="0">
-            <ComboBoxItem Content="フォルダーエンコードモード"/>
-            <ComboBoxItem Content="ファイル単位エンコードモード" Foreground="Black"/>
-            <ComboBoxItem Content="プロジェクトエンコードモード(フォルダー単位)" Foreground="Black"/>
-            <ComboBoxItem Content="ffmpegファイル単位エンコードモード" />
-        </ComboBox>
-        <TextBlock HorizontalAlignment="Left" Margin="45,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Height="27" Foreground="Red"><Run Text="MODE"/><LineBreak/><Run/></TextBlock>
-        <ComboBox x:Name="Behavior_After_Encoding" HorizontalAlignment="Left" Margin="500,35,0,0" VerticalAlignment="Top" FontSize="14" SelectedIndex="0" SelectionChanged="AfterProcess_SelectionChanged" Width="155">
-            <ComboBoxItem Content="何もしない"/>
-            <ComboBoxItem Content="シャットダウン"/>
-            <ComboBoxItem Content="休止状態(ハイバネート)"/>
-            <ComboBoxItem Content="スリープ(サスペンド)"/>
-        </ComboBox>
-        <TextBlock HorizontalAlignment="Left" Margin="342,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="#FF0046FF"><Run Text="処理"/><Run Text="完了後の動作"/></TextBlock>
-        <CheckBox x:Name="QuitThisSoftwareCheckbox" Content="このソフトを終了" HorizontalAlignment="Left" Margin="660,33,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="QuitAviUtlCheckbox" Content="AviUtlを終了" HorizontalAlignment="Left" Margin="660,48,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="interrupt_button" Content="中断" HorizontalAlignment="Left" Margin="615,0,0,30" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="Interrupt_button_Click" IsEnabled="False"/>
-        <ListBox x:Name="log" HorizontalAlignment="Right" Height="187" Margin="0,240,31,0" VerticalAlignment="Top" Width="322" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
-        <TextBlock HorizontalAlignment="Left" Margin="45,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="映像"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
-        <ComboBox x:Name="VCodecComboBox" HorizontalAlignment="Left" Margin="153,265,0,0" VerticalAlignment="Top" Width="235" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0" SelectionChanged="VCodecComboBox_SelectionChanged">
-            <ComboBoxItem Content="UT Video Codec (utvideo)" x:Name="utvideo"/>
-            <ComboBoxItem Content="AVC/H.264 (avc)" x:Name="avc"/>
-            <ComboBoxItem Content="HEVC/H.265 (hevc)" x:Name="hevc"/>
-            <ComboBoxItem Content="Xvid (libxvid) ※わざわざ選ぶメリットはない" x:Name="libxvid"/>
-            <ComboBoxItem Content="AOMedia Video Codec 1(av1) ※超非推奨" x:Name="av1"/>
-            <ComboBoxItem Content="VP9 (vp9) ※わざわざ選ぶメリットはない" x:Name="vp9"/>
-        </ComboBox>
-        <TextBlock HorizontalAlignment="Left" Margin="45,289,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="音声"/><Run Text="コ"/><Run Text="ーデック"/></TextBlock>
-        <ComboBox x:Name="ACodecComboBox" HorizontalAlignment="Left" Margin="153,289,0,0" VerticalAlignment="Top" Width="235" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0" SelectionChanged="ACodecComboBox_SelectionChanged">
-            <ComboBoxItem x:Name="ACodec_PCM" Content="PCM(非圧縮) signed 16-bit little-endian (pcm_s16le)" Margin="0,0,-1,0"/>
-            <ComboBoxItem x:Name="ACodec_MP3" Content="MPEG audio layer 3 (mp3)" Margin="0,0,-1,0"/>
-            <ComboBoxItem x:Name="ACodec_AAC" Content="Advanced Audio Coding (aac)" Margin="0,0,-1,0"/>
-            <ComboBoxItem x:Name="ACodec_FLAC" Content="Free Lossless Audio Codec (flac)" Margin="0,0,-1,0"/>
-            <ComboBoxItem x:Name="ACodec_Vorbis" Content="Vorbis (vorbis)" Margin="0,0,-1,0"/>
-        </ComboBox>
-        <TextBlock HorizontalAlignment="Left" Margin="45,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="映像ビットレート"/><Run Text=" (0="/><Run Text="指定しない"/><Run Text=")"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="45,337,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"><Run Text="音声"/><Run Text="ビットレート"/><Run Text=" ("/><Run Text="推奨:192)"/></TextBlock>
-        <TextBox x:Name="VBitrateTextBox" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="textBoxPrice_PreviewTextInput" CommandManager.PreviewExecuted="textBoxPrice_PreviewExecuted" HorizontalAlignment="Left" Height="19" Margin="222,313,0,0" TextWrapping="Wrap" Text="2000" VerticalAlignment="Top" Width="115" Padding="0,-2,0,0" TextAlignment="Right"/>
-        <TextBlock HorizontalAlignment="Left" Margin="342,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Width="51" Text="kbps"/>
-        <ComboBox x:Name="ABitrateComboBox" HorizontalAlignment="Left" Margin="222,337,0,0" VerticalAlignment="Top" Width="166" Height="19" Padding="0,0,0,0" FontSize="12" SelectedIndex="0">
-            <ComboBoxItem Content="64 kbps" />
-            <ComboBoxItem Content="96 kbps" />
-            <ComboBoxItem Content="128 kbps" />
-            <ComboBoxItem Content="160 kbps" />
-            <ComboBoxItem Content="192 kbps" />
-            <ComboBoxItem Content="224 kbps" />
-            <ComboBoxItem Content="256 kbps" />
-            <ComboBoxItem Content="288 kbps" />
-            <ComboBoxItem Content="320 kbps" />
-        </ComboBox>
-        <CheckBox x:Name="ForceOverwriteCheckBox" Content="確認なく上書きする(ffmpegモードのみ)" HorizontalAlignment="Left" Margin="50,372,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock HorizontalAlignment="Left" Margin="69,400,0,0" TextWrapping="Wrap" Text="※AviUtlモードでは、常に無確認で上書きされます。" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="368,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力済みフレーム数"/><Run Text="："/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="427,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力速度"/><Run Text="："/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="365,508,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" TextAlignment="Right"><Run Text="出力"/><Run Text="済み"/><Run Text="動画"/><Run Text="時間"/><Run Text="："/></TextBlock>
-        <TextBlock x:Name="OutputFrames" HorizontalAlignment="Left" Margin="512,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock x:Name="OutputSpeed" HorizontalAlignment="Left" Margin="512,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock x:Name="OutputTime" HorizontalAlignment="Left" Margin="512,507,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2">
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Foreground="#FF333333"><Run Text="音声"/><Run Text="ビットレート"/><Run Text=" ("/><Run Text="推奨:192)"/></TextBlock>
+                        <ComboBox x:Name="ABitrateComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="166" Padding="0,0,0,0" FontSize="16" SelectedIndex="0" Margin="16,0,0,0">
+                            <ComboBoxItem Content="64 kbps" />
+                            <ComboBoxItem Content="96 kbps" />
+                            <ComboBoxItem Content="128 kbps" />
+                            <ComboBoxItem Content="160 kbps" />
+                            <ComboBoxItem Content="192 kbps" />
+                            <ComboBoxItem Content="224 kbps" />
+                            <ComboBoxItem Content="256 kbps" />
+                            <ComboBoxItem Content="288 kbps" />
+                            <ComboBoxItem Content="320 kbps" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
+                        <CheckBox x:Name="ForceOverwriteCheckBox" Content="確認なく上書きする(ffmpegモードのみ)" HorizontalAlignment="Left" FontSize="16" Foreground="#FF333333"/>
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="※AviUtlモードでは、常に無確認で上書きされます。" Margin="32,0,0,0" Foreground="#FF505050"/>
+                    </StackPanel>
+
+                </Grid>
+
+                <ListBox x:Name="log" Height="187" Width="322" SelectionMode="Extended" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{x:Null}" Grid.Column="2" Margin="16,0,0,0"/>
+            </Grid>
+
+            <Grid Margin="0,16,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="現在の状況：" VerticalAlignment="Center" FontSize="16" Foreground="#CC0064C8"/>
+                <TextBlock x:Name="status" HorizontalAlignment="Left" TextWrapping="Wrap" Text="未スタート" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" Foreground="Red" TextDecorations="{x:Null}" FontWeight="Bold" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="progressPercent" HorizontalAlignment="Left" TextWrapping="Wrap" Text="出力の進捗" VerticalAlignment="Center" TextAlignment="Center" Width="59" Height="15" />
+                    <ProgressBar x:Name="pb1" HorizontalAlignment="Stretch" Height="15" VerticalAlignment="Center" Grid.Column="1" Width="277" Margin="0,0,16,0"/>
+
+                    <TextBlock x:Name="AllProgressText" HorizontalAlignment="Left" TextWrapping="Wrap" Text="全体の進捗" VerticalAlignment="Center" TextAlignment="Center" Width="59" Height="16" Grid.Row="1"/>
+                    <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Center" Cursor="Arrow" Foreground="#FF06B025" ValueChanged="ProgressBar_ValueChanged" IsHitTestVisible="False" SmallChange="0" Grid.Row="1" Grid.Column="1" Margin="0,0,16,0"/>
+
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1.3*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" TextAlignment="Right"><Run Text="出力済みフレーム数"/><Run Text="："/></TextBlock>
+                    <TextBlock x:Name="OutputFrames" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Margin="8,0,0,0"/>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" TextAlignment="Right" Grid.Row="1"><Run Text="出力速度"/><Run Text="："/></TextBlock>
+                    <TextBlock x:Name="OutputSpeed" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.Row="1" Grid.Column="1" Margin="8,0,0,0"/>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" TextAlignment="Right" Grid.Row="2"><Run Text="出力"/><Run Text="済み"/><Run Text="動画"/><Run Text="時間"/><Run Text="："/></TextBlock>
+                    <TextBlock x:Name="OutputTime" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Margin="8,0,0,0" Grid.Row="2" Grid.Column="1"/>
+
+                </Grid>
+
+            </Grid>
+
+            <Grid Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="pauseButton" Content="一時停止" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="pauseButton_Click" IsEnabled="False" Margin="0,0,16,0"/>
+                <Button x:Name="startButton" Content="開始" VerticalAlignment="Bottom" Height="30" FontSize="22" Cursor="Hand" Click="Button_Click" Padding="16,0,16,4" Grid.Column="1"/>
+                <Button x:Name="interrupt_button" Content="中断" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="88" Height="30" FontSize="14" Click="Interrupt_button_Click" IsEnabled="False" Grid.Column="2" Margin="16,0,0,0"/>
+
+            </Grid>
+
+        </StackPanel>
+
+
+        
+        
+
+
+
+        
+        
+        
+        
 
     </Grid>
 </Window>

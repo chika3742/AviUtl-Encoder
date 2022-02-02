@@ -19,7 +19,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -537,7 +536,7 @@ namespace AUEncoder
             if (mode != 3 && pluginNumber.Text == "")errorStrBuilder.AppendLine("出力プラグインが指定されていません。");
             if (extFind.Text == "" && (mode != 1 && mode != 3)) errorStrBuilder.AppendLine("「検索対象のファイル拡張子」が指定されていません。");
             if (extOutput.Text == "") errorStrBuilder.AppendLine("「出力ファイル拡張子」が指定されていません。");
-            if (mode != 3 && !File.Exists(Settings.AviUtl_Path)) errorStrBuilder.AppendLine("設定画面の「AviUtlのパス」が指定されていないか、存在しません。");
+            if (mode != 3 && !File.Exists(Settings.AviUtl_Path)) errorStrBuilder.AppendLine("「AviUtlのパス」が指定されていないか、存在しません。「ファイル＞設定」から設定してください。");
             if (mode == 3 && VBitrateTextBox.Text == "") errorStrBuilder.AppendLine("映像ビットレートを入力してください。");
 
             if (errorStrBuilder.ToString() != "")
@@ -548,7 +547,7 @@ namespace AUEncoder
 
             if (((ComboBoxItem)VCodecComboBox.SelectedItem).Name == "av1")
             {
-                if (MessageBox.Show($"このコーデックはCPUを効率よく使えるようにできていないため、3分の動画のエンコードに8時間かかってしまうほど遅いです。そのため、全く推奨しません。それでも続行しますか？", "AOMedia Video Codecでのエンコードについて", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (MessageBox.Show($"このコーデックはエンコードに異常に時間がかかるため全く推奨しません。それでも続行しますか？", "AOMedia Video Codecでのエンコードについて", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     return;
                 }
@@ -635,15 +634,6 @@ namespace AUEncoder
                     SwitchState(false);
                 });
                 
-                if (!File.Exists(indexerPath))
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        SwitchState(true);
-                        MessageBox.Show("aui_indexerが見つかりません。再インストールしてください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
-                    });
-                    return;
-                }
                 if (Settings.Do_File_Analize)
                 {
                     Dispatcher.Invoke(() =>
@@ -734,6 +724,16 @@ namespace AUEncoder
                         });
                         return;
                     }
+                }
+
+                if (!File.Exists(indexerPath))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        SwitchState(true);
+                        MessageBox.Show("aui_indexerが見つかりません。再インストールしてください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    });
+                    return;
                 }
 
                 Dispatcher.Invoke(() =>
@@ -1485,11 +1485,6 @@ namespace AUEncoder
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Settings.AviUtl_Path == "")
-            {
-                MessageBox.Show("最初にAviUtlのパスを設定してください。", "AviUtlエンコーダーへようこそ", MessageBoxButton.OK, MessageBoxImage.Information);
-                new PreferenceWindow().ShowDialog();
-            }
         }
 
         private void Interrupt_button_Click(object sender, RoutedEventArgs e)

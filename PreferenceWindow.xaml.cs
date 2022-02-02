@@ -18,7 +18,7 @@ namespace AUEncoder
             var Settings = Properties.Settings.Default;
             
             AviutlPath.Text = Settings.AviUtl_Path;
-            Follow_Settings_Checkbox.IsChecked = Settings.Follow_Behavior_Setting;
+            Follow_Operation_Settings_CheckBox.IsChecked = Settings.Follow_Behavior_Setting;
             foreach (ProfileLabel label in Settings.Profile_Labels)
             {
                 Prof_ComboBox.Items.Add(label);
@@ -48,8 +48,9 @@ namespace AUEncoder
                     Progress_Interval.SelectedIndex = 5;
                     break;
             }
-            restore_after_process.IsChecked = Settings.Restore_After_Process;
-            do_analize_checkbox.IsChecked = Settings.Do_File_Analize;
+            Restore_Complete_Operation_CheckBox.IsChecked = Settings.Restore_After_Process;
+            Analyze_Input_File_CheckBox.IsChecked = Settings.Do_File_Analize;
+            Pregenerate_Index_File_CheckBox.IsChecked = Settings.Pregenerate_Index_File;
             SuffixTextBox.Text = Settings.Suffix;
         }
 
@@ -83,7 +84,7 @@ namespace AUEncoder
             //Setting.AUC_Path = aucPath.Text;
             Setting.AviUtl_Path = AviutlPath.Text;
             //Setting.Use_Indexer = (bool)Use_Indexer.IsChecked;
-            Setting.Follow_Behavior_Setting = (bool)Follow_Settings_Checkbox.IsChecked;
+            Setting.Follow_Behavior_Setting = (bool)Follow_Operation_Settings_CheckBox.IsChecked;
             //Setting.Indexer_Path = Indexer_Path.Text;
             switch (Progress_Interval.SelectedIndex)
             {
@@ -106,8 +107,9 @@ namespace AUEncoder
                     Setting.Getting_Progress_Interval = 10000;
                     break;
             }
-            Setting.Restore_After_Process = (bool)restore_after_process.IsChecked;
-            Setting.Do_File_Analize = (bool)do_analize_checkbox.IsChecked;
+            Setting.Restore_After_Process = (bool)Restore_Complete_Operation_CheckBox.IsChecked;
+            Setting.Do_File_Analize = (bool)Analyze_Input_File_CheckBox.IsChecked;
+            Setting.Pregenerate_Index_File = (bool)Pregenerate_Index_File_CheckBox.IsChecked;
             Setting.Suffix = SuffixTextBox.Text;
 
             //if ((bool)Use_Indexer.IsChecked && (Indexer_Path.Text == "" || AviutlPath.Text == ""))

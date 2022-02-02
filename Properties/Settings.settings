@@ -78,13 +78,16 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Audio_Bitrate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Force_Overwrite" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Suffix" Type="System.String" Scope="User">
       <Value Profile="(Default)">-encoded</Value>
+    </Setting>
+    <Setting Name="Pregenerate_Index_File" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

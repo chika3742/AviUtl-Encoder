@@ -5,17 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AUEncoder"
         mc:Ignorable="d"
-        Title="ラベル追加" Height="155.677" Width="325.693" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="ラベル追加" Height="192" Width="371" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid>
-        <TextBox x:Name="Name" HorizontalAlignment="Right" Height="23" Margin="0,0,10,38" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="163" FontSize="14" TabIndex="2"/>
-        <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click" TabIndex="5" Height="23" Padding="0"/>
-        <Button Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="Button_Click" TabIndex="4" Height="23" Padding="0"/>
-        <TextBox x:Name="Number" HorizontalAlignment="Left" Height="23" Margin="35,0,0,38" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput" FontSize="14" TabIndex="1"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock x:Name="NumberText" HorizontalAlignment="Left" Margin="35,0,0,66" TextWrapping="Wrap" Text="プロファイル番号" VerticalAlignment="Bottom"/>
-        <TextBlock HorizontalAlignment="Right" Margin="0,0,72,66" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="ラベル名"/>
-        <TextBox x:Name="Extension" HorizontalAlignment="Left" Height="23" Margin="65,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" FontSize="14" Visibility="Hidden" TabIndex="3"/>
+        <TextBox x:Name="Extension" HorizontalAlignment="Left" Height="26" Margin="65,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" FontSize="14" Visibility="Hidden" TabIndex="3" Cursor="IBeam"/>
         <TextBlock x:Name="ExtText" HorizontalAlignment="Left" Margin="24,0,0,14" TextWrapping="Wrap" Text="拡張子" VerticalAlignment="Bottom" Visibility="Hidden"/>
+        <Grid Margin="0,36,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="NumberText" HorizontalAlignment="Center" TextWrapping="Wrap" Text="プロファイル番号" VerticalAlignment="Bottom" Grid.ColumnSpan="2" FontSize="14"/>
+            <TextBox x:Name="Number" HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76" TextAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput" FontSize="14" TabIndex="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="ラベル名" Grid.Column="2" Grid.ColumnSpan="2" FontSize="14"/>
+            <TextBox x:Name="Name" HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="163" FontSize="14" TabIndex="2" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Cursor="IBeam"/>
+            <Button x:Name="OK_Button" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click" TabIndex="5" Height="26" Padding="0" Grid.Row="2" Grid.Column="3" FontSize="16"/>
+            <Button Content="キャンセル" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="78" Click="Button_Click" TabIndex="4" Height="26" Padding="0" Grid.Row="2" Grid.Column="2" FontSize="16" Background="#FFF7F7F7" BorderBrush="#FFEFEFEF" Foreground="#FF353535"/>
+
+        </Grid>
 
     </Grid>
 </Window>

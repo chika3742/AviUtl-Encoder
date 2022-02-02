@@ -91,3 +91,5 @@ C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AUEncoder.csp
 C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AUEncoder.csproj.CopyComplete
 C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AviUtl Encoder.exe
 C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AviUtl Encoder.pdb
+C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AUEncoder.csproj.AssemblyReference.cache
+C:\Users\chika\OneDrive\Documents\vsrepos\AviUtl-Encoder\obj\Debug\AUEncoder.csproj.SuggestedBindingRedirects.cache
