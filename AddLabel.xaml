@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ラベル追加" Height="192" Width="371" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。" VerticalAlignment="Top" FontSize="14" Foreground="#FF333333"/>
+        <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0" TextWrapping="Wrap" Text="番号とラベル名を設定してください。番号は上から0,1,2,...と数えます。" VerticalAlignment="Top" FontSize="14" Foreground="#FF333333"/>
         
         <Grid Margin="0,36,0,14">
             <Grid.ColumnDefinitions>

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "aVySzAmI+1GctP7NEj3bLuOcxKo+LFVrXzprQYl10YogDsPnuAP5ZN9NYfXZW1maZK5FcXHjriz6ZzSYEG2rrQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\chika\\Documents\\vsrepos\\AviUtl-Encoder\\Installer\\Installer.wapproj",
+  "expectedPackageFiles": [
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages\\microsoft.windows.sdk.buildtools\\10.0.22000.194\\microsoft.windows.sdk.buildtools.10.0.22000.194.nupkg.sha512"
+  ],
+  "logs": []
+}

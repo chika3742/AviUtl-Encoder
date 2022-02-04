@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AUEncoder"
         xmlns:WpfApp2="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="設定" Height="358" Width="657" Closing="Window_Closing" ResizeMode="NoResize">
+        Title="設定" Height="407" Width="657" Closing="Window_Closing" ResizeMode="NoResize">
     <Grid Margin="16,0,16,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.2*" />
@@ -14,9 +14,12 @@
             <RowDefinition Height="1.2*" />
             <RowDefinition Height="1.2*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1.2*" />
         </Grid.RowDefinitions>
         <Grid>
@@ -103,7 +106,15 @@
             </ComboBox>
         </Grid>
 
-        <Grid Grid.Row="8">
+        <CheckBox x:Name="Follow_Operation_Settings_CheckBox" Content="出力の成功・失敗にかかわらず完了後の動作設定に従う" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF232323" Cursor="Hand" FontSize="16" Grid.Row="4" VerticalContentAlignment="Bottom"/>
+        <Label Grid.Row="5" Content="オンにすると失敗しても「完了後の動作」を行います。" Margin="16,0,0,0" />
+        <CheckBox x:Name="Restore_Complete_Operation_CheckBox" Content="起動時に「処理完了後の動作」の状態を復元する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="6" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+        <CheckBox x:Name="Analyze_Input_File_CheckBox" Content="開始時にファイルがAviUtlの設定に合っているか確認する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="7" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+        <Label Grid.Row="8" Content="AviUtlの設定「最大画像サイズ」「最大フレーム数」が適切か確認します" Margin="16,0,0,0" />
+        <CheckBox x:Name="Pregenerate_Index_File_CheckBox" Content="インデックスファイルを事前生成する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="9" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
+        <TextBlock Grid.Row="10" Text="L-SMASH Works FRのインデックスファイルを事前に生成します。生成しない場合は、これをオフにした上でL-SMASH Works FRの設定の「Libav+L-SMASH」と「Create index file」をオフにしてください。" Foreground="#FF333333" TextWrapping="Wrap" Margin="16,4,0,4" />
+
+        <Grid Grid.Row="11">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -113,23 +124,6 @@
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="※ffmpegエンコードモードでのみ動作" VerticalAlignment="Bottom" FontSize="11" Foreground="#FF5D5D5D"/>
             </StackPanel>
             <TextBox x:Name="SuffixTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="127" PreviewDragOver="ChangeDragOverCursor" Drop="AviutlPath_Drop" Grid.Column="1" FontSize="16"/>
-        </Grid>
-
-        <CheckBox x:Name="Follow_Operation_Settings_CheckBox" Content="出力の成功・失敗にかかわらず完了後の動作設定に従う" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF232323" Cursor="Hand" FontSize="16" Grid.Row="4" VerticalContentAlignment="Bottom"/>
-        <CheckBox x:Name="Restore_Complete_Operation_CheckBox" Content="起動時に「処理完了後の動作」の状態を復元する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="5" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
-        <CheckBox x:Name="Analyze_Input_File_CheckBox" Content="開始時にファイルがAviUtlの設定に合っているか確認する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="6" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
-        <CheckBox x:Name="Pregenerate_Index_File_CheckBox" Content="インデックスファイルを事前生成する" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="-0.85,0.533" FontSize="16" Grid.Row="7" VerticalContentAlignment="Bottom" Foreground="#FF232323"/>
-
-
-        <TextBlock HorizontalAlignment="Left" Margin="29,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="11" Foreground="#FF5D5D5D"><Run Text="※"/><Run Text="AviUtl"/><Run Text="モードでのみ"/><Run Text="機能"/></TextBlock>
-        <Grid Margin="24,129,113,79">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
         </Grid>
     </Grid>
 </Window>

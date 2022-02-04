@@ -3180,19 +3180,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\chika\\.nuget\\packages\\": {}
+    "C:\\Users\\chika\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chika\\OneDrive\\Documents\\vsrepos\\AviUtl-Encoder\\AUEncoder.csproj",
+      "projectUniqueName": "C:\\Users\\chika\\Documents\\vsrepos\\AviUtl-Encoder\\AUEncoder.csproj",
       "projectName": "AviUtl Encoder",
-      "projectPath": "C:\\Users\\chika\\OneDrive\\Documents\\vsrepos\\AviUtl-Encoder\\AUEncoder.csproj",
+      "projectPath": "C:\\Users\\chika\\Documents\\vsrepos\\AviUtl-Encoder\\AUEncoder.csproj",
       "packagesPath": "C:\\Users\\chika\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chika\\OneDrive\\Documents\\vsrepos\\AviUtl-Encoder\\obj\\",
+      "outputPath": "C:\\Users\\chika\\Documents\\vsrepos\\AviUtl-Encoder\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\chika\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
