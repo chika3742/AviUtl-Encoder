@@ -311,7 +311,7 @@ namespace AUEncoder.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Video_Bitrate {
             get {
                 return ((string)(this["Video_Bitrate"]));
@@ -366,6 +366,30 @@ namespace AUEncoder.Properties {
             }
             set {
                 this["Pregenerate_Index_File"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Frame_Rate {
+            get {
+                return ((string)(this["Frame_Rate"]));
+            }
+            set {
+                this["Frame_Rate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FFmpeg_Arguments {
+            get {
+                return ((string)(this["FFmpeg_Arguments"]));
+            }
+            set {
+                this["FFmpeg_Arguments"] = value;
             }
         }
     }

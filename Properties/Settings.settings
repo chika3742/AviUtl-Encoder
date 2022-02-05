@@ -75,7 +75,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="Video_Bitrate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Audio_Bitrate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>
@@ -88,6 +88,12 @@
     </Setting>
     <Setting Name="Pregenerate_Index_File" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Frame_Rate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FFmpeg_Arguments" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

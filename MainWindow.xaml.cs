@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,10 +64,10 @@ namespace AUEncoder
         /// </summary>
         public const UInt32 FLASHW_TIMERNOFG = 12;  // ウィンドウが最前面に来るまでずっと点滅させる
 
-        readonly string AUC_DIR = Path.Combine(Environment.CurrentDirectory, "lib/auc/");
-        readonly string AUI_INDEXER_PATH = Path.Combine(Environment.CurrentDirectory, "lib/aui_indexer/aui_indexer.exe");
-        readonly string FFMPEG_PATH = Path.Combine(Environment.CurrentDirectory, "lib/ffmpeg/ffmpeg.exe");
-        readonly string MEDIAINFO_PATH = Path.Combine(Environment.CurrentDirectory, "lib/mediainfo/mediainfo.exe");
+        readonly string AUC_DIR = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "lib/auc/");
+        readonly string AUI_INDEXER_PATH = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "lib/aui_indexer/aui_indexer.exe");
+        readonly string FFMPEG_PATH = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "lib/ffmpeg/ffmpeg.exe");
+        readonly string MEDIAINFO_PATH = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "lib/mediainfo/mediainfo.exe");
 
         string WindowNumber;
         string CurrentFile;
@@ -88,8 +89,10 @@ namespace AUEncoder
             InitializeComponent();
 
             LogStrBuilder.Append("Log Output");
-            var item = new ListBoxItem();
-            item.Content = "Log Output";
+            var item = new ListBoxItem
+            {
+                Content = "Log Output"
+            };
             item.Selected += Item_Selected;
             log.Items.Add(item);
 
@@ -114,16 +117,18 @@ namespace AUEncoder
             Plugin_Number_TextBox.Text = Settings.Plugin_Number;
             Target_Extension_TextBox.Text = Settings.Find_Ext;
             Output_Extension_TextBox.Text = Settings.Output_Ext;
+            Frame_Rate_TextBox.Text = Settings.Frame_Rate;
+            Arguments_TextBox.Text = Settings.FFmpeg_Arguments;
 
             Mode_ComboBox.SelectedIndex = Settings.Mode;
             UpdateFormStateForMode();
 
             Video_Codec_ComboBox.SelectedIndex = Settings.Video_Codec;
-            ACodecComboBox.SelectedIndex = Settings.Audio_Codec;
+            Audio_Codec_ComboBox.SelectedIndex = Settings.Audio_Codec;
             UpdateABitrateComboBoxStateForACodec();
             UpdateACodecComboBoxStateForVCodec();
             Video_Bitrate_TextBox.Text = Settings.Video_Bitrate;
-            ABitrateComboBox.SelectedIndex = Settings.Audio_Bitrate;
+            Audio_Bitrate_ComboBox.SelectedIndex = Settings.Audio_Bitrate;
             ForceOverwriteCheckBox.IsChecked = Settings.Force_Overwrite;
 
             if (Settings.Plugin_Labels == null)
@@ -196,10 +201,12 @@ namespace AUEncoder
             Settings.Behavior_Quit_Software = (bool)Quit_AUEnc_CheckBox.IsChecked;
             Settings.Show_Log = log.Visibility == Visibility.Visible;
             Settings.Video_Codec = Video_Codec_ComboBox.SelectedIndex;
-            Settings.Audio_Codec = ACodecComboBox.SelectedIndex;
+            Settings.Audio_Codec = Audio_Codec_ComboBox.SelectedIndex;
             Settings.Video_Bitrate = Video_Bitrate_TextBox.Text;
-            Settings.Audio_Bitrate = ABitrateComboBox.SelectedIndex;
+            Settings.Audio_Bitrate = Audio_Bitrate_ComboBox.SelectedIndex;
             Settings.Force_Overwrite = (bool)ForceOverwriteCheckBox.IsChecked;
+            Settings.Frame_Rate = Frame_Rate_TextBox.Text;
+            Settings.FFmpeg_Arguments = Arguments_TextBox.Text;
 
             Settings.Save();
         }
@@ -256,43 +263,28 @@ namespace AUEncoder
             startButton.IsEnabled = to;
             Source_Directory_TextBox.IsEnabled = to;
             Destination_Directory_TextBox.IsEnabled = to;
-            //completedFolder.IsEnabled = to;
-            Profile_Number_TextBox.IsEnabled = to;
-            Plugin_Number_TextBox.IsEnabled = to;
-            Target_Extension_TextBox.IsEnabled = to;
             Output_Extension_TextBox.IsEnabled = to;
-            Plugin_ComboBox.IsEnabled = to;
-            Profile_ComboBox.IsEnabled = to;
             MenuItem_Preference.IsEnabled = to;
             Mode_ComboBox.IsEnabled = to;
-            interrupt_button.IsEnabled = !to;
-
-            if (to)
-            {
-                Video_Codec_ComboBox.IsEnabled = true;
-                UpdateACodecComboBoxStateForVCodec();
-                UpdateABitrateComboBoxStateForACodec();
-            }
-            else
-            {
-                Video_Codec_ComboBox.IsEnabled = false;
-                ACodecComboBox.IsEnabled = false;
-                Video_Bitrate_TextBox.IsEnabled = false;
-                ABitrateComboBox.IsEnabled = false;
-            }
-
-            openFile1.IsEnabled = to;
-            openFile2.IsEnabled = to;
+            Interrupt_Button.IsEnabled = !to;
+            Browse_Button_1.IsEnabled = to;
+            Browse_Button_2.IsEnabled = to;
             Pause_Button.IsEnabled = false;
 
-            if (!to)
+            if (to == false)
             {
+                Profile_Number_TextBox.IsEnabled = false;
+                Profile_ComboBox.IsEnabled = false;
+                Plugin_Number_TextBox.IsEnabled = false;
+                Plugin_ComboBox.IsEnabled = false;
+                Target_Extension_TextBox.IsEnabled = false;
+
                 DDText1.Visibility = Visibility.Hidden;
                 DDText2.Visibility = Visibility.Hidden;
             }
             else
             {
-                UpdateAfterProcessCheckBoxState();
+                UpdateFormStateForMode();
                 DDText1.Visibility = Visibility.Visible;
                 DDText2.Visibility = Visibility.Visible;
             }
@@ -544,14 +536,6 @@ namespace AUEncoder
         {
             var mode = Mode_ComboBox.SelectedIndex;
 
-            if (((ComboBoxItem)Video_Codec_ComboBox.SelectedItem).Name == "av1")
-            {
-                if (MessageBox.Show($"このコーデックはエンコードに非常に時間がかかるため推奨しません。それでも続行しますか？", "AOMedia Video Codecでのエンコードについて", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
             if (mode == 3)
             {
                 Start_Encoding_With_FFmpeg();
@@ -740,48 +724,51 @@ namespace AUEncoder
                     return;
                 }
 
-                Dispatcher.Invoke(() =>
+                if (Settings.Pregenerate_Index_File)
                 {
-                    OutputLog("インデックスファイルを事前生成します。");
-                    status.Text = "インデックスファイルを生成中";
-                });
-                
-                for (int i = 0; i < fileList.Count; i++)
-                {
-                    if (!IsRunning)
+                    Dispatcher.Invoke(() =>
                     {
-                        Dispatcher.Invoke(() =>
+                        OutputLog("インデックスファイルを事前生成します。");
+                        status.Text = "インデックスファイルを生成中";
+                    });
+
+                    for (int i = 0; i < fileList.Count; i++)
+                    {
+                        if (!IsRunning)
                         {
-                            CancelEncoding();
-                        });
-                        return;
-                    }
-                    try
-                    {
-                        var proc = new Process();
-                        proc.StartInfo.FileName = AUI_INDEXER_PATH;
-                        proc.StartInfo.WorkingDirectory = Settings.AviUtl_Path.Remove(Settings.AviUtl_Path.LastIndexOf('\\'));
-                        proc.StartInfo.CreateNoWindow = true;
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.RedirectStandardInput = true;
-                        proc.StartInfo.Arguments = "\"" + fileList[i] + "\"";
-
-                        proc.StartInfo.RedirectStandardOutput = true;
-                        //proc.StartInfo.RedirectStandardError = true;
-
-                        proc.OutputDataReceived += Proc_OutputDataReceived;
-
-                        proc.Start();
-                        proc.BeginOutputReadLine();
-                        proc.WaitForExit();
-                        proc.Close();
-                    }
-                    catch (Exception)
-                    {
-                        Dispatcher.Invoke(() =>
+                            Dispatcher.Invoke(() =>
+                            {
+                                CancelEncoding();
+                            });
+                            return;
+                        }
+                        try
                         {
-                            OutputLog($"不明なエラーです。再度お試しください。治らない場合はPCを再起動するか、このソフトを再インストールしてください。");
-                        });
+                            var proc = new Process();
+                            proc.StartInfo.FileName = AUI_INDEXER_PATH;
+                            proc.StartInfo.WorkingDirectory = Settings.AviUtl_Path.Remove(Settings.AviUtl_Path.LastIndexOf('\\'));
+                            proc.StartInfo.CreateNoWindow = true;
+                            proc.StartInfo.UseShellExecute = false;
+                            proc.StartInfo.RedirectStandardInput = true;
+                            proc.StartInfo.Arguments = "\"" + fileList[i] + "\"";
+
+                            proc.StartInfo.RedirectStandardOutput = true;
+                            //proc.StartInfo.RedirectStandardError = true;
+
+                            proc.OutputDataReceived += Proc_OutputDataReceived;
+
+                            proc.Start();
+                            proc.BeginOutputReadLine();
+                            proc.WaitForExit();
+                            proc.Close();
+                        }
+                        catch (Exception)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                OutputLog($"不明なエラーです。再度お試しください。治らない場合はPCを再起動するか、このソフトを再インストールしてください。");
+                            });
+                        }
                     }
                 }
 
@@ -799,6 +786,22 @@ namespace AUEncoder
         private async void Start_Encoding_With_FFmpeg()
         {
             if (this.Files.Count == 0)
+            {
+                MessageBox.Show("エンコードするファイルが選択されていません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
+            // エラーチェック
+            var errorStrBuilder = new StringBuilder();
+            if (!Directory.Exists(Destination_Directory_TextBox.Text)) errorStrBuilder.AppendLine("「エンコードしたファイルの保存場所」が入力されていないか、存在しません。");
+            if (Output_Extension_TextBox.Text == "") errorStrBuilder.AppendLine("「出力ファイル拡張子」が指定されていません。");
+
+            if (errorStrBuilder.Length != 0)
+            {
+                MessageBox.Show(errorStrBuilder.ToString(), "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             if (MessageBox.Show($"ffmpegでのエンコードを開始しますか？", "確認", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
             {
@@ -876,7 +879,7 @@ namespace AUEncoder
 
         Process ffmpegProcess = null;
 
-        private void EncodeWithffmpeg(string targetPath, string toSavePath)
+        private void EncodeWithffmpeg(string targetPath, string destinationPath)
         {
             var proc = new Process();
             ffmpegProcess = proc;
@@ -886,41 +889,55 @@ namespace AUEncoder
             proc.StartInfo.RedirectStandardError = true;
             proc.StartInfo.RedirectStandardInput = true;
 
-            string vCodecName = "";
-            string aCodecName = "";
-            string vBitrate = "";
-            string aBitrate = "";
+            var argumentBuilder = new StringBuilder();
+            argumentBuilder.Append($"-i \"{targetPath}\" -loglevel error -progress - -y ");
             Dispatcher.Invoke(() =>
             {
-                var vCodecId = ((ComboBoxItem)Video_Codec_ComboBox.SelectedItem).Tag;
-                vCodecName = vCodecId switch
+                // 映像コーデック
+                var vCodecId = ((ComboBoxItem)Video_Codec_ComboBox.SelectedItem).Tag.ToString();
+                argumentBuilder.Append("-codec:v " + vCodecId switch
                 {
-                    "av1" => "av1 -strict -2",
                     "h264" or "h264_qsv" or "h264_nvenc" => $"{vCodecId} -x264-params log-level=error",
                     "hevc" or "hevc_qsv" or "hevc_nvenc" => $"{vCodecId} -x265-params log-level=error",
-                    _ => vCodecId.ToString(),
-                };
+                    _ => vCodecId,
+                } + " ");
 
-                aCodecName = ((ComboBoxItem)ACodecComboBox.SelectedItem).Tag switch
+                // 音声コーデック
+                var aCodecId = ((ComboBoxItem)Audio_Codec_ComboBox.SelectedItem).Tag.ToString();
+                argumentBuilder.Append("-codec:a " + aCodecId switch
                 {
-                    "vorbis" => aCodecName = "vorbis -strict -2",
-                    _ => aCodecName = ((ComboBoxItem)ACodecComboBox.SelectedItem).Tag.ToString()
-                };
+                    "vorbis" => "vorbis -strict -2",
+                    _ => aCodecId
+                } + " ");
 
-                if (Video_Bitrate_TextBox.Text != "0")
+                // 映像ビットレート
+                if (Video_Bitrate_TextBox.Text != "")
                 {
-                    vBitrate = $"-b:v {Video_Bitrate_TextBox.Text}";
+                    argumentBuilder.Append($"-b:v {Video_Bitrate_TextBox.Text} ");
                 }
 
-                aBitrate = ((ComboBoxItem)ABitrateComboBox.SelectedItem).Tag.ToString();
+                // 音声ビットレート
+                argumentBuilder.Append($"-b:a {((ComboBoxItem)Audio_Bitrate_ComboBox.SelectedItem).Tag} ");
+
+                // フレームレート
+                if (Frame_Rate_TextBox.Text != "")
+                {
+                    argumentBuilder.Append($"-vf fps={Frame_Rate_TextBox.Text} ");
+                }
+
+                // 追加引数
+                argumentBuilder.Append(Arguments_TextBox.Text + " ");
             });
+
+            // 保存先パス
+            argumentBuilder.Append($"\"{destinationPath}\"");
 
             var mediaInfo = GetMediaInfo(targetPath);
 
             videoDuration = mediaInfo.Duration;
             frameCount = mediaInfo.FrameCount ;
 
-            proc.StartInfo.Arguments = $"-i {targetPath} -loglevel error -progress - -codec:v {vCodecName} -codec:a {aCodecName} {vBitrate} -b:a {aBitrate} {toSavePath} -y";
+            proc.StartInfo.Arguments = argumentBuilder.ToString();
 
             Dispatcher.Invoke(() =>
             {
@@ -990,7 +1007,7 @@ namespace AUEncoder
                         var dropFrames = e.Data.Substring(e.Data.IndexOf("drop_frames=") + 12);
                         Dispatcher.Invoke(() =>
                         {
-                            OutputFrames.Text = $"{frame + int.Parse(dropFrames)}/{frameCount}";
+                            OutputFrames.Text = $"{frame + int.Parse(dropFrames)} / {frameCount}";
                         });
                     }
                     catch (Exception) { }
@@ -1012,7 +1029,7 @@ namespace AUEncoder
                             AllProgressText.Text = allPercentage.ToString() + "%";
                             TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
                             TaskbarItemInfo.ProgressValue = allPercentage / 100;
-                            OutputTime.Text = $"{outTime}";
+                            OutputTime.Text = $"{outTime[0..12]}";
                         });
                     }
                     catch (Exception) { }
@@ -1024,7 +1041,7 @@ namespace AUEncoder
                         var fps = e.Data.Substring(e.Data.IndexOf("fps=") + 4);
                         Dispatcher.Invoke(() =>
                         {
-                            OutputSpeed.Text = $"{fps}Frames/s";
+                            OutputSpeed.Text = $"{fps} frames/s";
                         });
                     }
                     catch (Exception) { }
@@ -1114,7 +1131,7 @@ namespace AUEncoder
             }
         }
 
-        private void openFile1_Click(object sender, RoutedEventArgs e)
+        private void Browse_Button_1_Click(object sender, RoutedEventArgs e)
         {
             if ((string)(sender as Button).Content == "参照")
             {
@@ -1139,7 +1156,7 @@ namespace AUEncoder
             
         }
 
-        private void openFile2_Click(object sender, RoutedEventArgs e)
+        private void Browse_Button_2_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CommonOpenFileDialog();
             dialog.InitialDirectory = Settings.Output_Folder_Last_Selected;
@@ -1216,15 +1233,18 @@ namespace AUEncoder
 
         private void MenuItem_Open_Readme_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://sites.google.com/site/chikachuploader/aviutl-encoder/readme");
+            Process.Start(new ProcessStartInfo("https://www.chikach.net/aviutl-encoder")
+            {
+                UseShellExecute = true
+            });
         }
 
-        private void fromFolder_Drop(object sender, DragEventArgs e)
+        private void Source_Directory_TextBox_Drop(object sender, DragEventArgs e)
         {
             OnDropped(sender as TextBox, e);
         }
 
-        public void fromFolder_PreviewDragOver(object sender, DragEventArgs e)
+        public void Source_Directory_TextBox_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
@@ -1304,7 +1324,7 @@ namespace AUEncoder
 
         private void MenuItem_Show_License_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("notepad", @"""license.txt""");
+            Process.Start("notepad", @"""license.txt""");
         }
 
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1314,14 +1334,10 @@ namespace AUEncoder
 
         private void MenuItem_Open_Update_Info_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://sites.google.com/site/chikachuploader/aviutl-encoder");
-        }
-
-        private void MenuItem_Show_Settings_File_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", ConfigurationManager.OpenExeConfiguration(
-      ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath.Remove(ConfigurationManager.OpenExeConfiguration(
-      ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath.LastIndexOf("\\")));
+            Process.Start(new ProcessStartInfo("https://www.chikach.net/auenc-changelog")
+            {
+                UseShellExecute = true
+            });
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -1356,20 +1372,20 @@ namespace AUEncoder
             Target_Extension_TextBox.Text = extFindFirst;
             Target_Extension_TextBox.IsEnabled = true;
             Source_Directory_TextBox.IsEnabled = true;
-            openFile1.Content = "参照";
+            Browse_Button_1.Content = "参照";
             Profile_Number_TextBox.IsEnabled = true;
             Profile_ComboBox.IsEnabled = true;
             Plugin_Number_TextBox.IsEnabled = true;
             Plugin_ComboBox.IsEnabled = true;
             Video_Codec_ComboBox.IsEnabled = false;
-            ACodecComboBox.IsEnabled = false;
+            Audio_Codec_ComboBox.IsEnabled = false;
             Video_Bitrate_TextBox.IsEnabled = false;
-            ABitrateComboBox.IsEnabled = false;
+            Audio_Bitrate_ComboBox.IsEnabled = false;
+            Frame_Rate_TextBox.IsEnabled = false;
+            Arguments_TextBox.IsEnabled = false;
             ForceOverwriteCheckBox.IsEnabled = false;
             DDText1.Visibility = Visibility.Visible;
             UpdateAfterProcessCheckBoxState();
-            UpdateACodecComboBoxStateForVCodec();
-            UpdateABitrateComboBoxStateForACodec();
 
             switch (Mode_ComboBox.SelectedIndex)
             {
@@ -1378,7 +1394,7 @@ namespace AUEncoder
                 case 1:
                     Target_Extension_TextBox.IsEnabled = false;
                     Source_Directory_TextBox.IsEnabled = false;
-                    openFile1.Content = "選択";
+                    Browse_Button_1.Content = "選択";
                     DDText1.Visibility = Visibility.Hidden;
                     break;
                 case 2:
@@ -1389,16 +1405,21 @@ namespace AUEncoder
                 case 3:
                     Target_Extension_TextBox.IsEnabled = false;
                     Source_Directory_TextBox.IsEnabled = false;
-                    openFile1.Content = "選択";
+                    Browse_Button_1.Content = "選択";
                     Profile_Number_TextBox.IsEnabled = false;
                     Profile_ComboBox.IsEnabled = false;
                     Plugin_Number_TextBox.IsEnabled = false;
                     Plugin_ComboBox.IsEnabled = false;
                     Video_Codec_ComboBox.IsEnabled = true;
                     Video_Bitrate_TextBox.IsEnabled = true;
-                    ACodecComboBox.IsEnabled = true;
+                    Audio_Codec_ComboBox.IsEnabled = true;
                     ForceOverwriteCheckBox.IsEnabled = true;
+                    Frame_Rate_TextBox.IsEnabled = true;
+                    Arguments_TextBox.IsEnabled = true;
                     DDText1.Visibility = Visibility.Hidden;
+
+                    UpdateACodecComboBoxStateForVCodec();
+                    UpdateABitrateComboBoxStateForACodec();
                     break;
                 default:
                     break;
@@ -1464,7 +1485,7 @@ namespace AUEncoder
                     tokenSource.Cancel();
                 }
                 OutputLog("ユーザー操作によって出力が中断されました。");
-                interrupt_button.IsEnabled = false;
+                Interrupt_Button.IsEnabled = false;
                 status.Text = "中断待機中。AviUtl側で中断操作をしてください。";
             }
             else
@@ -1535,7 +1556,7 @@ namespace AUEncoder
             {
                 "utvideo" => new List<string> { "pcm_s16le", "aac", "mp3" },
                 "h264" or "hevc" or "h264_qsv" or "hevc_qsv" or "h264_nvenc" or "hevc_nvenc" => new List<string> { "vorbis", "aac", "mp3" },
-                "av1" => new List<string> { "pcm_s16le", "aac", "mp3", "vorbis", "flac" },
+                "libsvtav1" => new List<string> { "aac", "mp3", "vorbis", "flac" },
                 "vp9" => new List<string> { "vorbis" },
                 _ => new List<string> { }
             };
@@ -1544,18 +1565,22 @@ namespace AUEncoder
             {
                 "utvideo" => "avi",
                 "h264" or "hevc" or "h264_qsv" or "hevc_qsv" or "h264_nvenc" or "hevc_nvenc" => "mp4",
-                "av1" => "mkv",
+                "libsvtav1" => "mkv",
                 "vp9" => "webm",
                 _ => ""
             };
             Output_Extension_TextBox.Text = extension;
 
-            foreach (ComboBoxItem item in ACodecComboBox.Items)
+            foreach (ComboBoxItem item in Audio_Codec_ComboBox.Items)
             {
                 item.IsEnabled = availableAudioCodecs.Contains(item.Tag);
             }
 
-            ACodecComboBox.SelectedItem = ACodecComboBox.Items.OfType<ComboBoxItem>().First((item) => item.IsEnabled);
+            if (!((ComboBoxItem)Audio_Codec_ComboBox.SelectedItem).IsEnabled)
+            {
+                Audio_Codec_ComboBox.SelectedItem = Audio_Codec_ComboBox.Items.OfType<ComboBoxItem>().First((item) => item.IsEnabled);
+            }
+            
 
             Video_Bitrate_TextBox.IsEnabled = videoCodecId switch
             {
@@ -1573,9 +1598,9 @@ namespace AUEncoder
         private void UpdateABitrateComboBoxStateForACodec()
         {
             if (!IsInitialized) return;
-            Trace.WriteLine(ACodecComboBox.SelectedItem);
-            Trace.WriteLine(ACodecComboBox.SelectedValue);
-            ABitrateComboBox.IsEnabled = ACodecComboBox.SelectedIndex switch
+            Trace.WriteLine(Audio_Codec_ComboBox.SelectedItem);
+            Trace.WriteLine(Audio_Codec_ComboBox.SelectedValue);
+            Audio_Bitrate_ComboBox.IsEnabled = Audio_Codec_ComboBox.SelectedIndex switch
             {
                 0 => false,
                 _ => true,

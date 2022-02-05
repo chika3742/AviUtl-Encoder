@@ -1,9 +1,0 @@
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\MainWindow.baml
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\AddLabel.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\MainWindow.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\PreferenceWindow.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\SelectFilesWindow.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\UpdateDownloadWindow.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\App.g.cs
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\AviUtl Encoder_MarkupCompile.cache
-C:\Users\chika\Documents\vsrepos\AviUtl-Encoder\obj\x86\Release\net6.0-windows\win-x86\AviUtl Encoder_MarkupCompile.lref
